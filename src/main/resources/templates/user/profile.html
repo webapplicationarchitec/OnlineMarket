@@ -49,21 +49,15 @@
                 </td>
             </tr>
             <tr>
-                <td th:text="#{reg.shippingaddr}">Shipping address</td>
+                <td th:text="#{reg.shipaddr}">Shipping address</td>
                 <td><input th:field="*{shippingAddress}" />
-                    <span th:if="${#fields.hasErrors('shippingaddress')}" th:errors="*{shippingAddress}" th:errorclass="error"></span>
+                    <span th:if="${#fields.hasErrors('shippingAddress')}" th:errors="*{shippingAddress}" th:errorclass="error"></span>
                 </td>
             </tr>
             <tr>
-                <td th:text="#{reg.billingaddr}">Billing address</td>
+                <td th:text="#{reg.billaddr}">Billing address</td>
                 <td><input th:field="*{billingAddress}" />
-                    <span th:if="${#fields.hasErrors('billingaddress')}" th:errors="*{billingAddress}" th:errorclass="error"></span>
-                </td>
-            </tr>
-            <tr>
-                <td th:text="#{reg.billingaddr}">Billing address</td>
-                <td><input th:field="*{billingAddress}" />
-                    <span th:if="${#fields.hasErrors('billingaddress')}" th:errors="*{billingAddress}" th:errorclass="error"></span>
+                    <span th:if="${#fields.hasErrors('billingAddress')}" th:errors="*{billingAddress}" th:errorclass="error"></span>
                 </td>
             </tr>
             <tr>
@@ -73,9 +67,12 @@
                 </td>
             </tr>
             <tr>
-                <td th:text="#{reg.type}">Payment</td>
-                <td><input th:field="*{type}" />
-                    <span th:if="${#fields.hasErrors('type')}" th:errors="*{type}" th:errorclass="error"></span>
+                <td th:text="#{reg.type}">Account type</td>
+                <td><select name="type" th:field="*{type}">
+                        <!--option th:value="0" th:text="Select one">Select one</option-->
+                        <option th:value="1" th:text="Seller">Seller</option>
+                        <option th:value="2" th:text="Buyer">Buyer</option>
+                    </select>
                 </td>
             </tr>
         </table>
