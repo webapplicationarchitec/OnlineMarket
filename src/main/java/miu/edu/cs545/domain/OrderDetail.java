@@ -1,5 +1,9 @@
 package miu.edu.cs545.domain;
 
+import lombok.Getter;
+import lombok.Setter;
+
+@Setter @Getter
 public class OrderDetail {
     Integer id;
     Integer orderId;
@@ -14,37 +18,11 @@ public class OrderDetail {
         this.qty = qty;
     }
 
+    public OrderDetail() {
+    }
+
     Order order;
     Integer productId;
-
-    public Integer getId() {
-        return id;
-    }
-
-    public Integer getOrderId() {
-        return orderId;
-    }
-
-    public Order getOrder() {
-        return order;
-    }
-
-    public Integer getProductId() {
-        return productId;
-    }
-
-    public Product getProduct() {
-        return product;
-    }
-
-    public Double getPrice() {
-        return price;
-    }
-
-    public Integer getQty() {
-        return qty;
-    }
-
     Product product;
     Double price;
     Integer qty;

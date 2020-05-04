@@ -1,12 +1,19 @@
 package miu.edu.cs545.domain;
 
+import lombok.Getter;
+import lombok.Setter;
+
 import java.util.Date;
 
+@Setter @Getter
 public class Review {
     Integer id;
     Integer productId;
     Date dateCreate;
     String comment;
+
+    public Review() {
+    }
 
     public Review(Integer id, Integer productId, Date dateCreate, String comment, ReviewStatus status) {
         this.id = id;
@@ -18,23 +25,4 @@ public class Review {
 
     ReviewStatus status;
 
-    public Integer getId() {
-        return id;
-    }
-
-    public Integer getProductId() {
-        return productId;
-    }
-
-    public Date getDateCreate() {
-        return dateCreate;
-    }
-
-    public String getComment() {
-        return comment;
-    }
-
-    public ReviewStatus getStatus() {
-        return status;
-    }
 }
