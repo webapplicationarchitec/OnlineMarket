@@ -13,7 +13,7 @@
 <body>
 <div layout:fragment="user-main-content">
     <h1>Registration</h1>
-    <form method="post" th:action="@{saveAccount}" th:object="${account}">
+    <form method="post" th:action="@{/profile}" th:object="${account}">
         <ul th:if="${#fields.hasErrors('*')}">
             <li th:each="err : ${#fields.errors('*')}" th:text="${err}" >Input is incorrect</li>
         </ul>
@@ -50,10 +50,10 @@
             </tr>
             <tr>
                 <td th:text="#{reg.type}">Account type</td>
-                <td><select name="type" th:text="*{type}">
-                        <option>Select an account type</option>
-                        <option value="1">Seller</option>
-                        <option value="2">Buyer</option>
+                <td><select name="type" th:field="*{type}">
+                        <!--option th:value="0" th:text="Select one">Select one</option-->
+                        <option th:value="1" th:text="Seller">Seller</option>
+                        <option th:value="2" th:text="Buyer">Buyer</option>
                     </select>
                 </td>
             </tr>
