@@ -6,6 +6,9 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+
+import java.util.ArrayList;
 
 @Controller
 public class RegisterController {
@@ -15,7 +18,7 @@ public class RegisterController {
         return "user/registration";
     }
 
-    @GetMapping("/profile")
+    @PostMapping("/profile")
     public String updateProfile(@ModelAttribute(value="account") Account account){
         return "user/profile";
     }
@@ -23,7 +26,34 @@ public class RegisterController {
 
     @PostMapping("/saveAccount")
     public String saveAccount(@ModelAttribute(value="account") Account account){
-        return "user/profile";
+        //save account to DB
+
+        return "/user/user";
     }
 
+    @GetMapping("/listReg")
+    public String getListRegistration(Model model){
+        //Get list of Seller accounts from DB
+        ArrayList<Account> listSellerAcc = new ArrayList<>();
+        model.addAttribute("listSellerAcc", listSellerAcc);
+        return "/admin/listreg";
+    }
+
+    @PostMapping("approveAcc")
+    public String approveAccount(@RequestParam(value = "uname") String userName){
+        //update the status Approved to the user name
+        updateUserStatus(userName, true);//true: approved
+        return "/admin/listreg";
+    }
+
+    @PostMapping("rejectAcc")
+    public String rejectAccount(@RequestParam(value = "uname") String userName){
+        //update the status Approved to the user name
+        updateUserStatus(userName, false);//false: reject
+        return "/admin/listreg";
+    }
+
+    private void updateUserStatus(String userName, boolean isApprove) {
+        //call service to update the status
+    }
 }
