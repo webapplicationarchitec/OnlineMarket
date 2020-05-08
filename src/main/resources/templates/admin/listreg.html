@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{template/user/ulayout}">
+<head>
+    <meta charset="UTF-8">
+    <title>Account - List</title>
+    <style>
+        .error{
+            color: red;
+        }
+    </style>
+</head>
+<body>
+<div layout:fragment="user-main-content">
+    <h1>Account List</h1>
+    <table>
+        <tr th:each="acc : ${listSellerAcc}">
+            <td th:text="${acc.username}">Username</td>
+            <td th:text="${acc.firstname}">Firstname</td>
+            <td th:text="${acc.email}">Email</td>
+            <td>
+                <form method="post" th:action="@{approveAcc} + ?uname= + ${acc.username}}">
+                    <input type="submit" value="Approve" />
+                </form>
+                <form method="post" th:action="@{rejectAcc}">
+                    <input type="submit" value="Reject" />
+                </form>
+            </td>
+        </tr>
+    </table>
+</div>
+</body>
+</html>

@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{template/user/ulayout}">
+<head>
+    <meta charset="UTF-8">
+    <title>Account - Registration</title>
+    <style>
+        .error{
+            color: red;
+        }
+    </style>
+</head>
+<body>
+<div layout:fragment="user-main-content">
+    <h1>Registration</h1>
+    <form method="post" th:action="@{/profile}" th:object="${account}">
+        <ul th:if="${#fields.hasErrors('*')}">
+            <li th:each="err : ${#fields.errors('*')}" th:text="${err}" >Input is incorrect</li>
+        </ul>
+        <table>
+            <tr>
+                <td th:text="#{reg.username}">Username</td>
+                <td><input type="text" th:field="*{username}">
+                    <span th:if="${#fields.hasErrors('username')}" th:errors="*{username}" th:errorclass="error"></span>
+                </td>
+            </tr>
+            <tr>
+                <td th:text="#{reg.password}">Password</td>
+                <td><input th:field="*{password}" />
+                    <span th:if="${#fields.hasErrors('password')}" th:errors="*{password}" th:errorclass="error"></span>
+                </td>
+            </tr>
+            <tr>
+                <td th:text="#{reg.firstname}">First name</td>
+                <td><input th:field="*{firstname}" />
+                    <span th:if="${#fields.hasErrors('firstname')}" th:errors="*{firstname}" th:errorclass="error"></span>
+                </td>
+            </tr>
+            <tr>
+                <td th:text="#{reg.lastname}">Last name</td>
+                <td><input th:field="*{lastname}" />
+                    <span th:if="${#fields.hasErrors('lastname')}" th:errors="*{lastname}" th:errorclass="error"></span>
+                </td>
+            </tr>
+            <tr>
+                <td th:text="#{reg.email}">Email</td>
+                <td><input th:field="*{email}" />
+                    <span th:if="${#fields.hasErrors('email')}" th:errors="*{email}" th:errorclass="error"></span>
+                </td>
+            </tr>
+            <tr>
+                <td th:text="#{reg.type}">Account type</td>
+                <td><select name="type" th:field="*{type}">
+                        <!--option th:value="0" th:text="Select one">Select one</option-->
+                        <option th:value="1" th:text="Seller">Seller</option>
+                        <option th:value="2" th:text="Buyer">Buyer</option>
+                    </select>
+                </td>
+            </tr>
+        </table>
+        <input type="submit" value="Register" />
+    </form>
+</div>
+</body>
+</html>
