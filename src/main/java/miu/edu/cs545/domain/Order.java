@@ -12,14 +12,14 @@ import java.util.Date;
 @NoArgsConstructor
 @AllArgsConstructor
 public class Order {
-    Integer id;
-    Date date_create;
-    Date date_shipping;
-    Date date_delivered;
-    Integer tax;
-    Integer shippingFee;
-    Double total;
-    Integer point;
-    String orderno;
-    OrderStatus status;
+    private Integer id;
+    private Date dateDelivered;
+    private Date dateShipping;
+    private Integer tax;
+    private Date dateCreate;
+    private Double shippingFee;
+    private Double total;
+    private Integer point;
+    private String orderno;
+    private OrderStatus status;
 }
