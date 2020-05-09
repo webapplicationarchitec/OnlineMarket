@@ -8,21 +8,21 @@
     <meta name="author" content="">
     <link rel="icon" href="https://getbootstrap.com/docs/4.0/assets/img/favicons/favicon.ico">
 
-    <title layout:title-pattern="$LAYOUT_TITLE - $CONTENT_TITLE">Online Market - User site</title>
+    <title layout:title-pattern="$LAYOUT_TITLE - $CONTENT_TITLE">Online Market - Admin site</title>
 
     <link rel="canonical" href="https://getbootstrap.com/docs/4.0/examples/cover/">
 
     <!-- Bootstrap core CSS -->
-    <link href="../../../static/css/bootstrap.min.css" th:href="@{/css/bootstrap.min.css}" rel="stylesheet">
+    <link href="../../static/css/bootstrap.min.css" th:href="@{/css/bootstrap.min.css}" rel="stylesheet">
 
     <!-- Custom styles for this template -->
-    <link href="../../../static/css/cover.css" th:href="@{/css/cover.css}" rel="stylesheet">
+    <link href="../../static/css/cover.css" th:href="@{/css/cover.css}" rel="stylesheet">
 </head>
 
 <body class="text-center">
 
 <div class="cover-container d-flex h-100 p-3 mx-auto flex-column">
-    <header class="masthead mb-auto" th:replace="/template/user/uheader :: fragheader">
+    <header class="masthead mb-auto" th:replace="/layout/admin/aheader :: fragheader">
         <div class="inner">
             <h3 class="masthead-brand">Static Cover</h3>
             <nav class="nav nav-masthead justify-content-center">
@@ -33,11 +33,11 @@
         </div>
     </header>
 
-    <main role="main" class="inner cover" layout:fragment="user-main-content">
+    <main role="main" class="inner cover" layout:fragment="admin-main-content">
         <h1>This content will come from the controllers</h1>
     </main>
 
-    <footer class="mastfoot mt-auto" th:replace="/template/user/ufooter :: fragfooter">
+    <footer class="mastfoot mt-auto" th:replace="/layout/admin/afooter :: fragfooter">
         <div class="inner">
             <p>This footer will be replaced</p>
         </div>

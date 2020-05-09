@@ -8,7 +8,7 @@ public class IndexController {
 
     @GetMapping("/")
     public String index(){
-        return "index";
+        return "buyer/home";
     }
 
     @GetMapping("/admin")
@@ -18,6 +18,6 @@ public class IndexController {
 
     @GetMapping("/user")
     public String user(){
-        return "user/user";
+        return "buyer/user";
     }
 }

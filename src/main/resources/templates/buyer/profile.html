@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org"
-       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{template/user/ulayout}">
+       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout/user/ulayout}">
 <head>
     <meta charset="UTF-8">
     <title>Account - Registration</title>
@@ -13,7 +13,7 @@
 <body>
 <div layout:fragment="user-main-content">
     <h1>Registration</h1>
-    <form method="post" th:action="@{/profile}" th:object="${account}">
+    <form method="post" th:action="@{saveAccount}" th:object="${account}">
         <ul th:if="${#fields.hasErrors('*')}">
             <li th:each="err : ${#fields.errors('*')}" th:text="${err}" >Input is incorrect</li>
         </ul>
@@ -49,6 +49,24 @@
                 </td>
             </tr>
             <tr>
+                <td th:text="#{reg.shipaddr}">Shipping address</td>
+                <td><input th:field="*{shippingAddress}" />
+                    <span th:if="${#fields.hasErrors('shippingAddress')}" th:errors="*{shippingAddress}" th:errorclass="error"></span>
+                </td>
+            </tr>
+            <tr>
+                <td th:text="#{reg.billaddr}">Billing address</td>
+                <td><input th:field="*{billingAddress}" />
+                    <span th:if="${#fields.hasErrors('billingAddress')}" th:errors="*{billingAddress}" th:errorclass="error"></span>
+                </td>
+            </tr>
+            <tr>
+                <td th:text="#{reg.payment}">Payment</td>
+                <td><input th:field="*{payment}" />
+                    <span th:if="${#fields.hasErrors('payment')}" th:errors="*{payment}" th:errorclass="error"></span>
+                </td>
+            </tr>
+            <tr>
                 <td th:text="#{reg.type}">Account type</td>
                 <td><select name="type" th:field="*{type}">
                         <!--option th:value="0" th:text="Select one">Select one</option-->
@@ -58,7 +76,7 @@
                 </td>
             </tr>
         </table>
-        <input type="submit" value="Register" />
+        <input type="submit" value="Save" />
     </form>
 </div>
 </body>

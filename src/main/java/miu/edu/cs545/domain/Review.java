@@ -12,10 +12,10 @@ import java.util.Date;
 @NoArgsConstructor
 @AllArgsConstructor
 public class Review {
-    Integer id;
-    Integer productId;
-    Date dateCreate;
-    String comment;
-    ReviewStatus status;
+    private Integer id;
+    private Integer productId;
+    private Date dateCreate;
+    private String comment;
+    private ReviewStatus status;
 
 }

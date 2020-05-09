@@ -10,11 +10,11 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 public class OrderDetail {
-    Integer id;
-    Integer orderId;
-    Order order;
-    Integer productId;
-    Product product;
-    Double price;
-    Integer qty;
+    private Integer id;
+    private Integer orderId;
+    private Order order;
+    private Integer productId;
+    private Product product;
+    private Double price;
+    private Integer qty;
 }
