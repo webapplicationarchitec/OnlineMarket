@@ -2,6 +2,8 @@ package miu.edu.cs545.securiry;
 
 import miu.edu.cs545.domain.Account;
 import miu.edu.cs545.domain.AccountStatus;
+import miu.edu.cs545.domain.Admin;
+import miu.edu.cs545.domain.Seller;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -20,9 +22,17 @@ public class UserDetailsImp implements UserDetails {
 
     public Collection<? extends GrantedAuthority> getAuthorities() {
         List<GrantedAuthority> roles = new ArrayList<>();
-//        Integer type = account.getType();
-//        String roleName = type == 0 ? "ADMIN" : (type == 1 ? "SELLER" : "BUYER");
-//        roles.add(new SimpleGrantedAuthority(roleName));
+        String roleName = "";
+        if (account instanceof Admin) {
+            roleName = "ROLE_ADMIN";
+        } else if (account instanceof Seller) {
+            roleName = "ROLE_SELLER";
+        } else {
+            roleName = "ROLE_BUYER";
+        }
+
+        //String roleName = type == 0 ? "ADMIN" : (type == 1 ? "SELLER" : "BUYER");
+        roles.add(new SimpleGrantedAuthority(roleName));
         return roles;
     }
 

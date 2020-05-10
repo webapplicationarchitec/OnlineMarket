@@ -21,21 +21,11 @@ public class AccountServiceImp implements AccountService {
         this.accountRepository = accountRepository;
     }
 
-    public Account create(Account account) {
-        Account created = accountRepository.save(account);
-        return created;
-    }
-
-    public Account getByUserName(String username) {
+    public Account getByUsername(String username) {
         Optional<Account> opt = accountRepository.findById(username);
         if (opt.isPresent()) {
             return opt.get();
         }
         return null;
-    }
-
-
-    public List<Account> getUnApprovedAccounts() {
-        return null;//accountRepository.findAccountsByAccountStatusEquals(AccountStatus.New);
     }
 }

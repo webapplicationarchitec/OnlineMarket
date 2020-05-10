@@ -1,6 +1,8 @@
 package miu.edu.cs545.securiry;
 
 import miu.edu.cs545.domain.Account;
+import miu.edu.cs545.domain.Admin;
+import miu.edu.cs545.domain.Seller;
 import miu.edu.cs545.service.AccountService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -19,7 +21,8 @@ public class UserDetailsServiceImp implements UserDetailsService {
     }
 
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        Account account = accountService.getByUserName(username);
+        Account account = accountService.getByUsername(username);
+
         if (account != null) {
             return new UserDetailsImp(account);
         } else {

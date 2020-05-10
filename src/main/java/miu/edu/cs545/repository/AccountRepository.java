@@ -10,7 +10,4 @@ import java.util.List;
 @Repository
 public interface AccountRepository extends CrudRepository<Account, String> {
 
-//    public List<Account> findByType(Integer type);
-//
-//    public List<Account> findAccountsByAccountStatusEquals(AccountStatus status);
 }
