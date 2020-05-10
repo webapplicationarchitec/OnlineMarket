@@ -5,16 +5,22 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import javax.persistence.*;
+
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@Entity
 public class OrderDetail {
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
-    private Integer orderId;
-    private Order order;
-    private Integer productId;
+
+    @OneToOne
+    @JoinColumn(name="productId")
     private Product product;
-    private Double price;
+
+    private Double sellPrice;
     private Integer qty;
 }
