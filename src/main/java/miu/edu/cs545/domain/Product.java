@@ -25,7 +25,7 @@ public class Product {
     private Integer point;
     private String photo;
     private ProductStatus status;
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name="categoryId")
     private Category category;
 
