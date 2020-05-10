@@ -42,7 +42,8 @@
                         <ul class="top-menu">
                             <li>
                                 <ul>
-                                    <li><a href="#signin-modal" data-toggle="modal">Sign in / Sign up</a></li>
+                                    <li><a href="login.html">Sign in</a></li>
+                                    <li><a href="register.html">Sign up</a></li>
                                 </ul>
                             </li>
                         </ul><!-- End .top-menu -->
@@ -115,434 +116,48 @@
             </div><!-- End .header-bottom -->
         </header><!-- End .header -->
 
-        <main class="main">
-            <div class="page-content">
-                <div class="cart">
-                    <div class="container">
-                        <div class="row cart-section">
-                            <div class="col-lg-9">
-                                <table class="table table-cart table-mobile">
-                                    <thead>
-                                        <tr>
-                                            <th>Product</th>
-                                            <th>Price</th>
-                                            <th>Quantity</th>
-                                            <th>Total</th>
-                                            <th></th>
-                                        </tr>
-                                    </thead>
+        <main class="main">           
 
-                                    <tbody>
-                                        <tr>
-                                            <td class="product-col">
-                                                <div class="product">
-                                                    <figure class="product-media">
-                                                        <a href="#">
-                                                            <img src="assets/images/products/table/product-1.jpg"
-                                                                alt="Product image">
-                                                        </a>
-                                                    </figure>
+            <div class="login-page bg-image pt-8 pb-8 pt-md-12 pb-md-12 pt-lg-17 pb-lg-17"
+                style="background-image: url('assets/images/backgrounds/login-bg.jpg')">
+                <div class="container">
+                    <div class="form-box">
+                        <div class="form-tab">
+                            <ul class="nav nav-pills nav-fill" role="tablist">
+                                <li class="nav-item">
+                                    <a class="nav-link" id="signin-tab-2" data-toggle="tab" href="#signin-2" role="tab"
+                                        aria-controls="signin-2" aria-selected="false">Sign In</a>
+                                </li>                               
+                            </ul>
+                            <div class="tab-content">
+                                <div class="tab-pane fade show active" id="signin-2" role="tabpanel" aria-labelledby="signin-tab-2">
+                                    <form action="#">
+                                        <div class="form-group">
+                                            <label for="singin-email-2">Username or email address *</label>
+                                            <input type="text" class="form-control" id="singin-email-2"
+                                                name="singin-email" required>
+                                        </div><!-- End .form-group -->
 
-                                                    <h3 class="product-title">
-                                                        <a href="#">Beige knitted elastic runner shoes</a>
-                                                    </h3><!-- End .product-title -->
-                                                </div><!-- End .product -->
-                                            </td>
-                                            <td class="price-col">$84.00</td>
-                                            <td class="quantity-col">
-                                                <div class="cart-product-quantity">
-                                                    <input type="number" class="form-control" value="1" min="1" max="10"
-                                                        step="1" data-decimals="0" required>
-                                                </div><!-- End .cart-product-quantity -->
-                                            </td>
-                                            <td class="total-col">$84.00</td>
-                                            <td class="remove-col"><button class="btn-remove"><i
-                                                        class="icon-close"></i></button></td>
-                                        </tr>
-                                        <tr>
-                                            <td class="product-col">
-                                                <div class="product">
-                                                    <figure class="product-media">
-                                                        <a href="#">
-                                                            <img src="assets/images/products/table/product-2.jpg"
-                                                                alt="Product image">
-                                                        </a>
-                                                    </figure>
+                                        <div class="form-group">
+                                            <label for="singin-password-2">Password *</label>
+                                            <input type="password" class="form-control" id="singin-password-2"
+                                                name="singin-password" required>
+                                        </div><!-- End .form-group -->
 
-                                                    <h3 class="product-title">
-                                                        <a href="#">Blue utility pinafore denim dress</a>
-                                                    </h3><!-- End .product-title -->
-                                                </div><!-- End .product -->
-                                            </td>
-                                            <td class="price-col">$76.00</td>
-                                            <td class="quantity-col">
-                                                <div class="cart-product-quantity">
-                                                    <input type="number" class="form-control" value="1" min="1" max="10"
-                                                        step="1" data-decimals="0" required>
-                                                </div><!-- End .cart-product-quantity -->
-                                            </td>
-                                            <td class="total-col">$76.00</td>
-                                            <td class="remove-col"><button class="btn-remove"><i
-                                                        class="icon-close"></i></button></td>
-                                        </tr>
-                                    </tbody>
-                                </table><!-- End .table table-wishlist -->
-                                <div class="cart-bottom">
-                                    <a href="checkout.html" class="btn btn-outline-dark-2"><span>PROCEED TO CHECKOUT</span><i
-                                            class="icon-cc-mastercard"></i></a>
-                                </div>
-                            </div><!-- End .col-lg-9 -->
-                            <aside class="col-lg-3">
-                                <div class="summary summary-cart">
-                                    <h3 class="summary-title">Apple (500 points)</h3><!-- End .summary-title -->
-
-                                    <table class="table table-summary">
-                                        <tbody>
-                                            <tr class="summary-subtotal">
-                                                <td>Subtotal:</td>
-                                                <td>$160.00</td>
-                                            </tr><!-- End .summary-subtotal -->
-
-                                            <tr class="summary-subtotal">
-                                                <td>Tax:</td>
-                                                <td>$16.00</td>
-                                            </tr><!-- End .summary-subtotal -->
-
-                                            <tr class="summary-subtotal">
-                                                <td>Shipping Fee:</td>
-                                                <td>$20.00</td>
-                                            </tr><!-- End .summary-subtotal -->
-
-                                            <tr class="summary-total">
-                                                <td>Total:</td>
-                                                <td>$160.00</td>
-                                            </tr><!-- End .summary-total -->
-                                        </tbody>
-                                    </table><!-- End .table table-summary -->
-                                </div><!-- End .summary -->
-                            </aside><!-- End .col-lg-3 -->
-                        </div><!-- End .row -->
-
-
-                        <div class="row cart-section">
-                            <div class="col-lg-9">
-                                <table class="table table-cart table-mobile">
-                                    <thead>
-                                        <tr>
-                                            <th>Product</th>
-                                            <th>Price</th>
-                                            <th>Quantity</th>
-                                            <th>Total</th>
-                                            <th></th>
-                                        </tr>
-                                    </thead>
-
-                                    <tbody>
-                                        <tr>
-                                            <td class="product-col">
-                                                <div class="product">
-                                                    <figure class="product-media">
-                                                        <a href="#">
-                                                            <img src="assets/images/products/table/product-1.jpg"
-                                                                alt="Product image">
-                                                        </a>
-                                                    </figure>
-
-                                                    <h3 class="product-title">
-                                                        <a href="#">Beige knitted elastic runner shoes</a>
-                                                    </h3><!-- End .product-title -->
-                                                </div><!-- End .product -->
-                                            </td>
-                                            <td class="price-col">$84.00</td>
-                                            <td class="quantity-col">
-                                                <div class="cart-product-quantity">
-                                                    <input type="number" class="form-control" value="1" min="1" max="10"
-                                                        step="1" data-decimals="0" required>
-                                                </div><!-- End .cart-product-quantity -->
-                                            </td>
-                                            <td class="total-col">$84.00</td>
-                                            <td class="remove-col"><button class="btn-remove"><i
-                                                        class="icon-close"></i></button></td>
-                                        </tr>
-                                        <tr>
-                                            <td class="product-col">
-                                                <div class="product">
-                                                    <figure class="product-media">
-                                                        <a href="#">
-                                                            <img src="assets/images/products/table/product-2.jpg"
-                                                                alt="Product image">
-                                                        </a>
-                                                    </figure>
-
-                                                    <h3 class="product-title">
-                                                        <a href="#">Blue utility pinafore denim dress</a>
-                                                    </h3><!-- End .product-title -->
-                                                </div><!-- End .product -->
-                                            </td>
-                                            <td class="price-col">$76.00</td>
-                                            <td class="quantity-col">
-                                                <div class="cart-product-quantity">
-                                                    <input type="number" class="form-control" value="1" min="1" max="10"
-                                                        step="1" data-decimals="0" required>
-                                                </div><!-- End .cart-product-quantity -->
-                                            </td>
-                                            <td class="total-col">$76.00</td>
-                                            <td class="remove-col"><button class="btn-remove"><i
-                                                        class="icon-close"></i></button></td>
-                                        </tr>
-                                    </tbody>
-                                </table><!-- End .table table-wishlist -->
-                                <div class="cart-bottom">
-                                    <a href="checkout.html" class="btn btn-outline-dark-2"><span>PROCEED TO CHECKOUT</span><i
-                                            class="icon-cc-mastercard"></i></a>
-                                </div>
-                            </div><!-- End .col-lg-9 -->
-                            <aside class="col-lg-3">
-                                <div class="summary summary-cart">
-                                    <h3 class="summary-title">Samsung (250 points)</h3><!-- End .summary-title -->
-
-                                    <table class="table table-summary">
-                                        <tbody>
-                                            <tr class="summary-subtotal">
-                                                <td>Subtotal:</td>
-                                                <td>$160.00</td>
-                                            </tr><!-- End .summary-subtotal -->
-
-                                            <tr class="summary-subtotal">
-                                                <td>Tax:</td>
-                                                <td>$16.00</td>
-                                            </tr><!-- End .summary-subtotal -->
-
-                                            <tr class="summary-subtotal">
-                                                <td>Shipping Fee:</td>
-                                                <td>$20.00</td>
-                                            </tr><!-- End .summary-subtotal -->
-
-                                            <tr class="summary-total">
-                                                <td>Total:</td>
-                                                <td>$160.00</td>
-                                            </tr><!-- End .summary-total -->
-                                        </tbody>
-                                    </table><!-- End .table table-summary -->
-                                </div><!-- End .summary -->
-                            </aside><!-- End .col-lg-3 -->
-                        </div><!-- End .row -->
-
-
-
-                        <div class="row">
-                            <div class="col-lg-9">
-                                <table class="table table-cart table-mobile">
-                                    <thead>
-                                        <tr>
-                                            <th>Product</th>
-                                            <th>Price</th>
-                                            <th>Quantity</th>
-                                            <th>Total</th>
-                                            <th></th>
-                                        </tr>
-                                    </thead>
-
-                                    <tbody>
-                                        <tr>
-                                            <td class="product-col">
-                                                <div class="product">
-                                                    <figure class="product-media">
-                                                        <a href="#">
-                                                            <img src="assets/images/products/table/product-1.jpg"
-                                                                alt="Product image">
-                                                        </a>
-                                                    </figure>
-
-                                                    <h3 class="product-title">
-                                                        <a href="#">Beige knitted elastic runner shoes</a>
-                                                    </h3><!-- End .product-title -->
-                                                </div><!-- End .product -->
-                                            </td>
-                                            <td class="price-col">$84.00</td>
-                                            <td class="quantity-col">
-                                                <div class="cart-product-quantity">
-                                                    <input type="number" class="form-control" value="1" min="1" max="10"
-                                                        step="1" data-decimals="0" required>
-                                                </div><!-- End .cart-product-quantity -->
-                                            </td>
-                                            <td class="total-col">$84.00</td>
-                                            <td class="remove-col"><button class="btn-remove"><i
-                                                        class="icon-close"></i></button></td>
-                                        </tr>
-                                        <tr>
-                                            <td class="product-col">
-                                                <div class="product">
-                                                    <figure class="product-media">
-                                                        <a href="#">
-                                                            <img src="assets/images/products/table/product-2.jpg"
-                                                                alt="Product image">
-                                                        </a>
-                                                    </figure>
-
-                                                    <h3 class="product-title">
-                                                        <a href="#">Blue utility pinafore denim dress</a>
-                                                    </h3><!-- End .product-title -->
-                                                </div><!-- End .product -->
-                                            </td>
-                                            <td class="price-col">$76.00</td>
-                                            <td class="quantity-col">
-                                                <div class="cart-product-quantity">
-                                                    <input type="number" class="form-control" value="1" min="1" max="10"
-                                                        step="1" data-decimals="0" required>
-                                                </div><!-- End .cart-product-quantity -->
-                                            </td>
-                                            <td class="total-col">$76.00</td>
-                                            <td class="remove-col"><button class="btn-remove"><i
-                                                        class="icon-close"></i></button></td>
-                                        </tr>
-                                    </tbody>
-                                </table><!-- End .table table-wishlist -->
-                                <div class="cart-bottom">
-                                    <a href="checkout.html" class="btn btn-outline-dark-2"><span>PROCEED TO CHECKOUT</span><i
-                                            class="icon-cc-mastercard"></i></a>
-                                </div>
-                            </div><!-- End .col-lg-9 -->
-                            <aside class="col-lg-3">
-                                <div class="summary summary-cart">
-                                    <h3 class="summary-title">Microsoft</h3><!-- End .summary-title -->
-
-                                    <table class="table table-summary">
-                                        <tbody>
-                                            <tr class="summary-subtotal">
-                                                <td>Subtotal:</td>
-                                                <td>$160.00</td>
-                                            </tr><!-- End .summary-subtotal -->
-
-                                            <tr class="summary-subtotal">
-                                                <td>Tax:</td>
-                                                <td>$16.00</td>
-                                            </tr><!-- End .summary-subtotal -->
-
-                                            <tr class="summary-subtotal">
-                                                <td>Shipping Fee:</td>
-                                                <td>$20.00</td>
-                                            </tr><!-- End .summary-subtotal -->
-
-                                            <tr class="summary-total">
-                                                <td>Total:</td>
-                                                <td>$160.00</td>
-                                            </tr><!-- End .summary-total -->
-                                        </tbody>
-                                    </table><!-- End .table table-summary -->
-                                </div><!-- End .summary -->
-                            </aside><!-- End .col-lg-3 -->
-                        </div><!-- End .row -->
-
-
-                        <div class="row" style="display: none;">
-                            <div class="col-lg-12">
-                                <table class="table table-cart table-mobile">
-                                    <thead>
-                                        <tr>
-                                            <th>Product</th>
-                                            <th>Price</th>
-                                            <th>Quantity</th>
-                                            <th>Total</th>
-                                            <th></th>
-                                        </tr>
-                                    </thead>
-
-                                    <tbody>
-                                        <tr>
-                                            <td class="product-col">
-                                                <div class="product">
-                                                    <figure class="product-media">
-                                                        <a href="#">
-                                                            <img src="assets/images/products/table/product-1.jpg"
-                                                                alt="Product image">
-                                                        </a>
-                                                    </figure>
-
-                                                    <h3 class="product-title">
-                                                        <a href="#">Beige knitted elastic runner shoes</a>
-                                                    </h3><!-- End .product-title -->
-                                                </div><!-- End .product -->
-                                            </td>
-                                            <td class="price-col">$84.00</td>
-                                            <td class="quantity-col">
-                                                <div class="cart-product-quantity">
-                                                    <input type="number" class="form-control" value="1" min="1" max="10"
-                                                        step="1" data-decimals="0" required>
-                                                </div><!-- End .cart-product-quantity -->
-                                            </td>
-                                            <td class="total-col">$84.00</td>
-                                            <td class="remove-col"><button class="btn-remove"><i
-                                                        class="icon-close"></i></button></td>
-                                        </tr>
-                                        <tr>
-                                            <td class="product-col">
-                                                <div class="product">
-                                                    <figure class="product-media">
-                                                        <a href="#">
-                                                            <img src="assets/images/products/table/product-2.jpg"
-                                                                alt="Product image">
-                                                        </a>
-                                                    </figure>
-
-                                                    <h3 class="product-title">
-                                                        <a href="#">Blue utility pinafore denim dress</a>
-                                                    </h3><!-- End .product-title -->
-                                                </div><!-- End .product -->
-                                            </td>
-                                            <td class="price-col">$76.00</td>
-                                            <td class="quantity-col">
-                                                <div class="cart-product-quantity">
-                                                    <input type="number" class="form-control" value="1" min="1" max="10"
-                                                        step="1" data-decimals="0" required>
-                                                </div><!-- End .cart-product-quantity -->
-                                            </td>
-                                            <td class="total-col">$76.00</td>
-                                            <td class="remove-col"><button class="btn-remove"><i
-                                                        class="icon-close"></i></button></td>
-                                        </tr>
-                                        <tr>
-                                            <td colspan="5">
-                                                <div class="summary summary-cart">
-                                                    <table class="table table-summary">
-                                                        <tbody>
-                                                            <tr class="summary-subtotal">
-                                                                <td>Subtotal:</td>
-                                                                <td>$160.00</td>
-                                                            </tr><!-- End .summary-subtotal -->
-
-                                                            <tr class="summary-subtotal">
-                                                                <td>Tax:</td>
-                                                                <td>$16</td>
-                                                            </tr><!-- End .summary-subtotal -->
-
-                                                            <tr class="summary-subtotal">
-                                                                <td>Shipping Fee:</td>
-                                                                <td>$20</td>
-                                                            </tr><!-- End .summary-subtotal -->
-
-                                                            <tr class="summary-total">
-                                                                <td>Total:</td>
-                                                                <td>$160.00</td>
-                                                            </tr><!-- End .summary-total -->
-                                                        </tbody>
-                                                    </table><!-- End .table table-summary -->
-
-                                                    <a href="checkout.html"
-                                                        class="btn btn-outline-primary-2 btn-order btn-block">PROCEED TO
-                                                        CHECKOUT</a>
-                                                </div><!-- End .summary -->
-                                            </td>
-                                        </tr>
-                                    </tbody>
-                                </table><!-- End .table table-wishlist -->
-
-                            </div><!-- End .col-lg-9 -->
-                        </div><!-- End .row -->
-                    </div><!-- End .container -->
-                </div><!-- End .cart -->
-            </div><!-- End .page-content -->
-        </main>
+                                        <div class="form-footer">
+                                            <button type="submit" class="btn btn-outline-primary-2">
+                                                <span>LOG IN</span>
+                                                <i class="icon-long-arrow-right"></i>
+                                            </button>
+                                        </div><!-- End .form-footer -->
+                                    </form>                                 
+                                </div><!-- .End .tab-pane -->                                
+                            </div><!-- End .tab-content -->
+                        </div><!-- End .form-tab -->
+                    </div><!-- End .form-box -->
+                </div><!-- End .container -->
+            </div><!-- End .login-page section-bg -->
+        </main><!-- End .main -->
 
         <footer class="footer">
             <div class="footer-bottom">
