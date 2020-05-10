@@ -13,6 +13,7 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
+@DiscriminatorValue("BUYER")
 public class Buyer extends Account{
 
     @OneToOne(cascade = CascadeType.ALL)

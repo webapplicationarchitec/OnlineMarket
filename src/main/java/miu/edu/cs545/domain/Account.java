@@ -17,6 +17,7 @@ import java.util.List;
 @NoArgsConstructor
 @Entity
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
+@DiscriminatorColumn(name = "ACCOUNT_TYPE", discriminatorType = DiscriminatorType.STRING)
 public abstract class Account {
     @Id
     private String username;
@@ -39,11 +40,6 @@ public abstract class Account {
     @NotNull
     @Column(nullable = false)
     private AccountStatus accountStatus;
-
-//    //0 - Admin, 1 - Seller, 2 - Buyer
-//    @NotNull
-//    @Column(nullable = false)
-//    private AccountType type;
 
     @NotEmpty
     @NotNull
