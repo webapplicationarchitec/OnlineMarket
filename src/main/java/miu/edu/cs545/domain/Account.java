@@ -5,13 +5,11 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.OneToOne;
+import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
+import java.util.List;
 
 @Getter
 @Setter
@@ -44,6 +42,7 @@ public class Account {
     private String email;
 
     @OneToOne
+    @JoinColumn(name="addressId")
     private Address billingAddress;
 
     private String payment;
@@ -55,5 +54,17 @@ public class Account {
     //0 - Admin, 1 - Seller, 2 - Buyer
     @NotNull
     @Column(nullable = false)
-    private Integer type;
+    private AccountType type;
+
+    @OneToMany
+    @JoinColumn(name="accountID")
+    private List<Product> listProduct;
+
+    @OneToMany
+    @JoinColumn(name="buyerId")
+    private List<BonusPoint> listBonusPoints;
+
+    @OneToMany
+    @JoinColumn(name="buyerId")
+    private List<Order> listOrders;
 }
