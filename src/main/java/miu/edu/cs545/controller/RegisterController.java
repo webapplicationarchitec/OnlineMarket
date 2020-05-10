@@ -1,6 +1,8 @@
 package miu.edu.cs545.controller;
 
 import miu.edu.cs545.domain.Account;
+import miu.edu.cs545.domain.OnlineOrder;
+import miu.edu.cs545.domain.Review;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -15,20 +17,26 @@ public class RegisterController {
 
     @GetMapping("/reg")
     public String doRegistration(@ModelAttribute(value="account") Account account){
-        return "user/registration";
+        return "buyer/registration";
     }
 
-    @PostMapping("/profile")
+    @GetMapping("/profile")
+    public String showProfile(@ModelAttribute(value="account") Account account){
+        return "buyer/profile";
+    }
+
+    @PostMapping("/saveProfile")
     public String updateProfile(@ModelAttribute(value="account") Account account){
-        return "user/profile";
+        return "buyer/profile";
     }
 
 
     @PostMapping("/saveAccount")
     public String saveAccount(@ModelAttribute(value="account") Account account){
         //save account to DB
-
-        return "/user/user";
+        OnlineOrder acc = new OnlineOrder();
+        acc.setOrderno("");
+        return "/buyer/user";
     }
 
     @GetMapping("/listReg")
@@ -54,6 +62,32 @@ public class RegisterController {
     }
 
     private void updateUserStatus(String userName, boolean isApprove) {
+        //call service to update the status
+    }
+
+    @GetMapping("/listRev")
+    public String getListReview(Model model){
+        //Get list of Seller accounts from DB
+        ArrayList<Review> listReview = new ArrayList<>();
+        model.addAttribute("listReview", listReview);
+        return "/admin/listreview";
+    }
+
+    @PostMapping("approveRev")
+    public String approveReview(@RequestParam(value = "rev_id") Long id){
+        //update the status Approved to the review
+        updateReviewStatus(id, true);//true: approved
+        return "/admin/listreview";
+    }
+
+    @PostMapping("rejectRev")
+    public String rejectReview(@RequestParam(value = "rev_id") Long id){
+        //update the status Approved to the user name
+        updateReviewStatus(id, false);//false: reject
+        return "/admin/listreview";
+    }
+
+    private void updateReviewStatus(Long reviewId, boolean isApprove) {
         //call service to update the status
     }
 }

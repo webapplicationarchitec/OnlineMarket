@@ -36,6 +36,6 @@ public class AccountServiceImp implements AccountService {
 
 
     public List<Account> getUnApprovedAccounts() {
-        return accountRepository.findAccountsByAccountStatusEquals(AccountStatus.New);
+        return null;//accountRepository.findAccountsByAccountStatusEquals(AccountStatus.New);
     }
 }
