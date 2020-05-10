@@ -31,15 +31,15 @@
                 </td>
             </tr>
             <tr>
-                <td th:text="#{reg.firstname}">First name</td>
-                <td><input th:field="*{firstname}" />
-                    <span th:if="${#fields.hasErrors('firstname')}" th:errors="*{firstname}" th:errorclass="error"></span>
+                <td th:text="#{reg.firstName}">First name</td>
+                <td><input th:field="*{firstName}" />
+                    <span th:if="${#fields.hasErrors('firstName')}" th:errors="*{firstName}" th:errorclass="error"></span>
                 </td>
             </tr>
             <tr>
-                <td th:text="#{reg.lastname}">Last name</td>
-                <td><input th:field="*{lastname}" />
-                    <span th:if="${#fields.hasErrors('lastname')}" th:errors="*{lastname}" th:errorclass="error"></span>
+                <td th:text="#{reg.lastName}">Last name</td>
+                <td><input th:field="*{lastName}" />
+                    <span th:if="${#fields.hasErrors('lastName')}" th:errors="*{lastName}" th:errorclass="error"></span>
                 </td>
             </tr>
             <tr>
@@ -49,15 +49,31 @@
                 </td>
             </tr>
             <tr>
-                <td th:text="#{reg.shipaddr}">Shipping address</td>
-                <td><input th:field="*{shippingAddress}" />
-                    <span th:if="${#fields.hasErrors('shippingAddress')}" th:errors="*{shippingAddress}" th:errorclass="error"></span>
+                <td>Billing address</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td th:text="#{reg.addr.street}">Street</td>
+                <td><input th:field="*{billingAddress.street}" />
+                    <span th:if="${#fields.hasErrors('billingAddress.street')}" th:errors="*{billingAddress.street}" th:errorclass="error"></span>
                 </td>
             </tr>
             <tr>
-                <td th:text="#{reg.billaddr}">Billing address</td>
-                <td><input th:field="*{billingAddress}" />
-                    <span th:if="${#fields.hasErrors('billingAddress')}" th:errors="*{billingAddress}" th:errorclass="error"></span>
+                <td th:text="#{reg.addr.city}">City</td>
+                <td><input th:field="*{billingAddress.city}" />
+                    <span th:if="${#fields.hasErrors('billingAddress.city')}" th:errors="*{billingAddress.city}" th:errorclass="error"></span>
+                </td>
+            </tr>
+            <tr>
+                <td th:text="#{reg.addr.state}">City</td>
+                <td><input th:field="*{billingAddress.state}" />
+                    <span th:if="${#fields.hasErrors('billingAddress.state')}" th:errors="*{billingAddress.state}" th:errorclass="error"></span>
+                </td>
+            </tr>
+            <tr>
+                <td th:text="#{reg.addr.zipcode}">City</td>
+                <td><input th:field="*{billingAddress.zipcode}" />
+                    <span th:if="${#fields.hasErrors('billingAddress.zipcode')}" th:errors="*{billingAddress.zipcode}" th:errorclass="error"></span>
                 </td>
             </tr>
             <tr>
