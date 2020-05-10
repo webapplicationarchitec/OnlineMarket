@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout/user/ulayout}">
+<head>
+    <meta charset="UTF-8">
+    <title>Review - List</title>
+    <style>
+        .error{
+            color: red;
+        }
+    </style>
+</head>
+<body>
+<div layout:fragment="user-main-content">
+    <h4>Review List</h4>
+    <table>
+        <thead>
+            <th>
+                <td th:text="#{rev.seller}">Seller</td>
+                <td th:text="#{rev.product}">Product</td>
+                <td th:text="#{rev.buyer}">Buyer</td>
+                <td th:text="#{rev.comment}">Comment</td>
+                <td th:text="#{rev.action}">Action</td>
+            </th>
+        </thead>
+        <tbody>
+        <tr th:each="rev : ${listReview}">
+            <td th:text="${rev.seller.username}">Seller</td>
+            <td th:text="${rev.product.name}">Product name</td>
+            <td th:text="${rev.buyer.username}">Buyer dropped comment</td>
+            <td th:text="${rev.comment}">Comment</td>
+            <td>
+                <form method="post" th:action="@{approveRev}?uname=${rev.id}">
+                    <input type="submit" value="Approve" />
+                </form>
+                <form method="post" th:action="@{rejectRev}">
+                    <input type="submit" value="Reject" />
+                </form>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+</body>
+</html>
