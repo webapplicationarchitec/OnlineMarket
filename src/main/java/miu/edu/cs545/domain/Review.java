@@ -5,17 +5,27 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import javax.persistence.*;
 import java.util.Date;
 
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@Entity
 public class Review {
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
-    private Integer productId;
     private Date dateCreate;
     private String comment;
     private ReviewStatus status;
 
+    @ManyToOne()
+    @JoinColumn(name="productId")
+    private Product product;
+
+    @ManyToOne
+    @JoinColumn(name="buyerId")
+    private Account account;
 }
