@@ -21,11 +21,11 @@ public class Review {
     private String comment;
     private ReviewStatus status;
 
-    @ManyToOne()
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name="productId")
     private Product product;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name="buyerId")
     private Account account;
 }
