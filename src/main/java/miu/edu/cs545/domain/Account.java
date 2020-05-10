@@ -52,6 +52,7 @@ public class Account {
     @Column(nullable = false)
     private AccountStatus accountStatus;
 
+    //0 - Admin, 1 - Seller, 2 - Buyer
     @NotNull
     @Column(nullable = false)
     private Integer type;
