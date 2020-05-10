@@ -17,7 +17,7 @@ public class OrderDetail {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name="productId")
     private Product product;
 
