@@ -1,3 +1,9 @@
+INSERT INTO `category` (`id`, `name`) VALUES (1, 'Computer& Laptop');
+INSERT INTO `category` (`id`, `name`) VALUES (2, 'Digital Cameras');
+INSERT INTO `category` (`id`, `name`) VALUES (3, 'Smart Phones');
+INSERT INTO `category` (`id`, `name`) VALUES (4, 'Televisions');
+INSERT INTO `category` (`id`, `name`) VALUES (5, 'Audio');
+INSERT INTO `category` (`id`, `name`) VALUES (6, 'Smart Watches');
 INSERT INTO `address` VALUES ('1', 'Fairfield', 'IA', '1000 N 4th', '52557');
 INSERT INTO `address` VALUES ('2', 'Orange', 'CA', '96S 2th', '82552');
 INSERT INTO `account` VALUES ('admin', '1', 'admin@miu.edu', 'Ha', 'Nguyen', '$2b$10$QwKk5pHK1RhFfeFqPiaGx.7XHD/B5Y2LbxtkRJVKVOTZhezdRacwa', null, '1', null);
