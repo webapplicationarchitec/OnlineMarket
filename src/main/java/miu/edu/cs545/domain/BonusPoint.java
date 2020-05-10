@@ -3,16 +3,16 @@ package miu.edu.cs545.domain;
 import javax.persistence.*;
 
 @Entity
-@Table(
-        name="BonusPoint",
-        uniqueConstraints=
-        @UniqueConstraint(columnNames={"seller", "buyer"})
-)
+//@Table(
+//        name="BonusPoint",
+//        uniqueConstraints=
+//        @UniqueConstraint(columnNames={"seller", "buyer"})
+//)
 public class BonusPoint {
     @Id
     long id;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name="sellerId")
     private Account seller;
 
