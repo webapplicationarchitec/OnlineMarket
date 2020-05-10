@@ -14,7 +14,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-public class Order {
+public class OnlineOrder {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
@@ -27,11 +27,12 @@ public class Order {
     private Double total;
     private Integer point;
     private String orderno;
+    private String shippingAddress;
     private OrderStatus status;
 
     @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name = "orderId")
-    private List<OrderDetail> listOrderDetail;
+    private List<OrderDetail> orderDetailList;
 
 
 }

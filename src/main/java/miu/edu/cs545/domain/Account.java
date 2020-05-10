@@ -16,7 +16,8 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-public class Account {
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
+public abstract class Account {
     @Id
     private String username;
 
@@ -35,36 +36,18 @@ public class Account {
     @Column(nullable = false)
     private String lastName;
 
+    @NotNull
+    @Column(nullable = false)
+    private AccountStatus accountStatus;
+
+//    //0 - Admin, 1 - Seller, 2 - Buyer
+//    @NotNull
+//    @Column(nullable = false)
+//    private AccountType type;
+
     @NotEmpty
     @NotNull
     @Column(nullable = false)
     @Email
     private String email;
-
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name="addressId")
-    private Address billingAddress;
-
-    private String payment;
-
-    @NotNull
-    @Column(nullable = false)
-    private AccountStatus accountStatus;
-
-    //0 - Admin, 1 - Seller, 2 - Buyer
-    @NotNull
-    @Column(nullable = false)
-    private AccountType type;
-
-    @OneToMany(cascade = CascadeType.ALL)
-    @JoinColumn(name="accountID")
-    private List<Product> listProduct;
-
-    @OneToMany(cascade = CascadeType.ALL)
-    @JoinColumn(name="buyerId")
-    private List<BonusPoint> listBonusPoints;
-
-    @OneToMany(cascade = CascadeType.ALL)
-    @JoinColumn(name="buyerId")
-    private List<Order> listOrders;
 }

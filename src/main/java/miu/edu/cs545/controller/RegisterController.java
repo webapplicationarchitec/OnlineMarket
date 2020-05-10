@@ -1,7 +1,7 @@
 package miu.edu.cs545.controller;
 
 import miu.edu.cs545.domain.Account;
-import miu.edu.cs545.domain.Order;
+import miu.edu.cs545.domain.OnlineOrder;
 import miu.edu.cs545.domain.Review;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -34,7 +34,7 @@ public class RegisterController {
     @PostMapping("/saveAccount")
     public String saveAccount(@ModelAttribute(value="account") Account account){
         //save account to DB
-        Order acc = new Order();
+        OnlineOrder acc = new OnlineOrder();
         acc.setOrderno("");
         return "/buyer/user";
     }

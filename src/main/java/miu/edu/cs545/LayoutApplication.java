@@ -19,15 +19,15 @@ public class LayoutApplication {
     @Bean
     CommandLineRunner runner(AccountRepository accountRepository) {
         return args -> {
-            Account admin = new Account();
-            admin.setUsername("admin");
-            admin.setPassword("$2b$10$QwKk5pHK1RhFfeFqPiaGx.7XHD/B5Y2LbxtkRJVKVOTZhezdRacwa");
-            admin.setEmail("admin@miu.edu");
-            admin.setType(AccountType.Admin);
-            admin.setAccountStatus(AccountStatus.Approved);
-            admin.setFirstName("Ha");
-            admin.setLastName("Nguyen");
-            accountRepository.save(admin);
+//            Account admin = new Admin();
+//            admin.setUsername("admin");
+//            admin.setPassword("$2b$10$QwKk5pHK1RhFfeFqPiaGx.7XHD/B5Y2LbxtkRJVKVOTZhezdRacwa");
+//            admin.setEmail("admin@miu.edu");
+//            admin.setType(AccountType.Admin);
+//            admin.setAccountStatus(AccountStatus.Approved);
+//            admin.setFirstName("Ha");
+//            admin.setLastName("Nguyen");
+//            accountRepository.save(admin);
         };
     }
 
