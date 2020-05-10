@@ -16,7 +16,3 @@ insert into account (`account_type`, `username`, `email`, `first_name`, `last_na
 values ('SELLER', 'hainguyen', 'hainguyen@miu.edu', 'Hai', 'Nguyen', '$2b$10$QwKk5pHK1RhFfeFqPiaGx.7XHD/B5Y2LbxtkRJVKVOTZhezdRacwa', 1);
 insert into account (`account_type`, `username`, `email`, `first_name`, `last_name`, `password`, `account_status`)
 values ('SELLER', 'luannguyen', 'luannguyen@miu.edu', 'Luan', 'Nguyen', '$2b$10$QwKk5pHK1RhFfeFqPiaGx.7XHD/B5Y2LbxtkRJVKVOTZhezdRacwa', 1);
-
--- INSERT INTO `account` VALUES ('Admin','admin', '1', 'admin@miu.edu', 'Ha', 'Nguyen', '$2b$10$QwKk5pHK1RhFfeFqPiaGx.7XHD/B5Y2LbxtkRJVKVOTZhezdRacwa', null, null);
--- INSERT INTO `account` VALUES ('Seller','seller', '1', 'thanhtran@miu.edu', 'Luan', 'Tran', '$2b$10$QwKk5pHK1RhFfeFqPiaGx.7XHD/B5Y2LbxtkRJVKVOTZhezdRacwa', null, '2');
--- INSERT INTO `account` VALUES ('Buyer','buyer', '1', 'thainguyen@miu.edu', 'Hai', 'Nguyen', '$2b$10$QwKk5pHK1RhFfeFqPiaGx.7XHD/B5Y2LbxtkRJVKVOTZhezdRacwa', 'DebitCard', '1');
