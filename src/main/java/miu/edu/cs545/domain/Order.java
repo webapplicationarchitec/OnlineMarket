@@ -29,7 +29,7 @@ public class Order {
     private String orderno;
     private OrderStatus status;
 
-    @OneToMany
+    @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name = "orderId")
     private List<OrderDetail> listOrderDetail;
 
