@@ -41,7 +41,7 @@ public class Account {
     @Email
     private String email;
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name="addressId")
     private Address billingAddress;
 
@@ -56,15 +56,15 @@ public class Account {
     @Column(nullable = false)
     private AccountType type;
 
-    @OneToMany
+    @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name="accountID")
     private List<Product> listProduct;
 
-    @OneToMany
+    @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name="buyerId")
     private List<BonusPoint> listBonusPoints;
 
-    @OneToMany
+    @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name="buyerId")
     private List<Order> listOrders;
 }
