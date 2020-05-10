@@ -4,6 +4,7 @@ import miu.edu.cs545.domain.Account;
 import miu.edu.cs545.domain.AccountStatus;
 import miu.edu.cs545.repository.AccountRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -19,6 +20,18 @@ public class AccountServiceImp implements AccountService {
     @Autowired
     public AccountServiceImp(AccountRepository accountRepository) {
         this.accountRepository = accountRepository;
+    }
+
+    @Override
+    public Account createAccount(Account account) {
+
+        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+        String password = account.getPassword();
+        String encryptedPassword = encoder.encode(password);
+        account.setPassword(encryptedPassword);
+
+        Account created = accountRepository.save(account);
+        return created;
     }
 
     public Account getByUsername(String username) {
