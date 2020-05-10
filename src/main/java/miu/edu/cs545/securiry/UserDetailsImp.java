@@ -20,9 +20,9 @@ public class UserDetailsImp implements UserDetails {
 
     public Collection<? extends GrantedAuthority> getAuthorities() {
         List<GrantedAuthority> roles = new ArrayList<>();
-        Integer type = account.getType();
-        String roleName = type == 0 ? "ADMIN" : (type == 1 ? "SELLER" : "BUYER");
-        roles.add(new SimpleGrantedAuthority(roleName));
+//        Integer type = account.getType();
+//        String roleName = type == 0 ? "ADMIN" : (type == 1 ? "SELLER" : "BUYER");
+//        roles.add(new SimpleGrantedAuthority(roleName));
         return roles;
     }
 

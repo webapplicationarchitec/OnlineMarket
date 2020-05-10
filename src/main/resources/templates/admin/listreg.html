@@ -12,14 +12,25 @@
 </head>
 <body>
 <div layout:fragment="user-main-content">
-    <h1>Account List</h1>
+    <h4>Account List</h4>
     <table>
+        <thead>
+            <th>
+                <td th:text="#{reg.username}">User name</td>
+                <td th:text="#{reg.password}">User name</td>
+                <td th:text="#{reg.fullname}">Full name</td>
+                <td th:text="#{reg.email}">Email</td>
+                <td th:text="#{reg.action}">Action</td>
+            </th>
+        </thead>
+        <tbody>
         <tr th:each="acc : ${listSellerAcc}">
             <td th:text="${acc.username}">Username</td>
-            <td th:text="${acc.firstname}">Firstname</td>
+            <td th:text="${acc.password}">Password</td>
+            <td th:text="${acc.firstName} ${acc.lastName}">Full name</td>
             <td th:text="${acc.email}">Email</td>
             <td>
-                <form method="post" th:action="@{approveAcc} + ?uname= + ${acc.username}}">
+                <form method="post" th:action="@{approveAcc}?uname=${acc.username}">
                     <input type="submit" value="Approve" />
                 </form>
                 <form method="post" th:action="@{rejectAcc}">
@@ -27,6 +38,7 @@
                 </form>
             </td>
         </tr>
+        </tbody>
     </table>
 </div>
 </body>
