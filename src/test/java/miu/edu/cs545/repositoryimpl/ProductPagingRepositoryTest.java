@@ -17,6 +17,7 @@ import java.util.Optional;
 
 import static org.junit.Assert.assertEquals;
 
+
 @DataJpaTest
 public class ProductPagingRepositoryTest {
     @Autowired
@@ -31,10 +32,10 @@ public class ProductPagingRepositoryTest {
                 PageRequest.of(0, 3, Sort.by("name"));
 
        // Pageable sortedByPriceDesc =
-        //        PageRequest.of(0, 3, Sort.by("price").descending());
+         //       PageRequest.of(0, 3, Sort.by("price").descending());
 
-       // Pageable sortedByPriceDescNameAsc =
-       //         PageRequest.of(0, 5, Sort.by("price").descending().and(Sort.by("name")));
+        //Pageable sortedByPriceDescNameAsc =
+         //       PageRequest.of(0, 5, Sort.by("price").descending().and(Sort.by("name")));
 
         Page<Product> productOptional = productPagingRepository.findAll(sortedByName);
 
