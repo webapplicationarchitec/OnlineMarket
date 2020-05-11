@@ -3,6 +3,7 @@ package miu.edu.cs545.controller;
 import miu.edu.cs545.domain.OnlineOrder;
 import miu.edu.cs545.domain.OrderDetail;
 import miu.edu.cs545.domain.Product;
+import miu.edu.cs545.domain.Seller;
 import miu.edu.cs545.dto.Cart;
 import miu.edu.cs545.service.AccountService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,11 +12,13 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
 import javax.servlet.ServletContext;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 
 @Controller
@@ -35,11 +38,15 @@ public class IndexController {
     @ModelAttribute("myCart")
     public Cart getMyCart() {
         Cart myCart = new Cart();
-        List<OnlineOrder> orders = new ArrayList<>();
+        HashMap<String, OnlineOrder> orders = new HashMap<>();
+
         OnlineOrder order1 = new OnlineOrder();
         order1.setOrderno("ORD_1#0001");
         order1.setDateCreate(new Date());
         order1.setDateShipping(new Date());
+        order1.setShippingFee(16.00);
+        order1.setTax((84 + 150) * 0.08);
+        order1.setTotal(84 + 150 + ((84 + 150) * 0.08) + 16.00);
 
         Product product = new Product();
         product.setName("Beige knitted elastic runner shoes");
@@ -69,9 +76,19 @@ public class IndexController {
 
         order1.setOrderDetailList(detailList);
 
-        orders.add(order1);
-
         myCart.setOrderList(orders);
+
+        Seller seller = new Seller();
+        seller.setUsername("microsoft");
+        seller.setFirstName("Microsoft");
+        seller.setLastName("Inc");
+        product.setSeller(seller);
+        product2.setSeller(seller);
+
+        orders.put(seller.getUsername(), order1);
+        myCart.setOrderList(orders);
+        myCart.setSeller(seller);
+
         return myCart;
     }
 
@@ -93,9 +110,13 @@ public class IndexController {
         return "buyer/user";
     }
 
-    @GetMapping("/checkout")
+    @GetMapping("/check-out/{seller}")
     @PreAuthorize("hasRole('ROLE_BUYER')")
-    public String showCheckout() {
+    public String showCheckout(@PathVariable("seller") String seller, Model model) {
+        Cart myCart = (Cart) model.asMap().get("myCart");
+        OnlineOrder order = myCart.getOrderList().get(seller);
+
+        model.addAttribute("order", order);
         return "buyer/checkout";
     }
 
@@ -121,8 +142,6 @@ public class IndexController {
 
     @GetMapping("/shopping-cart")
     public String showCart(Model model) {
-        Cart myCart = getMyCart();
-        model.addAttribute("myCart", myCart);
         return "/buyer/shopping-cart";
     }
 }
