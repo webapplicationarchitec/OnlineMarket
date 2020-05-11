@@ -1,10 +1,211 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout/user/ulayout}">
 <head>
     <meta charset="UTF-8">
-    <title>$Title$</title>
+    <title>Shopping Cart</title>
 </head>
 <body>
-$END$
+<div layout:fragment="user-main-content">
+    <main class="main">
+        <div class="page-content">
+            <div class="cart">
+                <div class="container">
+                    <div class="row cart-section" th:each="order: ${myCart.orderList}">
+                        <div class="col-lg-9">
+                            <table class="table table-cart table-mobile">
+                                <thead>
+                                <tr>
+                                    <th>Product</th>
+                                    <th>Price</th>
+                                    <th>Quantity</th>
+                                    <th>Total</th>
+                                    <th></th>
+                                </tr>
+                                </thead>
+
+                                <tbody>
+                                <tr th:each="orderDetail: ${order.orderDetailList}">
+                                    <td class="product-col">
+                                        <div class="product">
+                                            <figure class="product-media">
+                                                <a href="#">
+                                                    <img th:src="@{${orderDetail.product.photo}}" alt="Product image">
+                                                </a>
+                                            </figure>
+
+                                            <h3 class="product-title">
+                                                <a href="#" th:text="${orderDetail.product.name}">Product name</a>
+                                            </h3><!-- End .product-title -->
+                                        </div><!-- End .product -->
+                                    </td>
+                                    <td class="price-col" th:text="${orderDetail.sellPrice}">$amount</td>
+                                    <td class="quantity-col">
+                                        <div class="cart-product-quantity">
+                                            <input type="number" class="form-control" th:value="${orderDetail.qty}"
+                                                   min="1" max="10"
+                                                   step="1" data-decimals="0" required>
+                                        </div><!-- End .cart-product-quantity -->
+                                    </td>
+                                    <td class="total-col" th:text="${'$' + orderDetail.qty*orderDetail.sellPrice}">
+                                        $total
+                                    </td>
+                                    <td class="remove-col">
+                                        <button class="btn-remove"><i
+                                                class="icon-close"></i></button>
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table><!-- End .table table-wishlist -->
+                            <div class="cart-bottom">
+                                <a href="checkout.html"
+                                   class="btn btn-outline-dark-2"><span>PROCEED TO CHECKOUT</span><i
+                                        class="icon-cc-mastercard"></i></a>
+                            </div>
+                        </div><!-- End .col-lg-9 -->
+                        <aside class="col-lg-3">
+                            <div class="summary summary-cart">
+                                <h3 class="summary-title">Apple (500 points)</h3><!-- End .summary-title -->
+
+                                <table class="table table-summary">
+                                    <tbody>
+                                    <tr class="summary-subtotal">
+                                        <td>Subtotal:</td>
+                                        <td>$160.00</td>
+                                    </tr><!-- End .summary-subtotal -->
+
+                                    <tr class="summary-subtotal">
+                                        <td>Tax:</td>
+                                        <td>$16.00</td>
+                                    </tr><!-- End .summary-subtotal -->
+
+                                    <tr class="summary-subtotal">
+                                        <td>Shipping Fee:</td>
+                                        <td>$20.00</td>
+                                    </tr><!-- End .summary-subtotal -->
+
+                                    <tr class="summary-total">
+                                        <td>Total:</td>
+                                        <td>$160.00</td>
+                                    </tr><!-- End .summary-total -->
+                                    </tbody>
+                                </table><!-- End .table table-summary -->
+                            </div><!-- End .summary -->
+                        </aside><!-- End .col-lg-3 -->
+                    </div><!-- End .row -->
+
+<!--                    <div class="row cart-section">-->
+<!--                        <div class="col-lg-9">-->
+<!--                            <table class="table table-cart table-mobile">-->
+<!--                                <thead>-->
+<!--                                <tr>-->
+<!--                                    <th>Product</th>-->
+<!--                                    <th>Price</th>-->
+<!--                                    <th>Quantity</th>-->
+<!--                                    <th>Total</th>-->
+<!--                                    <th></th>-->
+<!--                                </tr>-->
+<!--                                </thead>-->
+
+<!--                                <tbody>-->
+<!--                                <tr>-->
+<!--                                    <td class="product-col">-->
+<!--                                        <div class="product">-->
+<!--                                            <figure class="product-media">-->
+<!--                                                <a href="#">-->
+<!--                                                    <img src="assets/images/products/table/product-1.jpg"-->
+<!--                                                         alt="Product image">-->
+<!--                                                </a>-->
+<!--                                            </figure>-->
+
+<!--                                            <h3 class="product-title">-->
+<!--                                                <a href="#">Beige knitted elastic runner shoes</a>-->
+<!--                                            </h3>&lt;!&ndash; End .product-title &ndash;&gt;-->
+<!--                                        </div>&lt;!&ndash; End .product &ndash;&gt;-->
+<!--                                    </td>-->
+<!--                                    <td class="price-col">$84.00</td>-->
+<!--                                    <td class="quantity-col">-->
+<!--                                        <div class="cart-product-quantity">-->
+<!--                                            <input type="number" class="form-control" value="1" min="1" max="10"-->
+<!--                                                   step="1" data-decimals="0" required>-->
+<!--                                        </div>&lt;!&ndash; End .cart-product-quantity &ndash;&gt;-->
+<!--                                    </td>-->
+<!--                                    <td class="total-col">$84.00</td>-->
+<!--                                    <td class="remove-col">-->
+<!--                                        <button class="btn-remove"><i-->
+<!--                                                class="icon-close"></i></button>-->
+<!--                                    </td>-->
+<!--                                </tr>-->
+<!--                                <tr>-->
+<!--                                    <td class="product-col">-->
+<!--                                        <div class="product">-->
+<!--                                            <figure class="product-media">-->
+<!--                                                <a href="#">-->
+<!--                                                    <img src="assets/images/products/table/product-2.jpg"-->
+<!--                                                         alt="Product image">-->
+<!--                                                </a>-->
+<!--                                            </figure>-->
+
+<!--                                            <h3 class="product-title">-->
+<!--                                                <a href="#">Blue utility pinafore denim dress</a>-->
+<!--                                            </h3>&lt;!&ndash; End .product-title &ndash;&gt;-->
+<!--                                        </div>&lt;!&ndash; End .product &ndash;&gt;-->
+<!--                                    </td>-->
+<!--                                    <td class="price-col">$76.00</td>-->
+<!--                                    <td class="quantity-col">-->
+<!--                                        <div class="cart-product-quantity">-->
+<!--                                            <input type="number" class="form-control" value="1" min="1" max="10"-->
+<!--                                                   step="1" data-decimals="0" required>-->
+<!--                                        </div>&lt;!&ndash; End .cart-product-quantity &ndash;&gt;-->
+<!--                                    </td>-->
+<!--                                    <td class="total-col">$76.00</td>-->
+<!--                                    <td class="remove-col">-->
+<!--                                        <button class="btn-remove"><i-->
+<!--                                                class="icon-close"></i></button>-->
+<!--                                    </td>-->
+<!--                                </tr>-->
+<!--                                </tbody>-->
+<!--                            </table>&lt;!&ndash; End .table table-wishlist &ndash;&gt;-->
+<!--                            <div class="cart-bottom">-->
+<!--                                <a href="checkout.html"-->
+<!--                                   class="btn btn-outline-dark-2"><span>PROCEED TO CHECKOUT</span><i-->
+<!--                                        class="icon-cc-mastercard"></i></a>-->
+<!--                            </div>-->
+<!--                        </div>&lt;!&ndash; End .col-lg-9 &ndash;&gt;-->
+<!--                        <aside class="col-lg-3">-->
+<!--                            <div class="summary summary-cart">-->
+<!--                                <h3 class="summary-title">Samsung (250 points)</h3>&lt;!&ndash; End .summary-title &ndash;&gt;-->
+
+<!--                                <table class="table table-summary">-->
+<!--                                    <tbody>-->
+<!--                                    <tr class="summary-subtotal">-->
+<!--                                        <td>Subtotal:</td>-->
+<!--                                        <td>$160.00</td>-->
+<!--                                    </tr>&lt;!&ndash; End .summary-subtotal &ndash;&gt;-->
+
+<!--                                    <tr class="summary-subtotal">-->
+<!--                                        <td>Tax:</td>-->
+<!--                                        <td>$16.00</td>-->
+<!--                                    </tr>&lt;!&ndash; End .summary-subtotal &ndash;&gt;-->
+
+<!--                                    <tr class="summary-subtotal">-->
+<!--                                        <td>Shipping Fee:</td>-->
+<!--                                        <td>$20.00</td>-->
+<!--                                    </tr>&lt;!&ndash; End .summary-subtotal &ndash;&gt;-->
+
+<!--                                    <tr class="summary-total">-->
+<!--                                        <td>Total:</td>-->
+<!--                                        <td>$160.00</td>-->
+<!--                                    </tr>&lt;!&ndash; End .summary-total &ndash;&gt;-->
+<!--                                    </tbody>-->
+<!--                                </table>&lt;!&ndash; End .table table-summary &ndash;&gt;-->
+<!--                            </div>&lt;!&ndash; End .summary &ndash;&gt;-->
+<!--                        </aside>&lt;!&ndash; End .col-lg-3 &ndash;&gt;-->
+<!--                    </div>&lt;!&ndash; End .row &ndash;&gt;-->
+                </div><!-- End .container -->
+            </div><!-- End .cart -->
+        </div><!-- End .page-content -->
+    </main>
+</div>
 </body>
 </html>
