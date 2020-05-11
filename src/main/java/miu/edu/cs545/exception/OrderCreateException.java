@@ -1,4 +1,7 @@
 package miu.edu.cs545.exception;
 
-public class OrderCreateException {
+public class OrderCreateException extends Exception {
+    public OrderCreateException(String msg) {
+        super(msg);
+    }
 }
