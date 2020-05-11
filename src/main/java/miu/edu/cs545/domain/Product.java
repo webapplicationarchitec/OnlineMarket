@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.persistence.*;
 import java.util.List;
@@ -25,6 +26,10 @@ public class Product {
     private Integer point;
     private String photo;
     private ProductStatus status;
+
+    @Transient
+    private MultipartFile image;
+
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name="categoryId")
     private Category category;
