@@ -25,12 +25,18 @@ public class HomeServiceImp implements HomeService {
 
     @Override
     public List<Product> getTopProducts() {
-        return toList(productRepository.findAll());
+        return toList(homeRepository.getTopProducts());
+    }
+
+    @Override
+    public List<Seller> getFollowerByBuyer(String username) {
+        return toList(homeRepository.getFollowerByBuyer(username));
     }
 
     @Override
     public List<Product> getFollowerProducts(List<Seller> sellerList) {
-        return null;
+
+        return toList(homeRepository.getFollowerProducts(sellerList));
     }
 
     @Override

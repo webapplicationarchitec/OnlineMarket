@@ -10,6 +10,7 @@ public interface HomeService {
 
     List<Product> getAllProducts();
     List<Product> getTopProducts();
+    List<Seller> getFollowerByBuyer(String username);
     List<Product> getFollowerProducts(List<Seller> sellerList);
     List<Product> getProductsByCategory(String category);
     List<Product> getProductsByFilter(Map<String, List<String>> filterParams);

@@ -1,7 +1,9 @@
 package miu.edu.cs545.controller;
 
+import miu.edu.cs545.domain.Seller;
 import miu.edu.cs545.dto.LoginModel;
 import miu.edu.cs545.service.AccountService;
+import miu.edu.cs545.service.BuyerService;
 import miu.edu.cs545.service.HomeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -12,6 +14,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import javax.servlet.ServletContext;
+import java.util.List;
 
 @Controller
 public class IndexController {
@@ -21,6 +24,8 @@ public class IndexController {
     private final AccountService accountService;
     @Autowired
     private HomeService homeService;
+    @Autowired
+    private BuyerService buyerService;
 
     @Autowired
     public IndexController(ServletContext context, AccountService accountService) {
@@ -33,7 +38,8 @@ public class IndexController {
         String upload = context.getRealPath("uploads");
         System.out.println(upload);
         model.addAttribute("productlistTop", homeService.getTopProducts());
-        model.addAttribute("productlistFlow", homeService.getTopProducts());
+//        List<Seller> sellerList = homeService.getFollowerByBuyer(null);
+        model.addAttribute("productlistFlow", homeService.getFollowerProducts(null));
         return "buyer/home";
     }
 
