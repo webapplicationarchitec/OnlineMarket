@@ -13,7 +13,6 @@
 <body>
 <div layout:fragment="user-main-content">
     <main class="main">
-
         <div class="login-page bg-image pt-8 pb-8 pt-md-12 pb-md-12 pt-lg-17 pb-lg-17"
              style="background-image: url('assets/images/backgrounds/login-bg.jpg')">
             <div class="container">
@@ -28,17 +27,16 @@
                         <div class="tab-content">
                             <div class="tab-pane fade show active" id="signin-2" role="tabpanel"
                                  aria-labelledby="signin-tab-2">
-                                <form action="#">
+                                <form th:action="@{/login}" method="post">
                                     <div class="form-group">
-                                        <label for="singin-email-2">Username *</label>
-                                        <input type="text" class="form-control" id="singin-email-2"
-                                               name="singin-email" required>
+                                        <label for="username">Username *</label>
+                                        <input type="text" class="form-control" required id="username" name="username"/>
                                     </div><!-- End .form-group -->
 
                                     <div class="form-group">
-                                        <label for="singin-password-2">Password *</label>
-                                        <input type="password" class="form-control" id="singin-password-2"
-                                               name="singin-password" required>
+                                        <label for="password">Password *</label>
+                                        <input type="password" class="form-control" id="password"
+                                               name="password" required>
                                     </div><!-- End .form-group -->
 
                                     <div class="form-footer">
@@ -49,7 +47,8 @@
 
                                         <div class="custom-control custom-checkbox">
                                             <input type="checkbox" class="custom-control-input" id="signin-remember">
-                                            <label class="custom-control-label" for="signin-remember">Remember Me</label>
+                                            <label class="custom-control-label" for="signin-remember">Remember
+                                                Me</label>
                                         </div><!-- End .custom-checkbox -->
                                     </div><!-- End .form-footer -->
                                 </form>

@@ -10,13 +10,18 @@
         <div class="container">
             <div class="header-right">
                 <ul class="top-menu">
-                    <li>
+                    <li sec:authorize="!isAuthenticated()">
                         <ul>
-                            <li><a href="login.html">Sign in</a></li>
-                            <li><a href="#" th:href="@{/reg}">Sign up</a></li>
+                            <li><a th:href="@{/login}">Sign in</a></li>
+                            <li><a th:href="@{/reg}">Sign up</a></li>
                         </ul>
                     </li>
-                </ul><!-- End .top-menu -->
+                    <li sec:authorize="isAuthenticated()">
+                        <ul>
+                            <li><a th:href="@{/logout}">Sign out</a></li>
+                        </ul>
+                    </li>
+                </ul>
             </div><!-- End .header-right -->
 
         </div><!-- End .container -->
@@ -36,12 +41,11 @@
             </div><!-- End .header-left -->
 
 
-
             <div class="header-right">
-                <div class="dropdown compare-dropdown">
-                    <a href="#" th:href="@{/profile}" class="dropdown-toggle" role="button" data-toggle="dropdown"
+                <div sec:authorize="isAuthenticated()" class="dropdown compare-dropdown">
+                    <a th:href="@{/profile}" class="dropdown-toggle" role="button" data-toggle="dropdown"
                        aria-haspopup="true" aria-expanded="false" data-display="static"
-                       title="Compare Products" aria-label="Compare Products">
+                       title="Profile" aria-label="Profile">
                         <div class="icon">
                             <i class="icon-user"></i>
                         </div>
@@ -68,16 +72,16 @@
                 <nav class="main-nav">
                     <ul class="menu">
                         <li class="megamenu-container active">
-                            <a href="index.html" class="sf-with-ul">Home</a>
+                            <a th:href="@{/}" class="sf-with-ul">Home</a>
                         </li>
                         <li>
-                            <a href="about.html" class="sf-with-ul">About us</a>
+                            <a th:href="@{/about}" class="sf-with-ul">About us</a>
                         </li>
                         <li>
-                            <a href="contact.html" class="sf-with-ul">Contact</a>
+                            <a th:href="@{/contact}" class="sf-with-ul">Contact</a>
                         </li>
-                        <li>
-                            <a href="order-history.html" class="sf-with-ul">Order history</a>
+                        <li sec:authorize="isAuthenticated()">
+                            <a th:href="@{/order-history}" class="sf-with-ul">Order history</a>
                         </li>
                     </ul><!-- End .menu -->
                 </nav><!-- End .main-nav -->
