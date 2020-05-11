@@ -16,7 +16,6 @@ import java.util.List;
 @DiscriminatorValue("SELLER")
 public class Seller extends Account{
 
-    @OneToMany(cascade = CascadeType.ALL)
-    @JoinColumn(name="sellerID")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "seller")
     private List<Product> listProduct;
 }
