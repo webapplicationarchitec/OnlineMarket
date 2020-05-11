@@ -6,6 +6,8 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import javax.validation.constraints.Future;
+import javax.validation.constraints.NotNull;
 import java.util.Date;
 import java.util.List;
 
@@ -20,7 +22,11 @@ public class OnlineOrder {
     private Integer id;
 
     private Date dateDelivered;
+
+    @NotNull
+    @Future
     private Date dateShipping;
+
     private Integer tax;
     private Date dateCreate;
     private Double shippingFee;

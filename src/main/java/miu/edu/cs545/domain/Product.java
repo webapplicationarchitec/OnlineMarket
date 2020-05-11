@@ -31,9 +31,13 @@ public class Product {
     private MultipartFile image;
 
     @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name="categoryId")
+    @JoinColumn(name = "categoryId")
     private Category category;
 
-    @OneToMany(mappedBy="product")
+    @OneToMany(mappedBy = "product")
     private List<Review> listReview;
+
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "seller_id")
+    private Seller seller;
 }
