@@ -25,7 +25,7 @@ public class IndexController {
     }
 
     @GetMapping("/admin")
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
+   // @PreAuthorize("hasRole('ROLE_ADMIN')")
     public String admin() {
         return "admin/index";
     }
