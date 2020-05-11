@@ -9,6 +9,8 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
+import java.util.stream.StreamSupport;
 
 @Service
 public class HomeServiceImp implements HomeService {
@@ -23,7 +25,7 @@ public class HomeServiceImp implements HomeService {
 
     @Override
     public List<Product> getTopProducts() {
-        return null;
+        return toList(productRepository.findAll());
     }
 
     @Override
@@ -46,6 +48,10 @@ public class HomeServiceImp implements HomeService {
         return homeRepository.getProductById(productId);
     }
 
+    public static <T> List<T> toList(final Iterable<T> iterable) {
+        return StreamSupport.stream(iterable.spliterator(), false)
+                .collect(Collectors.toList());
+    }
 
 
 
