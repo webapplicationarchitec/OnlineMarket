@@ -42,6 +42,24 @@ public class IndexController {
         model.addAttribute("productlistFlow", homeService.getFollowerProducts(null));
         return "buyer/home";
     }
+    @GetMapping("/products")
+    public String products(Model model) {
+        String upload = context.getRealPath("uploads");
+        System.out.println(upload);
+        model.addAttribute("productlistTop", homeService.getTopProducts());
+//        List<Seller> sellerList = homeService.getFollowerByBuyer(null);
+        model.addAttribute("productlistFlow", homeService.getFollowerProducts(null));
+        return "buyer/products";
+    }
+    @GetMapping("/product")
+    public String product(Model model) {
+        String upload = context.getRealPath("uploads");
+        System.out.println(upload);
+        model.addAttribute("productlistTop", homeService.getTopProducts());
+//        List<Seller> sellerList = homeService.getFollowerByBuyer(null);
+        model.addAttribute("productlistFlow", homeService.getFollowerProducts(null));
+        return "buyer/product";
+    }
 
     @GetMapping("/admin")
    // @PreAuthorize("hasRole('ROLE_ADMIN')")
