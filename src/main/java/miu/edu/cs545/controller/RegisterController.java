@@ -5,7 +5,9 @@ import miu.edu.cs545.service.AccountService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.support.SessionStatus;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
@@ -20,12 +22,16 @@ public class RegisterController {
     AccountService accountService;
 
     @GetMapping("/reg")
-    public String doRegistration(/*@Valid*/ @ModelAttribute(value="account") Account account){
+    public String doRegistration(@ModelAttribute(value="account") Account account){
         return "buyer/registration";
     }
 
     @PostMapping("/saveAccount")
-    public String saveAccount(@ModelAttribute(value="account") Account account, HttpServletRequest request){
+    public String saveAccount(@Valid @ModelAttribute(value="account") Account account, HttpServletRequest request, BindingResult result){
+        System.out.println("Account info: " + account);
+        if(result.hasErrors()){
+            return "/reg";
+        }
         //classify account types
         String accountType = request.getParameter("user-type");
 //        System.out.println("Account Type: " + accountType);
@@ -72,10 +78,11 @@ public class RegisterController {
     }
 
     @PostMapping("/saveProfile")
-    public String updateProfile(@ModelAttribute(value="accBuyer") Buyer account){
+    public String updateProfile(@ModelAttribute(value="accBuyer") Buyer account, SessionStatus status){
         //save the buyer profile to DB
 //        System.out.println("After show form, Logged user's address id: " + account.getBillingAddress().getId());
         accountService.createAccount(account);
+        status.setComplete();
         return "buyer/profile";
     }
 

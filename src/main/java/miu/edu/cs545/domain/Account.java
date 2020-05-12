@@ -24,21 +24,21 @@ public class Account {
     private String username;
 
     @Column(nullable = false)
-    @NotEmpty(message = "error.string.empty")
+    @NotEmpty(message = "{error.string.empty}")
 //    @NotNull
-    @Size(min=6, message = "error.password.size")
+    @Size(min=6, message = "{error.password.size}")
     private String password;
 
-    @NotEmpty(message = "error.string.empty")
+    @NotEmpty(message = "{error.string.empty}")
 //    @NotNull
 //    @Column(nullable = false)
-//    @Size(min=3, max=10, message = "error.size")
+    @Size(min=3, max=10, message = "{error.size}")
     private String firstName;
 
-    @NotEmpty(message = "error.string.empty")
+    @NotEmpty(message = "{error.string.empty}")
 //    @NotNull
     @Column(nullable = false)
-    @Size(min=3, max=20, message = "error.size")
+    @Size(min=3, max=20, message = "{error.size}")
     private String lastName;
 
 //    @NotNull
@@ -48,7 +48,7 @@ public class Account {
 //    @Transient
 //    private AccountType accountType;
 
-    @NotEmpty(message = "error.string.empty")
+    @NotEmpty(message = "{error.string.empty}")
 //    @NotNull
     @Column(nullable = false)
     @Email
