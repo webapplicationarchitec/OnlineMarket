@@ -69,7 +69,7 @@
                                            class = "btn-product btn-cart" title="Add to cart"><span>add to
                                                 cart</span></a>
                                         <a href="#" class="btn-product btn-wishlist"
-                                           title="follow "><span>unfollow</span></a>
+                                           title="follow "><span>unfollow </span> <span th:text="${' '+prot.seller.getFirstName()+' '+ prot.seller.getLastName()}"></span></a>
                                     </div><!-- End .product-action -->
                                 </figure><!-- End .product-media -->
 
@@ -127,7 +127,7 @@
                                        class = "btn-product btn-cart" title="Add to cart"><span>add to
                                                 cart</span></a>
                                     <a href="#" class="btn-product btn-wishlist"
-                                       title="follow "><span>follow </span></a>
+                                       title="follow ">follows <span th:text="${' '+prot.seller.getFirstName()+' '+ prot.seller.getLastName()}"></span></a>
                                 </div><!-- End .product-action -->
                             </figure><!-- End .product-media -->
 
