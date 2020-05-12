@@ -3,7 +3,9 @@ package miu.edu.cs545.controller;
 import miu.edu.cs545.domain.Account;
 import miu.edu.cs545.domain.AccountStatus;
 import miu.edu.cs545.domain.Review;
+import miu.edu.cs545.domain.ReviewStatus;
 import miu.edu.cs545.service.AccountService;
+import miu.edu.cs545.service.ReviewService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -19,6 +21,9 @@ public class AdminControlller {
 
     @Autowired
     AccountService accountService;
+
+    @Autowired
+    ReviewService reviewService;
 
 
     @GetMapping("registrations")
@@ -45,23 +50,19 @@ public class AdminControlller {
 
     @GetMapping("reviews")
     public String getListReview(Model model){
-        //Get list of Seller accounts from DB
-        ArrayList<Review> listReview = new ArrayList<>();
-        model.addAttribute("listReview", listReview);
+        model.addAttribute("reviews", reviewService.getNewReviews());
         return "/admin/reviews";
     }
 
     @PostMapping("approveReview")
-    public String approveReview(@RequestParam(value = "id") Long id){
-        //update the status Approved to the review
-       // updateReviewStatus(id, true);//true: approved
+    public String approveReview(@RequestParam(value = "id") Integer id){
+        reviewService.approveNewReview(ReviewStatus.Approved,id);
         return "redirect:/admin/reviews";
     }
 
     @PostMapping("rejectReview")
-    public String rejectReview(@RequestParam(value = "id") Long id){
-        //update the status Approved to the user name
-        //updateReviewStatus(id, false);//false: reject
+    public String rejectReview(@RequestParam(value = "id") Integer id){
+        reviewService.approveNewReview(ReviewStatus.Rejected,id);
         return "redirect:/admin/reviews";
     }
 

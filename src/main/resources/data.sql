@@ -48,3 +48,9 @@ values (107,'WONDERBOOM Portable Bluetooth Speaker','Audio','http://localhost:80
 insert into product(`Id`,`description`,`name`,`photo`,`point`,`price`,`status`,`category_id`,`seller_id`)
 values (108,'Google - Home Hub with Google Assistant','Smart Home','http://localhost:8080/assets/images/demos/demo-4/products/product-17.jpg','2',149.00,1,4,'hainguyen');
 
+
+
+insert into review(`Id`,`Comment`,`Date_Create`,`Status`,`Buyer_Id`,`product_Id`,`Seller_Id`)
+values  (200,'good','2020-05-12 12:38:00',0,'yenpham',105,'khaian');
+insert into review(`Id`,`Comment`,`Date_Create`,`Status`,`Buyer_Id`,`product_Id`,`Seller_Id`)
+values  (201,'very good','2020-05-12 12:38:00',0,'yenpham',106,'luannguyen');

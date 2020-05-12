@@ -27,5 +27,12 @@ public class Review {
 
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name="buyerId")
-    private Account account;
+    private Buyer buyer;
+
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name="sellerId")
+    private Seller seller;
+
+
+
 }
