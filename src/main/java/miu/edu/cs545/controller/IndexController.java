@@ -6,6 +6,7 @@ import miu.edu.cs545.domain.Product;
 import miu.edu.cs545.domain.Seller;
 import miu.edu.cs545.dto.Cart;
 import miu.edu.cs545.service.AccountService;
+
 import miu.edu.cs545.service.ProductService;
 import miu.edu.cs545.service.SellerService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,13 +20,34 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.ServletContext;
 import java.util.*;
 
+import miu.edu.cs545.service.BuyerService;
+import miu.edu.cs545.service.HomeService;
+import miu.edu.cs545.service.ProductService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.annotation.Secured;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
+
+import javax.servlet.ServletContext;
+import javax.servlet.http.HttpServletRequest;
+import java.security.Principal;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+
+
 @Controller
-@SessionAttributes("myCart")
 public class IndexController {
 
     private final ServletContext context;
 
     private final AccountService accountService;
+
     private final ProductService productService;
     private final SellerService sellerService;
 
@@ -34,6 +56,14 @@ public class IndexController {
 
     @Value("${app.default.shippingFee}")
     private Double shippingFee;
+
+    @Autowired
+    private HomeService homeService;
+    @Autowired
+    private BuyerService buyerService;
+    @Autowired
+    private ProductService productService;
+
 
     @Autowired
     public IndexController(ServletContext context, AccountService accountService, ProductService productService, SellerService sellerService) {
@@ -100,14 +130,46 @@ public class IndexController {
     }
 
     @GetMapping("/")
-    public String index() {
+    public String index(Model model, HttpServletRequest request) {
+        Principal user= request.getUserPrincipal();
+        String username="";
+        List<Seller> sellerList=null;
+        if(user!=null) {
+            username = user.getName();
+            sellerList= homeService.getFollowerByBuyer(username);
+
+        }
+//        user.getName();
         String upload = context.getRealPath("uploads");
         System.out.println(upload);
+        model.addAttribute("productlistTop", homeService.getTopProducts());
+        model.addAttribute("productlistFlow", homeService.getFollowerProducts(sellerList));
         return "buyer/home";
+    }
+    @GetMapping("/products")
+    public String products(Model model,HttpServletRequest request) {
+       String cat = request.getParameter("cat");
+       List<Product> list;
+       if(cat!=null)
+           list=homeService.getProductsByCategory(cat);
+       else
+           list=homeService.getAllProducts();
+        model.addAttribute("productlist", list);
+        return "buyer/products";
+    }
+    @GetMapping("/product")
+    public String product(Model model,HttpServletRequest request) {
+        String proid = request.getParameter("pid");
+        if(proid==null)
+            return "/";
+        Product pro = productService.getById(Integer.parseInt(proid)).get();
+        model.addAttribute("pro", pro);
+        return "buyer/product";
     }
 
     @GetMapping("/admin")
-    // @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @Secured({"ROLE_ADMIN","ROLE_SELLER"})
+    //@PreAuthorize("hasRole('ROLE_ADMIN')")
     public String admin() {
         return "admin/index";
     }
@@ -117,13 +179,9 @@ public class IndexController {
         return "buyer/user";
     }
 
-    @GetMapping("/check-out/{seller}")
+    @GetMapping("/checkout")
     @PreAuthorize("hasRole('ROLE_BUYER')")
-    public String showCheckout(@PathVariable("seller") String seller, Model model) {
-        Cart myCart = (Cart) model.asMap().get("myCart");
-        OnlineOrder order = myCart.getOrderList().get(seller);
-
-        model.addAttribute("order", order);
+    public String showCheckout() {
         return "buyer/checkout";
     }
 
@@ -149,6 +207,8 @@ public class IndexController {
 
     @GetMapping("/shopping-cart")
     public String showCart(Model model) {
+        Cart myCart = getMyCart();
+        model.addAttribute("myCart", myCart);
         return "/buyer/shopping-cart";
     }
 
