@@ -98,7 +98,7 @@ public class HomeRepositoryImp implements HomeRepository {
     public List<Product> getProductsByCategory(String category) {
         Map<String, Object> params = new HashMap<>();
         params.put("category", category);
-        List<Product> result = jdbcTemplate.query("SELECT * FROM PRODUCT WHERE CATEGORY = :category", params,
+        List<Product> result = jdbcTemplate.query("SELECT * FROM PRODUCT WHERE CATEGORY_ID = :category", params,
                 new ProductMapper());
         return result;
     }

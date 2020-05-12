@@ -97,26 +97,27 @@ public class IndexController {
         String upload = context.getRealPath("uploads");
         System.out.println(upload);
         model.addAttribute("productlistTop", homeService.getTopProducts());
-
         model.addAttribute("productlistFlow", homeService.getFollowerProducts(sellerList));
         return "buyer/home";
     }
     @GetMapping("/products")
-    public String products(Model model) {
-        String upload = context.getRealPath("uploads");
-        System.out.println(upload);
-        model.addAttribute("productlistTop", homeService.getTopProducts());
-//        List<Seller> sellerList = homeService.getFollowerByBuyer(null);
-        model.addAttribute("productlistFlow", homeService.getFollowerProducts(null));
+    public String products(Model model,HttpServletRequest request) {
+       String cat = request.getParameter("cat");
+       List<Product> list;
+       if(cat!=null)
+           list=homeService.getProductsByCategory(cat);
+       else
+           list=homeService.getAllProducts();
+        model.addAttribute("productlist", list);
         return "buyer/products";
     }
     @GetMapping("/product")
-    public String product(Model model) {
-        String upload = context.getRealPath("uploads");
-        System.out.println(upload);
-        model.addAttribute("productlistTop", homeService.getTopProducts());
-//        List<Seller> sellerList = homeService.getFollowerByBuyer(null);
-        model.addAttribute("productlistFlow", homeService.getFollowerProducts(null));
+    public String product(Model model,HttpServletRequest request) {
+        String proid = request.getParameter("pid");
+        if(proid==null)
+            return "/";
+        Product pro = homeService.getProductById(proid);
+        model.addAttribute("pro", pro);
         return "buyer/product";
     }
 
