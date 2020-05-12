@@ -51,6 +51,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .and().logout().logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
                 .logoutSuccessUrl("/login").invalidateHttpSession(true).deleteCookies("JSESSIONID")
                 .and().csrf().ignoringAntMatchers("/h2-console/**")
+                .and().csrf().ignoringAntMatchers("/add-to-cart/**")
                 .and().headers().frameOptions().sameOrigin()
                 .and().exceptionHandling().accessDeniedPage("/access-denied");
     }
