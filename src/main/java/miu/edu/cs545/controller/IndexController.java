@@ -21,6 +21,7 @@ import javax.servlet.http.HttpServletRequest;
 import java.security.Principal;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 
 @Controller
@@ -43,43 +44,46 @@ public class IndexController {
     @ModelAttribute("myCart")
     public Cart getMyCart() {
         Cart myCart = new Cart();
-        List<OnlineOrder> orders = new ArrayList<>();
+        HashMap<String, OnlineOrder> orders = new HashMap<>();
         OnlineOrder order1 = new OnlineOrder();
         order1.setOrderno("ORD_1#0001");
         order1.setDateCreate(new Date());
         order1.setDateShipping(new Date());
-
+        order1.setShippingFee(16.00);
+        order1.setTax((84 + 150) * 0.08);
+        order1.setTotal(84 + 150 + ((84 + 150) * 0.08) + 16.00);
         Product product = new Product();
         product.setName("Beige knitted elastic runner shoes");
         product.setPrice(84.00);
         product.setPhoto("assets/images/products/table/product-1.jpg");
         product.setPoint(10);
-
         Product product2 = new Product();
         product2.setName("Beige knitted elastic runner shoes");
         product2.setPrice(75.00);
         product2.setPhoto("assets/images/products/table/product-2.jpg");
         product2.setPoint(5);
-
         List<OrderDetail> detailList = new ArrayList<>();
         OrderDetail detail1 = new OrderDetail();
         detail1.setProduct(product);
         detail1.setSellPrice(product.getPrice());
         detail1.setQty(2);
-
         OrderDetail detail2 = new OrderDetail();
         detail2.setProduct(product2);
         detail2.setSellPrice(product2.getPrice());
         detail2.setQty(1);
-
         detailList.add(detail1);
         detailList.add(detail2);
-
         order1.setOrderDetailList(detailList);
-
-        orders.add(order1);
-
         myCart.setOrderList(orders);
+        Seller seller = new Seller();
+        seller.setUsername("microsoft");
+        seller.setFirstName("Microsoft");
+        seller.setLastName("Inc");
+        product.setSeller(seller);
+        product2.setSeller(seller);
+        orders.put(seller.getUsername(), order1);
+        myCart.setOrderList(orders);
+        myCart.setSeller(seller);
         return myCart;
     }
 
