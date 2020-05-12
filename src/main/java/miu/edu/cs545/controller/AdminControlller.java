@@ -21,7 +21,7 @@ public class AdminControlller {
     AccountService accountService;
 
 
-    @GetMapping("/registrations")
+    @GetMapping("registrations")
     public String getListRegistration(Model model){
 
         model.addAttribute("sellers", accountService.getNewSellerAccount());
@@ -43,7 +43,7 @@ public class AdminControlller {
     }
 
 
-    @GetMapping("/reviews")
+    @GetMapping("reviews")
     public String getListReview(Model model){
         //Get list of Seller accounts from DB
         ArrayList<Review> listReview = new ArrayList<>();
