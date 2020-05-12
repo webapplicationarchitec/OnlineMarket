@@ -40,6 +40,9 @@ public class OnlineOrder {
     @JoinColumn(name = "orderId")
     private List<OrderDetail> orderDetailList;
 
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "sellerId")
+    private Seller seller;
 
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "buyerId")
