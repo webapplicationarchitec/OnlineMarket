@@ -3,8 +3,11 @@ package miu.edu.cs545.service;
 import miu.edu.cs545.domain.OnlineOrder;
 import miu.edu.cs545.domain.OrderDetail;
 import miu.edu.cs545.exception.OrderCreateException;
+import miu.edu.cs545.repository.OrderPagingRepository;
 import miu.edu.cs545.repository.OrderRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -15,10 +18,12 @@ import java.util.List;
 public class OrderServiceImp implements OrderService {
 
     private final OrderRepository orderRepository;
+    private final OrderPagingRepository orderPagingRepository;
 
     @Autowired
-    public OrderServiceImp(OrderRepository orderRepository) {
+    public OrderServiceImp(OrderRepository orderRepository, OrderPagingRepository orderPagingRepository) {
         this.orderRepository = orderRepository;
+        this.orderPagingRepository=orderPagingRepository;
     }
 
     public void placeOrder(OnlineOrder order) throws OrderCreateException {
@@ -47,5 +52,10 @@ public class OrderServiceImp implements OrderService {
 
     public OnlineOrder getOrderWithDetails(Integer id) {
         return null;
+    }
+
+    @Override
+    public Page<OnlineOrder> paging(Pageable pageable) {
+        return orderPagingRepository.findAll(pageable);
     }
 }
