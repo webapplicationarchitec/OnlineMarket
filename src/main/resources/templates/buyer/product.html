@@ -3,7 +3,7 @@
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout/user/ulayout}">
 <head>
     <meta charset="UTF-8">
-    <title th:title="${pro.name}">Product </title>
+    <title th:title="${pro.name}"> </title>
     <style>
         .error {
             color: red;
@@ -22,11 +22,11 @@
                                 <div class="col-md-6">
                                     <div class="product-gallery">
                                         <figure class="product-main-image">
-                                            <span class="product-label label-out">Out of Stock</span>
+<!--                                            <span class="product-label label-out">Out of Stock</span>-->
                                             <img id="product-zoom"
                                                  th:src="${pro.photo}"
                                                  th:data-zoom-image="${pro.photo}"
-                                                 alt="product image">
+                                                 th:alt="${pro.name}">
                                         </figure><!-- End .product-main-image -->
                                     </div><!-- End .product-gallery -->
                                 </div><!-- End .col-md-6 -->
@@ -51,7 +51,8 @@
                                                     <input type="number" id="qty" class="form-control" value="1" min="1" max="10" step="1" data-decimals="0" required>
                                                 </div><!-- End .product-details-quantity -->
 
-                                                <a href="#" class="btn-product btn-cart"><span>add to
+                                                <a href="#" th:data="'data-product-id='+${pro.id}+' data-seller='+${pro.seller.username}+' id='+${pro.id}
+                                    "  class="btn-product btn-cart"><span>add to
                                                             cart</span></a>
                                             </div><!-- End .details-action-col -->
 

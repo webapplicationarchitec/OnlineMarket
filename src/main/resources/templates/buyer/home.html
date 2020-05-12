@@ -83,7 +83,7 @@
                         <a href="/products?cat=6" class="cat-block">
                             <figure>
                                     <span>
-                                        <img src="assets/images/demos/demo-4/cats/6.png" alt="Category image">
+                                        <img src="assets/images/demos/demo-4/cats/6.png"  alt="Category image">
                                     </span>
                             </figure>
 
@@ -102,7 +102,7 @@
                         <h2 class="title">Products of favorite sellers</h2><!-- End .title -->
                     </div><!-- End .heading-left -->
                     <div class="heading-right">
-                        <a href="products.html?type=following" class="title-link">View All <i
+                        <a href="/products?type=following" class="title-link">View All <i
                                 class="icon-long-arrow-right"></i></a>
                     </div>
                 </div><!-- End .heading -->
@@ -116,14 +116,15 @@
                         <div class="col-6 col-md-4 col-lg-3">
                             <div class="product product-2">
                                 <figure class="product-media">
-                                    <a href="product?pid=1">
-                                        <img th:src="${prot.photo}"
-                                             alt="Product image" class="product-image">
+                                    <a th:href="@{'/product?pid='+${prot.id}}">
+                                        <img th:src="${prot.photo}" th:alt="${prot.name}"
+                                              class="product-image">
                                     </a>
 
                                     <div class="product-action">
-                                        <a href="#" class="btn-product btn-cart" title="Add to cart"><span>add to
-                                                    cart</span></a>
+                                        <a href="#" th:data="'data-product-id='+${prot.id}+' data-seller='+${prot.seller}+' id='+${prot.id}
+                                    "  class = "btn-product btn-cart" title="Add to cart"><span>add to
+                                                cart</span></a>
                                         <a href="#" class="btn-product btn-wishlist"
                                            title="follow "><span>unfollow</span></a>
                                     </div><!-- End .product-action -->
@@ -133,12 +134,12 @@
                                     <div class="product-cat">
                                         <a href="#"><span th:text="${prot.name} "></span></a>
                                     </div><!-- End .product-cat -->
-                                    <h3 class="product-title"><a href="product.html"><span th:text="${prot.description} "></span></a></h3><!-- End .product-title -->
+                                    <h3 class="product-title"><a th:href="@{'/product?pid='+${prot.id}}"><span th:text="${prot.description} "></span></a></h3><!-- End .product-title -->
                                     <div class="product-price">
                                         $<span th:text="${prot.price} "></span>
                                     </div><!-- End .product-price -->
                                     <div class="ratings-container">
-                                        <span class="ratings-text">4 Reviews</span>
+                                        <span class="ratings-text"><span th:text="${prot.getListReview()}" ></span> Reviews</span>
                                     </div><!-- End .rating-container -->
                                 </div><!-- End .product-body -->
                             </div><!-- End .product -->
@@ -162,7 +163,7 @@
                     <h2 class="title">Product List</h2><!-- End .title -->
                 </div><!-- End .heading-left -->
                 <div class="heading-right">
-                    <a href="products.html" class="title-link">View All <i class="icon-long-arrow-right"></i></a>
+                    <a href="/products" class="title-link">View All <i class="icon-long-arrow-right"></i></a>
                 </div>
             </div><!-- End .heading -->
 
@@ -173,13 +174,14 @@
                     <div class="col-6 col-md-4 col-lg-3">
                         <div class="product product-2">
                             <figure class="product-media">
-                                <a href="/product?pid=1">
+                                <a th:href="@{'/product?pid='+${prot.id}}">
                                     <img th:src="${prot.photo}"
                                          alt="Product image" class="product-image">
                                 </a>
 
                                 <div class="product-action">
-                                    <a href="#" class="btn-product btn-cart" title="Add to cart"><span>add to
+                                    <a href="#" th:data="'data-product-id='+${prot.id}+' data-seller='+${prot.seller}+' id='+${prot.id}
+                                    " class = "btn-product btn-cart" title="Add to cart"><span>add to
                                                 cart</span></a>
                                     <a href="#" class="btn-product btn-wishlist"
                                        title="follow "><span>follow </span></a>
@@ -191,7 +193,7 @@
                                     <a href="#">Headphones</a>
                                 </div><!-- End .product-cat -->
                                 <h3 class="product-title">
-                                    <a href="#"><span th:text="${prot.name} "></span></a>
+                                    <a th:href="@{'/product?pid='+${prot.id}}"><span th:text="${prot.name} "></span></a>
                                 </h3><!-- End .product-title -->
                                 <div class="product-price">
                                     $<span th:text="${prot.price} "></span>

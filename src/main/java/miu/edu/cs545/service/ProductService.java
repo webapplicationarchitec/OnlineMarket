@@ -1,6 +1,7 @@
 package miu.edu.cs545.service;
 
 import miu.edu.cs545.domain.Product;
+import miu.edu.cs545.domain.Seller;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
@@ -13,5 +14,8 @@ public interface ProductService {
    public Page<Product> paging(Pageable pageable);
    public Product save(Product product);
    public void  delete(Product product);
+   List<Product> getTopProducts();
+   List<Product> getFollowerProducts(String username);
+   List<Product> getByCategory(Integer categoryid);
 
 }
