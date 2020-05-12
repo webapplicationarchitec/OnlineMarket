@@ -90,7 +90,7 @@ public class IndexController {
        String cat = request.getParameter("cat");
        List<Product> list;
        if(cat!=null)
-           list=productService.all();//productService.getByCategory(Integer.parseInt(cat));
+           list=productService.getByCategory(Integer.parseInt(cat));
        else
            list=productService.all();
         model.addAttribute("productlist", list);
