@@ -13,7 +13,7 @@ values ('BUYER', 'hanguyen', 'hanguyen@miu.edu', 'Ha', 'Nguyen', '$2b$10$QwKk5pH
 insert into account (`account_type`, `username`, `email`, `first_name`, `last_name`, `password`, `account_status`, `address_id`)
 values ('BUYER', 'yenpham', 'yenpham@miu.edu', 'Yen', 'Pham', '$2b$10$QwKk5pHK1RhFfeFqPiaGx.7XHD/B5Y2LbxtkRJVKVOTZhezdRacwa', 1, 2);
 insert into account (`account_type`, `username`, `email`, `first_name`, `last_name`, `password`, `account_status`)
-values ('SELLER', 'hainguyen', 'hainguyen@miu.edu', 'Hai', 'Nguyen', '$2b$10$QwKk5pHK1RhFfeFqPiaGx.7XHD/B5Y2LbxtkRJVKVOTZhezdRacwa', 0);
+values ('SELLER', 'hainguyen', 'hainguyen@miu.edu', 'Hai', 'Nguyen', '$2b$10$QwKk5pHK1RhFfeFqPiaGx.7XHD/B5Y2LbxtkRJVKVOTZhezdRacwa', 1);
 insert into account (`account_type`, `username`, `email`, `first_name`, `last_name`, `password`, `account_status`)
 values ('SELLER', 'luannguyen', 'luannguyen@miu.edu', 'Luan', 'Nguyen', '$2b$10$QwKk5pHK1RhFfeFqPiaGx.7XHD/B5Y2LbxtkRJVKVOTZhezdRacwa', 0);
 
@@ -54,3 +54,12 @@ insert into review(`Id`,`Comment`,`Date_Create`,`Status`,`Buyer_Id`,`product_Id`
 values  (200,'good','2020-05-12 12:38:00',0,'yenpham',105,'khaian');
 insert into review(`Id`,`Comment`,`Date_Create`,`Status`,`Buyer_Id`,`product_Id`,`Seller_Id`)
 values  (201,'very good','2020-05-12 12:38:00',0,'yenpham',106,'luannguyen');
+
+insert into online_order(`Id`,`date_create`,`date_delivered`,`date_shipping`,`orderno`,`point`,`shipping_address`,`shipping_fee`,`status`,`tax`,`total`,`buyer_id`)
+values  (201,'2020-05-12 12:38:00','2020-05-12 12:38:00','2020-05-12 12:38:00','123IO',106,'1000N 4th Street, Fairfield, IA',23,0,12,50,'hanguyen');
+
+insert into online_order(`Id`,`date_create`,`date_delivered`,`date_shipping`,`orderno`,`point`,`shipping_address`,`shipping_fee`,`status`,`tax`,`total`,`buyer_id`)
+values  (202,'2020-05-13 12:38:00','2020-05-12 12:38:00','2020-05-12 12:38:00','123IO',106,'1000N 4th Street, Fairfield, CA',23,0,12,50,'hanguyen');
+
+
+

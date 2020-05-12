@@ -25,7 +25,7 @@
                     <tr th:each="review : ${reviews}">
                         <td th:text="${review.seller.firstName +' ' +review.seller.lastName}">Tiger Nixon</td>
                         <td th:text="${review.product.name}">System Architect</td>
-                        <td th:text="${review.buyer.firstName +' ' +review.seller.lastName}">Edinburgh</td>
+                        <td th:text="${review.buyer.firstName +' ' +review.buyer.lastName}">Edinburgh</td>
                         <td th:text="${review.comment}">Edinburgh</td>
 
                         <td>
