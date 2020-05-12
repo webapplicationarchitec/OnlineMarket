@@ -50,7 +50,7 @@ values (108,'Google - Home Hub with Google Assistant','Smart Home','http://local
 
 
 
-insert into review(`Id`,`Comment`,`Date_Create`,`Status`,`Buyer_Id`,`product_Id`)
-values  (200,'good','2020-05-12 12:38:00',0,'yenpham',105);
-insert into review(`Id`,`Comment`,`Date_Create`,`Status`,`Buyer_Id`,`product_Id`)
-values  (201,'very good','2020-05-12 12:38:00',0,'yenpham',106);
+insert into review(`Id`,`Comment`,`Date_Create`,`Status`,`Buyer_Id`,`product_Id`,`Seller_Id`)
+values  (200,'good','2020-05-12 12:38:00',0,'yenpham',105,'khaian');
+insert into review(`Id`,`Comment`,`Date_Create`,`Status`,`Buyer_Id`,`product_Id`,`Seller_Id`)
+values  (201,'very good','2020-05-12 12:38:00',0,'yenpham',106,'luannguyen');
