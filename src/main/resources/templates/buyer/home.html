@@ -82,7 +82,7 @@
                                         $<span th:text="${prot.price} "></span>
                                     </div><!-- End .product-price -->
                                     <div class="ratings-container">
-                                        <span class="ratings-text"><span th:text="${prot.getListReview()}" ></span> Reviews</span>
+                                        <span class="ratings-text"><span th:text="${prot.getListReview().size()}" ></span> Reviews</span>
                                     </div><!-- End .rating-container -->
                                 </div><!-- End .product-body -->
                             </div><!-- End .product -->
@@ -142,7 +142,7 @@
                                     $<span th:text="${prot.price} "></span>
                                 </div><!-- End .product-price -->
                                 <div class="ratings-container">
-                                    <span class="ratings-text">4 Reviews</span>
+                                    <span class="ratings-text"><span th:text="${prot.getListReview().size()}" ></span> Reviews</span>
                                 </div><!-- End .rating-container -->
 
 
