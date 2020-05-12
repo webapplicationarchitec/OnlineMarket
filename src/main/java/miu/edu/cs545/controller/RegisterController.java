@@ -1,8 +1,8 @@
 package miu.edu.cs545.controller;
 
-import miu.edu.cs545.domain.Account;
-import miu.edu.cs545.domain.OnlineOrder;
-import miu.edu.cs545.domain.Review;
+import miu.edu.cs545.domain.*;
+import miu.edu.cs545.service.AccountService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -10,33 +10,62 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
 
 @Controller
 public class RegisterController {
+
+    @Autowired
+    AccountService accountService;
 
     @GetMapping("/reg")
     public String doRegistration(@ModelAttribute(value="account") Account account){
         return "buyer/registration";
     }
 
+    @PostMapping("/saveAccount")
+    public String saveAccount(@ModelAttribute(value="account") Account account, HttpServletRequest request){
+        //classify account types
+        String accountType = request.getParameter("user-type");
+//        System.out.println("Account Type: " + accountType);
+        AccountType accType = AccountType.valueOf(accountType);
+
+        if(accType == AccountType.Seller){
+            Seller accSeller = new Seller(account.getUsername(), account.getPassword(),
+                    account.getFirstName(), account.getLastName(), AccountStatus.New,
+                    account.getEmail());
+            accountService.createAccount(accSeller);
+        }
+        else{
+            if(accType == AccountType.Buyer){
+                Buyer accBuyer = new Buyer(account.getUsername(), account.getPassword(),
+                        account.getFirstName(), account.getLastName(), AccountStatus.New,
+                        account.getEmail());
+                accountService.createAccount(accBuyer);
+            }
+            else{
+                //admin type, do nothing
+                Admin accAdmin = new Admin(account.getUsername(), account.getPassword(),
+                        account.getFirstName(), account.getLastName(), AccountStatus.New,
+                        account.getEmail());
+                accountService.createAccount(accAdmin);
+            }
+        }
+
+        return "/buyer/user";
+    }
+
+
     @GetMapping("/profile")
     public String showProfile(@ModelAttribute(value="account") Account account){
+
         return "buyer/profile";
     }
 
     @PostMapping("/saveProfile")
-    public String updateProfile(@ModelAttribute(value="account") Account account){
+    public String updateProfile(@ModelAttribute(value="account") Buyer account){
         return "buyer/profile";
-    }
-
-
-    @PostMapping("/saveAccount")
-    public String saveAccount(@ModelAttribute(value="account") Account account){
-        //save account to DB
-        OnlineOrder acc = new OnlineOrder();
-        acc.setOrderno("");
-        return "/buyer/user";
     }
 
     @GetMapping("/listReg")

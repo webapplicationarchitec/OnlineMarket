@@ -18,7 +18,7 @@ import java.util.List;
 @Entity
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @DiscriminatorColumn(name = "ACCOUNT_TYPE", discriminatorType = DiscriminatorType.STRING)
-public abstract class Account {
+public class Account {
     @Id
     private String username;
 
@@ -28,21 +28,24 @@ public abstract class Account {
     private String password;
 
     @NotEmpty
-    @NotNull
+//    @NotNull
     @Column(nullable = false)
     private String firstName;
 
     @NotEmpty
-    @NotNull
+//    @NotNull
     @Column(nullable = false)
     private String lastName;
 
-    @NotNull
-    @Column(nullable = false)
+//    @NotNull
+//    @Column(nullable = false)
     private AccountStatus accountStatus;
 
+//    @Transient
+//    private AccountType accountType;
+
     @NotEmpty
-    @NotNull
+//    @NotNull
     @Column(nullable = false)
     @Email
     private String email;
