@@ -27,10 +27,10 @@ public class RegisterController {
     }
 
     @PostMapping("/saveAccount")
-    public String saveAccount(@Valid @ModelAttribute(value="account") Account account, HttpServletRequest request, BindingResult result){
-        System.out.println("Account info: " + account);
+    public String saveAccount(@Valid @ModelAttribute(value="account") Account account, BindingResult result, HttpServletRequest request){
+//        System.out.println("Account info: " + account);
         if(result.hasErrors()){
-            return "/reg";
+            return "buyer/registration";
         }
         //classify account types
         String accountType = request.getParameter("user-type");
@@ -78,12 +78,15 @@ public class RegisterController {
     }
 
     @PostMapping("/saveProfile")
-    public String updateProfile(@ModelAttribute(value="accBuyer") Buyer account, SessionStatus status){
+    public String updateProfile(@Valid @ModelAttribute(value="accBuyer") Buyer account, BindingResult bindingResult, SessionStatus status){
+        if(bindingResult.hasErrors()){
+            return "buyer/profile";
+        }
         //save the buyer profile to DB
 //        System.out.println("After show form, Logged user's address id: " + account.getBillingAddress().getId());
         accountService.createAccount(account);
         status.setComplete();
-        return "buyer/profile";
+        return "buyer/home";
     }
 
     @GetMapping("/listReg")
