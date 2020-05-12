@@ -46,7 +46,7 @@ public class RegisterController {
         else{
             if(accType == AccountType.Buyer){
                 Buyer accBuyer = new Buyer(account.getUsername(), account.getPassword(),
-                        account.getFirstName(), account.getLastName(), AccountStatus.New,
+                        account.getFirstName(), account.getLastName(), AccountStatus.Approved,
                         account.getEmail());
                 accountService.createAccount(accBuyer);
             }
