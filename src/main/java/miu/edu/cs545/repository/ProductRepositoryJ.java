@@ -16,7 +16,7 @@ public interface ProductRepositoryJ extends JpaRepository<Product,Integer> {
     //@Query("from Auction a join a.category c where c.name=:categoryName")
 //public Iterable<Auction> findByCategory(@Param("categoryName") String categoryName);
 //    @Query("SELECT new miu.edu.maxrank.dto.OrderResponse(c.name , p.productName) FROM Customer c JOIN c.products p")
-    @Query("FROM Product ORDER BY id desc")
+    @Query("select p from Product p")
     public List<Product> getTopProducts();
     @Query("from Buyer b join b.followerList f join f.listProduct where b.username=:username")
     List<Product> getFollowerProducts(@Param("username") String username);
