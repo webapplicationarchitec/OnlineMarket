@@ -61,8 +61,7 @@ public class IndexController {
     private HomeService homeService;
     @Autowired
     private BuyerService buyerService;
-    @Autowired
-    private ProductService productService;
+
 
 
     @Autowired
@@ -136,14 +135,17 @@ public class IndexController {
         List<Seller> sellerList=null;
         if(user!=null) {
             username = user.getName();
-            sellerList= homeService.getFollowerByBuyer(username);
+//            sellerList= homeService.getFollowerByBuyer(username);
+            //        user.getName();
+            model.addAttribute("productlistTop", productService.getTopProducts());//.getTopProducts());
+            model.addAttribute("productlistFlow", productService.getFollowerProducts(username));//.getFollowerProducts(sellerList));
+
+        }else {
+            model.addAttribute("productlistTop", productService.all());//.getTopProducts());
+            model.addAttribute("productlistFlow", productService.all());//.getFollowerProducts(sellerList));
 
         }
-//        user.getName();
-        String upload = context.getRealPath("uploads");
-        System.out.println(upload);
-        model.addAttribute("productlistTop", homeService.getTopProducts());
-        model.addAttribute("productlistFlow", homeService.getFollowerProducts(sellerList));
+
         return "buyer/home";
     }
     @GetMapping("/products")
@@ -151,9 +153,9 @@ public class IndexController {
        String cat = request.getParameter("cat");
        List<Product> list;
        if(cat!=null)
-           list=homeService.getProductsByCategory(cat);
+           list=productService.all();//productService.getByCategory(Integer.parseInt(cat));
        else
-           list=homeService.getAllProducts();
+           list=productService.all();
         model.addAttribute("productlist", list);
         return "buyer/products";
     }

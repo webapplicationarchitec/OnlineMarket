@@ -21,7 +21,7 @@
                     <div class="col-6 col-md-4 col-lg-3">
                         <div class="product product-3">
                             <figure class="product-media">
-                                <a href="product?pid=1">
+                                <a th:href="@{'/product?pid='+${prot.id}}">
                                     <img th:src="${prot.photo}"
                                          alt="Product image" class="product-image">
                                 </a>
@@ -33,12 +33,13 @@
 
                             <div class="product-body" style="transform: translateY(0px);">
                                 <div class="product-action">
-                                    <a href="cart.html" class="btn-product btn-cart"><span>add to cart</span></a>
+                                    th:data="'data-product-id='+${prot.id}+' data-seller='+${prot.seller.username}+' id='+${prot.id}
+                                    "  class="btn-product btn-cart"><span>add to cart</span></a>
                                 </div><!-- End .product-action -->
                                 <div class="product-cat">
                                     <a href="#">Women</a>
                                 </div><!-- End .product-cat -->
-                                <h3 class="product-title"><a href="/product?pid=1"><span th:text="${prot.name} "></span></a></h3>
+                                <h3 class="product-title"><a th:href="@{'/product?pid='+${prot.id}}"><span th:text="${prot.name} "></span></a></h3>
                                 <!-- End .product-title -->
                                 <div class="product-price">
                                     $<span th:text="${prot.price} "></span>
