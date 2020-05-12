@@ -10,8 +10,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
 
 import javax.transaction.Transactional;
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -61,7 +63,13 @@ public class OrderServiceImp implements OrderService {
     }
 
     @Override
+
     public void updateStatus(OrderStatus status, Integer id) {
+
+        if(status==OrderStatus.Delivered) orderRepository.updateDateDelivered(new Date(),id);
+        else  orderRepository.updateDateDelivered(null,id);
+
         orderRepository.updateStatus(status, id);
+
     }
 }
