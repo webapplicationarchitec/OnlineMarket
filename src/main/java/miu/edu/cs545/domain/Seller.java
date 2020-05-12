@@ -23,6 +23,10 @@ public class Seller extends Account{
     @JoinColumn(name="sellerID")
     private List<Product> listProduct;
 
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "seller")
+    // @JoinColumn(name="buyerId")
+    private List<OnlineOrder> onlineOrderList;
+
     public Seller(String username, @NotEmpty @NotNull String password, @NotEmpty String firstName, @NotEmpty String lastName, AccountStatus accountStatus, @NotEmpty @Email String email) {
         super(username, password, firstName, lastName, accountStatus, email);
     }
