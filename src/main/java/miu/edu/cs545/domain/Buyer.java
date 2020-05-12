@@ -6,6 +6,9 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import java.util.List;
 
 @Getter
@@ -32,4 +35,8 @@ public class Buyer extends Account{
     @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(name="Follower", joinColumns = {@JoinColumn(name="buyerId")}, inverseJoinColumns = {@JoinColumn(name="sellerId")})
     private List<Seller> followerList;
+
+    public Buyer(String username, @NotEmpty @NotNull String password, @NotEmpty String firstName, @NotEmpty String lastName, AccountStatus accountStatus, @NotEmpty @Email String email) {
+        super(username, password, firstName, lastName, accountStatus, email);
+    }
 }

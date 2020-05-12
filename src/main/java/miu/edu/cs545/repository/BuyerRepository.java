@@ -6,5 +6,6 @@ import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface BuyerRepository extends CrudRepository<Buyer, String> {
+public interface BuyerRepository extends AccountRepository<Buyer> {
+
 }

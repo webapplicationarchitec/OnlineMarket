@@ -11,7 +11,7 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface AccountRepository extends CrudRepository<Account, String> {
+public interface AccountRepository<T extends Account> extends CrudRepository<T, String> {
 
     @Query("select  p from Seller p where p.accountStatus=0")
     public List<Account> getNewSellerAccount();
@@ -22,3 +22,4 @@ public interface AccountRepository extends CrudRepository<Account, String> {
     public void approveNewSellerAccount(@Param("status") AccountStatus status, @Param("username") String username);
 
 }
+

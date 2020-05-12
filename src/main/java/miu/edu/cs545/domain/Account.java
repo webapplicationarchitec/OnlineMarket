@@ -9,6 +9,7 @@ import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.util.List;
 
 @Getter
@@ -18,31 +19,37 @@ import java.util.List;
 @Entity
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @DiscriminatorColumn(name = "ACCOUNT_TYPE", discriminatorType = DiscriminatorType.STRING)
-public abstract class Account {
+public class Account {
     @Id
     private String username;
 
     @Column(nullable = false)
-    @NotEmpty
-    @NotNull
+    @NotEmpty(message = "{error.string.empty}")
+//    @NotNull
+    @Size(min=6, message = "{error.password.size}")
     private String password;
 
-    @NotEmpty
-    @NotNull
-    @Column(nullable = false)
+    @NotEmpty(message = "{error.string.empty}")
+//    @NotNull
+//    @Column(nullable = false)
+    @Size(min=3, max=10, message = "{error.size}")
     private String firstName;
 
-    @NotEmpty
-    @NotNull
+    @NotEmpty(message = "{error.string.empty}")
+//    @NotNull
     @Column(nullable = false)
+    @Size(min=3, max=20, message = "{error.size}")
     private String lastName;
 
-    @NotNull
-    @Column(nullable = false)
+//    @NotNull
+//    @Column(nullable = false)
     private AccountStatus accountStatus;
 
-    @NotEmpty
-    @NotNull
+//    @Transient
+//    private AccountType accountType;
+
+    @NotEmpty(message = "{error.string.empty}")
+//    @NotNull
     @Column(nullable = false)
     @Email
     private String email;
