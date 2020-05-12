@@ -1,10 +1,51 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout/admin/alayout}">
 <head>
     <meta charset="UTF-8">
-    <title>$Title$</title>
+    <title>Online Market</title>
 </head>
 <body>
-$END$
+<div layout:fragment="admin-main-content">
+    <div class="card mb-4">
+        <div class="card-header"><i class="fas fa-table mr-1"></i>List of new seller account</div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                    <thead>
+                    <tr>
+                        <th>UserName</th>
+                        <th>FirstName</th>
+                        <th>LastName</th>
+                        <th>Command</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="account : ${sellers}">
+                        <td th:text="${account.username}">Tiger Nixon</td>
+                        <td th:text="${account.firstName}">System Architect</td>
+                        <td th:text="${account.lastName}">Edinburgh</td>
+
+                        <td>
+                            <form th:action="@{'/admin/approveAcc'}" method="post">
+                                <input type="hidden" name="username" th:value="${account.username}"/>
+                                <input type="submit" value="Approve"/>
+                            </form>
+
+                            <form th:action="@{'/admin/rejectAcc'}" method="post">
+                                <input type="hidden" name="username" th:value="${account.username}"/>
+                                <input type="submit" value="Reject"/>
+                            </form>
+
+
+                        </td>
+                    </tr>
+
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
 </body>
 </html>
