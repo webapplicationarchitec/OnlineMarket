@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import javax.validation.Valid;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
@@ -21,6 +22,7 @@ public class Buyer extends Account{
 
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name="addressId")
+    @Valid
     private Address billingAddress;
 
     private String payment;

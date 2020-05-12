@@ -40,7 +40,7 @@
         </div><!-- End .form-group -->
         <div class="form-group">
             <label for="register-password-2" th:text="#{reg.password}">Password *</label>
-            <input type="password" class="form-control" id="register-password-2" th:field="*{password}" th:value="*{password}"
+            <input type="text" class="form-control" id="register-password-2" th:field="*{password}" th:value="*{password}"
                    name="register-password" required>
             <span th:if="${#fields.hasErrors('password')}" th:errors="*{password}" th:errorclass="error"></span>
         </div><!-- End .form-group -->

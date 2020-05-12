@@ -63,3 +63,12 @@ values  (202,'2020-05-13 12:38:00',null,'2020-05-12 12:38:00','123IO',106,'1000N
 
 
 
+
+insert into ORDER_DETAIL (`Id`,`QTY`,`SELL_PRICE`,`PRODUCT_ID`,`ORDER_ID`)
+values  (202,2,10,100,202);
+
+insert into ORDER_DETAIL (`Id`,`QTY`,`SELL_PRICE`,`PRODUCT_ID`,`ORDER_ID`)
+values  (203,1,10,102,202);
+
+
+
