@@ -36,11 +36,18 @@
                         <td th:text="${order.shippingFee}">Edinburgh</td>
                         <td th:text="${order.total}">Edinburgh</td>
                         <td>
-                            <select th:field="*{order.status}">
-                                <option th:value="'0'" th:text="Male"></option>
-                                <option th:value="'1'" th:text="Female"></option>
-                            </select>
+                            <form th:id="${order.id}" th:action="@{'/seller/changeStatus'}" method="post">
+                                <input th:id="${order.id+'_order'}" name="id" th:value="${order.id}" type="hidden">
+                                <select name="status" th:id="${order.id+'_select'}">
+                                    <option value="New" th:text="New" th:selected="${order.sStatus=='New'}"></option>
+                                    <option value="Shipped" th:text="Shipped" th:selected="${order.sStatus=='Shipped'}"></option>
+                                    <option value="OnTheWay" th:text="OnTheWay" th:selected="${order.sStatus=='OnTheWay'}"></option>
+                                    <option value="Delivered" th:text="Delivered" th:selected="${order.sStatus=='Delivered'}"></option>
+                                    <option value="Cancel" th:text="Cancel" th:selected="${order.sStatus=='Cancel'}"></option>
 
+                                </select>
+                                <input th:id="${order.id+'_submit'}" type="submit" value="update" />
+                            </form>
                         </td>
                         <td th:text="${order.dateDelivered}">Edinburgh</td>
 
