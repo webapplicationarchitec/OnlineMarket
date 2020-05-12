@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" xmlns:sec="https://www.thymeleaf.org/thymeleaf-extrasspringsecurity5">
 <head>
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
@@ -43,8 +43,15 @@
             <div class="sb-sidenav-menu">
                 <div class="nav">
                 <div class="sb-sidenav-menu-heading">Menu</div>
-                    <a class="nav-link" th:href="@{/admin/products}"><div class="sb-nav-link-icon"><i class="fas fa-chart-area"></i></div>Products</a>
-                    <a class="nav-link" th:href="@{/admin/product}"><div class="sb-nav-link-icon"><i class="fas fa-table"></i></div>Review</a>
+                    <div sec:authorize="hasRole('ROLE_SELLER')">
+                        <a class="nav-link" th:href="@{/admin/products}"><div class="sb-nav-link-icon"><i class="fas fa-chart-area"></i></div>Products</a>
+                        <a class="nav-link" th:href="@{/admin/product}"><div class="sb-nav-link-icon"><i class="fas fa-table"></i></div>Orders</a>
+                   </div>
+                    <div sec:authorize="hasRole('ROLE_ADMIN')">
+                        <a class="nav-link" th:href="@{/admin/product}"><div class="sb-nav-link-icon"><i class="fas fa-table"></i></div>Approve Registration</a>
+                        <a class="nav-link" th:href="@{/admin/product}"><div class="sb-nav-link-icon"><i class="fas fa-table"></i></div>Approve Review</a>
+                    </div>
+
                 </div>
 
             </div>
