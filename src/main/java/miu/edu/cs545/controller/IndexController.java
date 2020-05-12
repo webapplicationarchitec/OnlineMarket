@@ -10,6 +10,7 @@ import miu.edu.cs545.service.BuyerService;
 import miu.edu.cs545.service.HomeService;
 import miu.edu.cs545.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -129,7 +130,8 @@ public class IndexController {
     }
 
     @GetMapping("/admin")
-   // @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @Secured({"ROLE_ADMIN","ROLE_SELLER"})
+    //@PreAuthorize("hasRole('ROLE_ADMIN')")
     public String admin() {
         return "admin/index";
     }
