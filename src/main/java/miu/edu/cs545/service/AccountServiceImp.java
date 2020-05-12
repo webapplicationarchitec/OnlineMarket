@@ -23,18 +23,35 @@ public class AccountServiceImp implements AccountService {
     }
 
     @Override
-    public Account createAccount(Account account) {
+    public <T extends Account> T createAccount(T account) {
+        //AccountRepository<T extends Account>
 
         BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
         String password = account.getPassword();
         String encryptedPassword = encoder.encode(password);
         account.setPassword(encryptedPassword);
 
-        Account created = accountRepository.save(account);
+        T created = (T)accountRepository.save(account);
         return created;
     }
 
-    public Account getByUsername(String username) {
+    public <T extends Account> T getByUsername(String username) {
+        Optional<T> opt = accountRepository.findById(username);
+        if (opt.isPresent()) {
+            return opt.get();
+        }
+        return null;
+    }
+
+//    public <T extends Account> List<T> listAccount() {
+//        Optional<T> opt = accountRepository.findById(username);
+//        if (opt.isPresent()) {
+//            return opt.get();
+//        }
+//        return null;
+//    }
+
+    public Account getByUsername1(String username) {
         Optional<Account> opt = accountRepository.findById(username);
         if (opt.isPresent()) {
             return opt.get();

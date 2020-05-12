@@ -5,15 +5,14 @@ import miu.edu.cs545.service.AccountService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import java.security.Principal;
 import java.util.ArrayList;
 
 @Controller
+@SessionAttributes({"account"})
 public class RegisterController {
 
     @Autowired
@@ -56,22 +55,35 @@ public class RegisterController {
         return "/buyer/user";
     }
 
-
     @GetMapping("/profile")
-    public String showProfile(@ModelAttribute(value="account") Account account){
-
-        return "buyer/profile";
+    public String showProfile(/*@ModelAttribute(value="account") Buyer account, */HttpServletRequest request, Model model){
+        Principal loggedUser = request.getUserPrincipal();
+        if(loggedUser != null){
+            Buyer account = accountService.getByUsername(loggedUser.getName());//get the current login user
+            System.out.println("Before show form, Logged user's address id: " + account.getBillingAddress().getId());
+//            request.getSession().setAttribute("account", account);
+            model.addAttribute("account", account);
+            return "buyer/profile";
+        }
+        else {
+            return "buyer/login";
+        }
     }
 
     @PostMapping("/saveProfile")
     public String updateProfile(@ModelAttribute(value="account") Buyer account){
+        //save the buyer profile to DB
+        System.out.println("After show form, Logged user's address id: " + account.getBillingAddress().getId());
+        accountService.createAccount(account);
         return "buyer/profile";
     }
 
     @GetMapping("/listReg")
     public String getListRegistration(Model model){
         //Get list of Seller accounts from DB
+
         ArrayList<Account> listSellerAcc = new ArrayList<>();
+
         model.addAttribute("listSellerAcc", listSellerAcc);
         return "/admin/listreg";
     }
