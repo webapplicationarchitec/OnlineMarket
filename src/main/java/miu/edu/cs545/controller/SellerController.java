@@ -1,6 +1,7 @@
 package miu.edu.cs545.controller;
 
 import miu.edu.cs545.domain.OrderStatus;
+import miu.edu.cs545.service.OrderDetailService;
 import miu.edu.cs545.service.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
@@ -20,6 +21,9 @@ public class SellerController {
     @Autowired
     OrderService orderService;
 
+    @Autowired
+    OrderDetailService orderDetailService;
+
     @GetMapping("orders")
     public String orders(Model model){
         Pageable sortedByDateCreate =
@@ -32,11 +36,19 @@ public class SellerController {
 
     @PostMapping("changeStatus")
     public String changeStatus(@RequestParam(name = "status") OrderStatus status, @RequestParam(name = "id") Integer id){
-        System.out.println("Status =" + status);
-        System.out.println("id =" + id);
+
         orderService.updateStatus(status,id);
         return "redirect:/seller/orders";
     }
 
+    @GetMapping("orderdetail")
+    public String detail(@RequestParam(name="id") Integer id,Model model){
+
+        System.out.println("id =" + id);
+
+        model.addAttribute("productdetails", orderDetailService.getDetailByOrderId(id));
+        return "/admin/detail";
+
+    }
 
 }
