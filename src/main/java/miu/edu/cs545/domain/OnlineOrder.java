@@ -27,7 +27,7 @@ public class OnlineOrder {
     @Future
     private Date dateShipping;
 
-    private Integer tax;
+    private Double tax;
     private Date dateCreate;
     private Double shippingFee;
     private Double total;

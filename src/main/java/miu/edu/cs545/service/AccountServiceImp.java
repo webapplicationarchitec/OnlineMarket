@@ -58,4 +58,14 @@ public class AccountServiceImp implements AccountService {
         }
         return null;
     }
+
+    @Override
+    public List<Account> getNewSellerAccount() {
+        return accountRepository.getNewSellerAccount();
+    }
+
+    @Override
+    public void approveNewAcount(AccountStatus status, String username) {
+        accountRepository.approveNewSellerAccount(status,username);
+    }
 }
