@@ -8,16 +8,16 @@
 <body>
 <div layout:fragment="admin-main-content">
     <div class="card mb-4">
-        <div class="card-header"><i class="fas fa-table mr-1"></i>List of new seller account</div>
+        <div class="card-header"><i class="fas fa-table mr-1"></i>List of new seller accounts</div>
         <div class="card-body">
             <div class="table-responsive">
                 <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                     <thead>
                     <tr>
-                        <th>UserName</th>
-                        <th>FirstName</th>
-                        <th>LastName</th>
-                        <th>Command</th>
+                        <th th:text="#{reg.username}">UserName</th>
+                        <th th:text="#{reg.firstName}">FirstName</th>
+                        <th th:text="#{reg.lastName}">LastName</th>
+                        <th th:text="#{reg.action}">Command</th>
                     </tr>
                     </thead>
                     <tbody>
