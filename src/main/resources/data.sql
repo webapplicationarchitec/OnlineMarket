@@ -1,9 +1,9 @@
-INSERT INTO `category` (`id`, `name`) VALUES (1, 'Computer& Laptop');
-INSERT INTO `category` (`id`, `name`) VALUES (2, 'Digital Cameras');
-INSERT INTO `category` (`id`, `name`) VALUES (3, 'Smart Phones');
-INSERT INTO `category` (`id`, `name`) VALUES (4, 'Televisions');
-INSERT INTO `category` (`id`, `name`) VALUES (5, 'Audio');
-INSERT INTO `category` (`id`, `name`) VALUES (6, 'Smart Watches');
+INSERT INTO `category`  VALUES (1,'assets/images/demos/demo-4/cats/1.png', 'Computer& Laptop');
+INSERT INTO `category`  VALUES (2,'assets/images/demos/demo-4/cats/2.png', 'Digital Cameras');
+INSERT INTO `category`  VALUES (3,'assets/images/demos/demo-4/cats/3.png', 'Smart Phones');
+INSERT INTO `category`  VALUES (4,'assets/images/demos/demo-4/cats/4.png', 'Televisions');
+INSERT INTO `category`  VALUES (5,'assets/images/demos/demo-4/cats/5.png', 'Audio');
+INSERT INTO `category`  VALUES (6,'assets/images/demos/demo-4/cats/6.png', 'Smart Watches');
 INSERT INTO `address` (`id`, `city`, `state`, `street`, `zipcode`) VALUES (1, 'Fairfield', 'IA', '1000 N 4th', '52557');
 INSERT INTO `address` (`id`, `city`, `state`, `street`, `zipcode`) VALUES (2, 'Orange', 'CA', '96S 2th', '82552');
 insert into account (`account_type`, `username`, `email`, `first_name`, `last_name`, `password`, `account_status`)
