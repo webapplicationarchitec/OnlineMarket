@@ -5,10 +5,8 @@ import miu.edu.cs545.domain.OrderDetail;
 import miu.edu.cs545.domain.Product;
 import miu.edu.cs545.domain.Seller;
 import miu.edu.cs545.dto.Cart;
-import miu.edu.cs545.service.AccountService;
+import miu.edu.cs545.service.*;
 
-import miu.edu.cs545.service.ProductService;
-import miu.edu.cs545.service.SellerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.env.Environment;
@@ -20,8 +18,6 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.ServletContext;
 import java.util.*;
 
-import miu.edu.cs545.service.BuyerService;
-import miu.edu.cs545.service.HomeService;
 import miu.edu.cs545.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.annotation.Secured;
@@ -50,6 +46,7 @@ public class IndexController {
 
     private final ProductService productService;
     private final SellerService sellerService;
+    private final CategoryService categoryService;
 
     @Autowired
     private HomeService homeService;
@@ -58,11 +55,12 @@ public class IndexController {
 
 
     @Autowired
-    public IndexController(ServletContext context, AccountService accountService, ProductService productService, SellerService sellerService) {
+    public IndexController(ServletContext context, AccountService accountService, ProductService productService, SellerService sellerService,CategoryService categoryService) {
         this.context = context;
         this.accountService = accountService;
         this.productService = productService;
         this.sellerService = sellerService;
+        this.categoryService= categoryService;
     }
 
     @GetMapping("/")
@@ -74,14 +72,15 @@ public class IndexController {
             username = user.getName();
 //            sellerList= homeService.getFollowerByBuyer(username);
             //        user.getName();
-            model.addAttribute("productlistTop", productService.getTopProducts());//.getTopProducts());
             model.addAttribute("productlistFlow", productService.getFollowerProducts(username));//.getFollowerProducts(sellerList));
 
         }else {
-            model.addAttribute("productlistTop", productService.getTopProducts());
+
             model.addAttribute("productlistFlow", productService.all());//.getFollowerProducts(sellerList));
 
         }
+        model.addAttribute("productlistTop", productService.getTopProducts());
+        model.addAttribute("cats",categoryService.getAll());
 
         return "buyer/home";
     }
