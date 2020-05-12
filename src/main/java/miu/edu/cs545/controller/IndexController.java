@@ -144,4 +144,9 @@ public class IndexController {
     public String showCart(Model model) {
         return "/buyer/shopping-cart";
     }
+
+    @GetMapping("/add-to-cart/{product-id}")
+    public String addToCart() {
+        return "";
+    }
 }
