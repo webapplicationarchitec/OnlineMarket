@@ -78,7 +78,7 @@ public class IndexController {
             model.addAttribute("productlistFlow", productService.getFollowerProducts(username));//.getFollowerProducts(sellerList));
 
         }else {
-            model.addAttribute("productlistTop", productService.all());//.getTopProducts());
+            model.addAttribute("productlistTop", productService.getTopProducts());
             model.addAttribute("productlistFlow", productService.all());//.getFollowerProducts(sellerList));
 
         }
