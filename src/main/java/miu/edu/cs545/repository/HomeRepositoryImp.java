@@ -71,6 +71,8 @@ public class HomeRepositoryImp implements HomeRepository {
     private static final class ProductMapper implements RowMapper<Product> {
         @Autowired
         private ProductService productService;
+        @Autowired
+        SellerRepository sellerRepository;
 //        @Autowired
 //        HomeRepository homeRepository;
         @Override
@@ -87,6 +89,9 @@ public class HomeRepositoryImp implements HomeRepository {
             product.setPhoto(rs.getString("PHOTO"));
             List<Review> list= product.getListReview();//homeRepository.getReviewsByProduct(product.getId());//config later
             product.setListReview(list);
+            Seller seller=sellerRepository.findById(rs.getString("SELLER_ID")).get();
+            product.setSeller(seller);
+            product =productService.getById(product.getId()).get();
             return product;
         }
 

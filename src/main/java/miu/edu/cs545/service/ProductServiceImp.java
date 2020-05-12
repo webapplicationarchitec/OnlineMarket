@@ -2,9 +2,11 @@ package miu.edu.cs545.service;
 
 import miu.edu.cs545.domain.Product;
 
+import miu.edu.cs545.domain.Seller;
 import miu.edu.cs545.repository.ProductPagingRepository;
 import miu.edu.cs545.repository.ProductRepository;
 
+import miu.edu.cs545.repository.ProductRepositoryJ;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -24,6 +26,7 @@ public class ProductServiceImp implements ProductService {
     private ProductRepository productRepository;
 
     private ProductPagingRepository productPagingRepository;
+    private ProductRepositoryJ productRepositoryJ;
 
     public ProductServiceImp( ProductPagingRepository productPagingRepository,
      ProductRepository productRepository) {
@@ -56,6 +59,21 @@ public class ProductServiceImp implements ProductService {
     @Override
     public void delete(Product product) {
         productRepository.delete(product);
+    }
+
+    @Override
+    public List<Product> getTopProducts() {
+        return toList(productRepositoryJ.getTopProducts());
+    }
+
+    @Override
+    public List<Product> getFollowerProducts(String username) {
+        return toList(productRepositoryJ.getFollowerProducts(username));
+    }
+
+    @Override
+    public List<Product> getByCategory(Integer categoryid) {
+        return toList(productRepositoryJ.getByCategory( categoryid));
     }
 
     public static <T> List<T> toList(final Iterable<T> iterable) {
