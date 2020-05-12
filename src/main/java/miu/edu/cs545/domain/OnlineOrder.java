@@ -36,6 +36,12 @@ public class OnlineOrder {
     private String shippingAddress;
     private OrderStatus status;
 
+    public String getsStatus() {
+        return status.name();
+    }
+    @Transient
+    private String sStatus;
+
     @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name = "orderId")
     private List<OrderDetail> orderDetailList;

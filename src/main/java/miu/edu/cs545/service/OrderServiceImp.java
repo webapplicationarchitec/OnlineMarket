@@ -2,6 +2,7 @@ package miu.edu.cs545.service;
 
 import miu.edu.cs545.domain.OnlineOrder;
 import miu.edu.cs545.domain.OrderDetail;
+import miu.edu.cs545.domain.OrderStatus;
 import miu.edu.cs545.exception.OrderCreateException;
 import miu.edu.cs545.repository.OrderPagingRepository;
 import miu.edu.cs545.repository.OrderRepository;
@@ -57,5 +58,10 @@ public class OrderServiceImp implements OrderService {
     @Override
     public Page<OnlineOrder> paging(Pageable pageable) {
         return orderPagingRepository.findAll(pageable);
+    }
+
+    @Override
+    public void updateStatus(OrderStatus status, Integer id) {
+        orderRepository.updateStatus(status, id);
     }
 }
