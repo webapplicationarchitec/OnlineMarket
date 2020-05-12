@@ -41,4 +41,9 @@ public class OnlineOrder {
     private List<OrderDetail> orderDetailList;
 
 
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "buyerId")
+    private Buyer buyer;
+
+
 }

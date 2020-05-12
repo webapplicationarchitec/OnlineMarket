@@ -25,8 +25,8 @@ public class Buyer extends Account{
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "buyer")
     private List<BonusPoint> bonusPointList;
 
-    @OneToMany(cascade = CascadeType.ALL)
-    @JoinColumn(name="buyerId")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "buyer")
+   // @JoinColumn(name="buyerId")
     private List<OnlineOrder> onlineOrderList;
 
     @ManyToMany(cascade = CascadeType.ALL)
