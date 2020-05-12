@@ -9,6 +9,7 @@ import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.util.List;
 
 @Getter
@@ -23,18 +24,21 @@ public class Account {
     private String username;
 
     @Column(nullable = false)
-    @NotEmpty
-    @NotNull
+    @NotEmpty(message = "error.string.empty")
+//    @NotNull
+    @Size(min=6, message = "error.password.size")
     private String password;
 
-    @NotEmpty
+    @NotEmpty(message = "error.string.empty")
 //    @NotNull
-    @Column(nullable = false)
+//    @Column(nullable = false)
+//    @Size(min=3, max=10, message = "error.size")
     private String firstName;
 
-    @NotEmpty
+    @NotEmpty(message = "error.string.empty")
 //    @NotNull
     @Column(nullable = false)
+    @Size(min=3, max=20, message = "error.size")
     private String lastName;
 
 //    @NotNull
@@ -44,7 +48,7 @@ public class Account {
 //    @Transient
 //    private AccountType accountType;
 
-    @NotEmpty
+    @NotEmpty(message = "error.string.empty")
 //    @NotNull
     @Column(nullable = false)
     @Email

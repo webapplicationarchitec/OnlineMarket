@@ -28,15 +28,15 @@
                         <div class="tab-content">
                             <div class="tab-pane fade show active" id="register-2" role="tabpanel"
                                  aria-labelledby="register-tab-2">
-    <form method="post" th:action="@{saveProfile}" th:object="${account}">
-        <ul th:if="${#fields.hasErrors('*')}">
+    <form method="post" th:action="@{saveProfile}" th:object="${accBuyer}">
+        <!--ul th:if="${#fields.hasErrors('*')}">
             <li th:each="err : ${#fields.errors('*')}" th:text="${err}" >Input is incorrect</li>
-        </ul>
+        </ul-->
         <div class="form-group">
             <label for="username" th:text="#{reg.username}">Username *</label>
             <input type="text" class="form-control" id="username" th:field="*{username}" th:value="*{username}"
-                   name="register-uname" required>
-            <span th:if="${#fields.hasErrors('username')}" th:errors="*{username}" th:errorclass="error"></span>
+                   name="register-uname" disabled>
+            <!--span th:if="${#fields.hasErrors('username')}" th:errors="*{username}" th:errorclass="error"></span-->
         </div><!-- End .form-group -->
         <div class="form-group">
             <label for="register-password-2" th:text="#{reg.password}">Password *</label>

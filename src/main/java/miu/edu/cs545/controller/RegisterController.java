@@ -8,18 +8,19 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.validation.Valid;
 import java.security.Principal;
 import java.util.ArrayList;
 
 @Controller
-@SessionAttributes({"account"})
+@SessionAttributes({"accBuyer"})
 public class RegisterController {
 
     @Autowired
     AccountService accountService;
 
     @GetMapping("/reg")
-    public String doRegistration(@ModelAttribute(value="account") Account account){
+    public String doRegistration(/*@Valid*/ @ModelAttribute(value="account") Account account){
         return "buyer/registration";
     }
 
@@ -56,13 +57,13 @@ public class RegisterController {
     }
 
     @GetMapping("/profile")
-    public String showProfile(/*@ModelAttribute(value="account") Buyer account, */HttpServletRequest request, Model model){
+    public String showProfile(/*@Valid*/ /*@ModelAttribute(value="account") Buyer account, */HttpServletRequest request, Model model){
         Principal loggedUser = request.getUserPrincipal();
         if(loggedUser != null){
             Buyer account = accountService.getByUsername(loggedUser.getName());//get the current login user
-            System.out.println("Before show form, Logged user's address id: " + account.getBillingAddress().getId());
+//            System.out.println("Before show form, Logged user's address id: " + account.getBillingAddress().getId());
 //            request.getSession().setAttribute("account", account);
-            model.addAttribute("account", account);
+            model.addAttribute("accBuyer", account);
             return "buyer/profile";
         }
         else {
@@ -71,9 +72,9 @@ public class RegisterController {
     }
 
     @PostMapping("/saveProfile")
-    public String updateProfile(@ModelAttribute(value="account") Buyer account){
+    public String updateProfile(@ModelAttribute(value="accBuyer") Buyer account){
         //save the buyer profile to DB
-        System.out.println("After show form, Logged user's address id: " + account.getBillingAddress().getId());
+//        System.out.println("After show form, Logged user's address id: " + account.getBillingAddress().getId());
         accountService.createAccount(account);
         return "buyer/profile";
     }

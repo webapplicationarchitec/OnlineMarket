@@ -44,12 +44,12 @@ public class OnlineMarketConfigurer implements WebMvcConfigurer {
         return messageSource;
     }
 
-//    @Bean
-//    public LocalValidatorFactoryBean validator() {
-//        LocalValidatorFactoryBean bean = new LocalValidatorFactoryBean();
-//        bean.setValidationMessageSource(messageSource());
-//        return bean;
-//    }
+    @Bean
+    public LocalValidatorFactoryBean validator() {
+        LocalValidatorFactoryBean bean = new LocalValidatorFactoryBean();
+        bean.setValidationMessageSource(messageSource());
+        return bean;
+    }
 
 //    @Bean
 //    public CommonsMultipartResolver multipartResolver(){
