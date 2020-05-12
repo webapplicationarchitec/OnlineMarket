@@ -6,20 +6,18 @@ import miu.edu.cs545.domain.Product;
 import miu.edu.cs545.domain.Seller;
 import miu.edu.cs545.dto.Cart;
 import miu.edu.cs545.service.AccountService;
+import miu.edu.cs545.service.ProductService;
+import miu.edu.cs545.service.SellerService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.env.Environment;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.SessionAttributes;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.ServletContext;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
+import java.util.*;
 
 @Controller
 @SessionAttributes("myCart")
@@ -28,11 +26,21 @@ public class IndexController {
     private final ServletContext context;
 
     private final AccountService accountService;
+    private final ProductService productService;
+    private final SellerService sellerService;
+
+    @Value("${app.default.tax}")
+    private Double taxRate;
+
+    @Value("${app.default.shippingFee}")
+    private Double shippingFee;
 
     @Autowired
-    public IndexController(ServletContext context, AccountService accountService) {
+    public IndexController(ServletContext context, AccountService accountService, ProductService productService, SellerService sellerService) {
         this.context = context;
         this.accountService = accountService;
+        this.productService = productService;
+        this.sellerService = sellerService;
     }
 
     @ModelAttribute("myCart")
@@ -87,7 +95,6 @@ public class IndexController {
 
         orders.put(seller.getUsername(), order1);
         myCart.setOrderList(orders);
-        myCart.setSeller(seller);
 
         return myCart;
     }
@@ -145,8 +152,75 @@ public class IndexController {
         return "/buyer/shopping-cart";
     }
 
-    @GetMapping("/add-to-cart/{product-id}")
-    public String addToCart() {
-        return "";
+    @PostMapping("/add-to-cart/{productId}")
+    public @ResponseBody
+    Integer addToCart(@PathVariable(name = "productId") Integer productId, Model model) {
+        Cart cart = (Cart) model.asMap().get("myCart");
+        HashMap<String, OnlineOrder> orders = cart.getOrderList();
+
+        OnlineOrder order = null;
+        Product product = null;
+        OrderDetail orderDetail = null;
+
+        Boolean alreadyInCart = false;
+
+        for (Map.Entry item : orders.entrySet()) {
+            if (alreadyInCart) {
+                break;
+            }
+            order = (OnlineOrder) item.getValue();
+            for (OrderDetail detail : order.getOrderDetailList()) {
+                Product temp = detail.getProduct();
+                if (productId == temp.getId()) {
+                    product = temp;
+                    orderDetail = detail;
+                    alreadyInCart = true;
+                    break;
+                }
+            }
+        }
+
+        if (!alreadyInCart) {
+            Optional<Product> opt = productService.getById(productId);
+            if (opt.isPresent()) {
+                product = opt.get();
+                String sellerId = product.getSeller().getUsername();
+                orderDetail = new OrderDetail();
+
+                if (cart.getOrderList().containsKey(sellerId)) {
+                    order = cart.getOrderList().get(sellerId);
+                } else {
+                    order = new OnlineOrder();
+                    orderDetail = new OrderDetail();
+                    order.setTax(0.00);
+                    order.setShippingFee(shippingFee);
+                    order.setTotal(shippingFee);
+
+                    orderDetail.setProduct(product);
+                    orderDetail.setQty(0);
+                    orderDetail.setSellPrice(product.getPrice());
+
+                    List<OrderDetail> detailList = new ArrayList<>();
+                    detailList.add(orderDetail);
+                    order.setOrderDetailList(detailList);
+                }
+            } else {
+                return 0;
+            }
+        }
+
+        Double newTax = order.getTax() + product.getPrice() * taxRate;
+        Double newTotal = order.getTotal() + product.getPrice() + product.getPrice() * taxRate;
+        order.setTax(newTax);
+        order.setTotal(newTotal);
+
+        Integer newQty = orderDetail.getQty() + 1;
+        orderDetail.setQty(newQty);
+
+        if (!alreadyInCart) {
+            cart.getOrderList().put(product.getSeller().getUsername(), order);
+        }
+
+        return 1;
     }
 }
