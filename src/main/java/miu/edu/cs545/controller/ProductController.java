@@ -79,9 +79,9 @@ public class ProductController {
 //        seller.setUsername("luannguyen"); //request.getUserPrincipal().getName()
 //        product.setSeller(seller);
 
-        Seller seller =(Seller)accountService.getByUsername("luannguyen");
+        Seller seller = (Seller)accountService.getByUsername("luannguyen");
 
-        Category category=categoryService.getById(1).get();
+        Category category = categoryService.getById(1).get();
         //category.setId(1);
         product.setCategory(category);
 
