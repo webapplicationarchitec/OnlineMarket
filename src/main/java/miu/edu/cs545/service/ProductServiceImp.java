@@ -7,6 +7,7 @@ import miu.edu.cs545.repository.ProductPagingRepository;
 import miu.edu.cs545.repository.ProductRepository;
 
 import miu.edu.cs545.repository.ProductRepositoryJ;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -26,12 +27,14 @@ public class ProductServiceImp implements ProductService {
     private ProductRepository productRepository;
 
     private ProductPagingRepository productPagingRepository;
-    private ProductRepositoryJ productRepositoryJ;
 
+    private ProductRepositoryJ productRepositoryJ;
+    @Autowired
     public ProductServiceImp( ProductPagingRepository productPagingRepository,
-     ProductRepository productRepository) {
+     ProductRepository productRepository,ProductRepositoryJ productRepositoryJ) {
       this.productRepository=productRepository;
       this.productPagingRepository=productPagingRepository;
+      this.productRepositoryJ=productRepositoryJ;
     }
 
 

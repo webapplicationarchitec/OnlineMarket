@@ -32,9 +32,8 @@
                             </figure><!-- End .product-media -->
 
                             <div class="product-body" style="transform: translateY(0px);">
-                                <div class="product-action">
-                                    th:data="'data-product-id='+${prot.id}+' data-seller='+${prot.seller.username}+' id='+${prot.id}
-                                    "  class="btn-product btn-cart"><span>add to cart</span></a>
+                                <div class="product-action"><a href="#" th:attr="data-product-id=${prot.id},data-seller=${prot.seller.username},id='add-cart-link-'+${prot.id}"
+                                     class="btn-product btn-cart"><span>add to cart</span></a>
                                 </div><!-- End .product-action -->
                                 <div class="product-cat">
                                     <a href="#">Women</a>

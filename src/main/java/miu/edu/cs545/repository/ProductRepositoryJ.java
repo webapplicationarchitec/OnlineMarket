@@ -16,10 +16,12 @@ public interface ProductRepositoryJ extends JpaRepository<Product,Integer> {
     //@Query("from Auction a join a.category c where c.name=:categoryName")
 //public Iterable<Auction> findByCategory(@Param("categoryName") String categoryName);
 //    @Query("SELECT new miu.edu.maxrank.dto.OrderResponse(c.name , p.productName) FROM Customer c JOIN c.products p")
-    @Query("FROM Product ORDER BY id desc")
+    @Query("select p from Product p ORDER BY p.id DESC ")
     public List<Product> getTopProducts();
-    @Query("from Buyer b join b.followerList f join f.listProduct where b.username=:username")
+
+    @Query("from Buyer b join b.followerList f join f.listProduct where b.username= :username")
     List<Product> getFollowerProducts(@Param("username") String username);
-    @Query("FROM Product p where p.category=: category_id")
-    List<Product> getByCategory(@Param("category_id") Integer category_id);
+ //not space between two object
+    @Query("SELECT p FROM Product p where p.category.id= :id")
+    List<Product> getByCategory(@Param("id") Integer id);
 }
