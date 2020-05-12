@@ -23,4 +23,11 @@ public class OrderDetail {
 
     private Double sellPrice;
     private Integer qty;
+
+    public Double getTotal() {
+        return qty * sellPrice;
+    }
+
+    @Transient
+    private  Double total;
 }
