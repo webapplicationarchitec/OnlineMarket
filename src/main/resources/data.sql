@@ -56,10 +56,10 @@ insert into review(`Id`,`Comment`,`Date_Create`,`Status`,`Buyer_Id`,`product_Id`
 values  (201,'very good','2020-05-12 12:38:00',0,'yenpham',106,'luannguyen');
 
 insert into online_order(`Id`,`date_create`,`date_delivered`,`date_shipping`,`orderno`,`point`,`shipping_address`,`shipping_fee`,`status`,`tax`,`total`,`buyer_id`)
-values  (201,'2020-05-12 12:38:00','2020-05-12 12:38:00','2020-05-12 12:38:00','123IO',106,'1000N 4th Street, Fairfield, IA',23,1,12,50,'hanguyen');
+values  (201,'2020-05-12 12:38:00',null ,'2020-05-12 12:38:00','123IO',106,'1000N 4th Street, Fairfield, IA',23,1,12,50,'hanguyen');
 
 insert into online_order(`Id`,`date_create`,`date_delivered`,`date_shipping`,`orderno`,`point`,`shipping_address`,`shipping_fee`,`status`,`tax`,`total`,`buyer_id`)
-values  (202,'2020-05-13 12:38:00','2020-05-12 12:38:00','2020-05-12 12:38:00','123IO',106,'1000N 4th Street, Fairfield, CA',23,2,12,50,'hanguyen');
+values  (202,'2020-05-13 12:38:00',null,'2020-05-12 12:38:00','123IO',106,'1000N 4th Street, Fairfield, CA',23,2,12,50,'hanguyen');
 
 
 
