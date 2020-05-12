@@ -8,6 +8,7 @@ import miu.edu.cs545.dto.Cart;
 import miu.edu.cs545.service.AccountService;
 import miu.edu.cs545.service.BuyerService;
 import miu.edu.cs545.service.HomeService;
+import miu.edu.cs545.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
@@ -34,6 +35,8 @@ public class IndexController {
     private HomeService homeService;
     @Autowired
     private BuyerService buyerService;
+    @Autowired
+    private ProductService productService;
 
     @Autowired
     public IndexController(ServletContext context, AccountService accountService) {
@@ -120,7 +123,7 @@ public class IndexController {
         String proid = request.getParameter("pid");
         if(proid==null)
             return "/";
-        Product pro = homeService.getProductById(proid);
+        Product pro = productService.getById(Integer.parseInt(proid)).get();
         model.addAttribute("pro", pro);
         return "buyer/product";
     }
