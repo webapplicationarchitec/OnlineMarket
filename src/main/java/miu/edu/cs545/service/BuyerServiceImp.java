@@ -2,6 +2,7 @@ package miu.edu.cs545.service;
 
 import miu.edu.cs545.domain.Account;
 import miu.edu.cs545.domain.Buyer;
+import miu.edu.cs545.domain.Seller;
 import miu.edu.cs545.repository.BuyerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.repository.query.Param;
@@ -23,6 +24,16 @@ public class BuyerServiceImp implements BuyerService {
             return opt.get();
         }
         return null;
+    }
+
+    @Override
+    public void save(Buyer buyer) {
+        buyerRepository.save(buyer);
+    }
+
+    @Override
+    public boolean isExistSeller(String sellerid) {
+        return buyerRepository.existsById(sellerid);
     }
 
 //    @Override

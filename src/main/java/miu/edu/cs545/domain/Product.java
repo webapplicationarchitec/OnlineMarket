@@ -1,5 +1,7 @@
 package miu.edu.cs545.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -15,6 +17,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class Product {
 
     @Id
@@ -34,9 +37,11 @@ public class Product {
 
     @ManyToOne //(cascade = CascadeType.ALL)
     @JoinColumn(name = "categoryId")
+    @JsonIgnore
     private Category category;
 
     @OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
+    @JsonIgnore
     private List<Review> listReview;
 
     @ManyToOne (cascade = CascadeType.MERGE)

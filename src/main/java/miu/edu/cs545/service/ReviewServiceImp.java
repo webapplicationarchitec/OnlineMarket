@@ -35,4 +35,9 @@ public class ReviewServiceImp implements ReviewService {
     public void approveNewReview(ReviewStatus status, Integer id) {
         reviewRepository.approveNewReview(status,id);
     }
+
+    @Override
+    public Review addnew(Review rev) {
+        return reviewRepository.save(rev);
+    }
 }
