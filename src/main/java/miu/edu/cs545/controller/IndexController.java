@@ -93,7 +93,7 @@ public class IndexController {
        else
            list=productService.all();
         model.addAttribute("productlist", list);
-        return "buyer/products";
+        return "buyer/products-test";
     }
     @GetMapping("/product")
     public String product(Model model,HttpServletRequest request) {

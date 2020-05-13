@@ -119,7 +119,7 @@
                             <figure class="product-media">
                                 <a th:href="@{'/product?pid='+${prot.id}}">
                                     <img th:src="${prot.photo}"
-                                         alt="Product image" class="product-image">
+                                         th:alt="${prot.name}" class="product-image">
                                 </a>
 
                                 <div class="product-action">
