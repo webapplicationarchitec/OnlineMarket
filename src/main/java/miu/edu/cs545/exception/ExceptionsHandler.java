@@ -1,25 +1,25 @@
 package miu.edu.cs545.exception;
 
-import org.springframework.http.HttpStatus;
-import org.springframework.validation.BindingResult;
-import org.springframework.validation.FieldError;
-import org.springframework.web.bind.MethodArgumentNotValidException;
+import miu.edu.cs545.dto.Cart;
 import org.springframework.web.bind.annotation.ControllerAdvice;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.SessionAttributes;
+import org.springframework.web.servlet.ModelAndView;
 
-import java.util.List;
+import javax.servlet.http.HttpServletRequest;
 
 @ControllerAdvice
-public class ExceptionHandler {
+public class ExceptionsHandler {
 
-	@ExceptionHandler(Exception.class)
+	@ExceptionHandler(ProductException.class)
 	public ModelAndView handleError(HttpServletRequest req, Exception exception) {
 		ModelAndView mav = new ModelAndView();
-		mav.addObject("invalidProductId", exception.getProductId());
-		mav.addObject("exception", exception);
-		mav.addObject("url", req.getRequestURL() + "?" + req.getQueryString());
-		mav.setViewName("productNotFound");
+		mav.addObject("message", exception.getMessage());
+		//mav.addObject("exception", exception);
+		//mav.addObject("url", req.getRequestURL() + "?" + req.getQueryString());
+		mav.setViewName("admin/errors");
+		System.out.println("advicdecontroller");
 		return mav;
 	}
 
