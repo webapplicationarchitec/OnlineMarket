@@ -42,6 +42,7 @@ import java.util.List;
 
 
 @Controller
+@SessionAttributes("myCart")
 public class IndexController {
 
     private final ServletContext context;
@@ -63,6 +64,11 @@ public class IndexController {
         this.accountService = accountService;
         this.productService = productService;
         this.sellerService = sellerService;
+    }
+
+    @ModelAttribute("myCart")
+    public Cart getMyCart() {
+        return new Cart();
     }
 
     @GetMapping("/")
