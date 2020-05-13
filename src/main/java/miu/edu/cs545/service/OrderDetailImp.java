@@ -8,6 +8,7 @@ import miu.edu.cs545.exception.OrderCreateException;
 import miu.edu.cs545.repository.OrderDetailRepository;
 import miu.edu.cs545.repository.OrderPagingRepository;
 import miu.edu.cs545.repository.OrderRepository;
+import miu.edu.cs545.utility.BlobAzure;
 import miu.edu.cs545.utility.ConvertData;
 import net.sf.jasperreports.engine.*;
 import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
@@ -23,6 +24,8 @@ import org.springframework.util.ResourceUtils;
 import javax.transaction.Transactional;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.OutputStream;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -45,7 +48,7 @@ public class OrderDetailImp implements OrderDetailService {
     @Override
     public String printReceipt(String format, Integer orderId) throws FileNotFoundException, JRException {
 
-        String path = "C:\\Users\\luant\\OneDrive\\Desktop\\";
+        String path ="";
         List<OrderDetailDTO> orderDetailDTOS = ConvertData.OrderDetailsToOrderDetailDTOs(orderDetailRepository.getDetailsByOrderId(orderId));
         OnlineOrder order = orderRepository.findById(orderId).get();
 
@@ -61,14 +64,13 @@ public class OrderDetailImp implements OrderDetailService {
         map.put("shippingfee",order.getShippingFee().toString());
         map.put("total",order.getTotal().toString());
         JasperPrint jasperPrint= JasperFillManager.fillReport(jasperReport,map, dataSource);
-        if(format.equalsIgnoreCase("html"))
-        {
-            JasperExportManager.exportReportToHtmlFile(jasperPrint,path+ "employee.html");
-        }
         if(format.equalsIgnoreCase("pdf")){
-            JasperExportManager.exportReportToPdfFile(jasperPrint,path+ "employee.pdf");
+            byte[] pdf= JasperExportManager.exportReportToPdf(jasperPrint);
+            path= BlobAzure.Upload(pdf,"pdf");
         }
-        return "report";
+        else throw  new Error("don't support "+ format);
+
+        return path;
 
     }
 }
