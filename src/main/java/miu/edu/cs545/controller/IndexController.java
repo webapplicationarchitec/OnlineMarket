@@ -81,6 +81,9 @@ public class IndexController {
                 productListFollow.addAll(sel.getListProduct());
 
             }
+            if (productListFollow==null)
+                productListFollow = listtop.subList(1, 5);
+            else
             if (productListFollow.size() > 8)
                 productListFollow = productListFollow.subList(0, 8);
 
@@ -93,6 +96,7 @@ public class IndexController {
         model.addAttribute("productlistFlow", productListFollow);
         model.addAttribute("productlistTop", listtop);
         model.addAttribute("cats", categoryService.getAll());
+//        model.addAttribute("message", " xinchao" );
 
         return "buyer/home";
     }
@@ -134,13 +138,14 @@ public class IndexController {
         Seller seller = sellerService.getByUsername(susername);
         if (type == "yes") {
             buyer.getFollowerList().add(seller);
+
             model.addAttribute("message", "Shop " + seller.getFirstName() + " was inserted to your follower");
         } else {
             buyer.getFollowerList().remove(seller);
             model.addAttribute("message", "Shop " + seller.getFirstName() + " was removed from your follower");
         }
 
-        return "redirect:/";
+        return "buyer/home";
     }
 
     @GetMapping("/admin")
