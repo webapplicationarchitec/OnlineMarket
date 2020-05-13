@@ -25,6 +25,11 @@ public class BuyerServiceImp implements BuyerService {
         return null;
     }
 
+    @Override
+    public void save(Buyer buyer) {
+        buyerRepository.save(buyer);
+    }
+
 //    @Override
 //    public Buyer updateFollower(String username) {
 //        return buyerRepository.saveAll(getByUsername());

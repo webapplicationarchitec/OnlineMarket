@@ -22,7 +22,7 @@
                                 <div class="col-md-6">
                                     <div class="product-gallery">
                                         <figure class="product-main-image">
-<!--                                            <span class="product-label label-out">Out of Stock</span>-->
+                                            <!--                                            <span class="product-label label-out">Out of Stock</span>-->
                                             <img id="product-zoom"
                                                  th:src="${pro.photo}"
                                                  th:data-zoom-image="${pro.photo}"
@@ -101,31 +101,31 @@
                                     <div class="reviews">
                                         <h3>Reviews <span th:text="${pro.getListReview().size()}"></span></h3>
                                         <th:block th:each="rev : ${pro.getListReview()}">
-                                        <div class="review">
-                                            <div class="row no-gutters">
-                                                <div class="col-auto">
-                                                    <h4><a href="#"><span th:text="${rev.buyer.getLastName()+rev.buyer.getLastName()}"> </span></a></h4>
-                                                    <div class="ratings-container">
-                                                        <div class="ratings">
-                                                            <div class="ratings-val" style="width: 80%;"></div>
-                                                            <!-- End .ratings-val -->
-                                                        </div><!-- End .ratings -->
-                                                    </div><!-- End .rating-container -->
-                                                    <span class="review-date"><span th:text="${rev.dateCreate.getDay()}"></span> 6 days ago</span>
-                                                </div><!-- End .col -->
-                                                <div class="col">
-                                                    <div class="review-content">
-                                                        <p th:text="${rev.comment}"></p>
-                                                    </div><!-- End .review-content -->
+                                            <div class="review">
+                                                <div class="row no-gutters">
+                                                    <div class="col-auto">
+                                                        <h4><a href="#"><span th:text="${rev.buyer.getLastName()+rev.buyer.getLastName()}"> </span></a></h4>
+                                                        <div class="ratings-container">
+                                                            <div class="ratings">
+                                                                <div class="ratings-val" style="width: 80%;"></div>
+                                                                <!-- End .ratings-val -->
+                                                            </div><!-- End .ratings -->
+                                                        </div><!-- End .rating-container -->
+                                                        <span class="review-date"><span th:text="${rev.dateCreate.getDay()}"></span> 6 days ago</span>
+                                                    </div><!-- End .col -->
+                                                    <div class="col">
+                                                        <div class="review-content">
+                                                            <p th:text="${rev.comment}"></p>
+                                                        </div><!-- End .review-content -->
 
-                                                    <div class="review-action">
-                                                        <a href="#"><i class="icon-thumbs-up"></i>Helpful (2)</a>
-                                                        <a href="#"><i class="icon-thumbs-down"></i>Unhelpful
-                                                            (0)</a>
-                                                    </div><!-- End .review-action -->
-                                                </div><!-- End .col-auto -->
-                                            </div><!-- End .row -->
-                                        </div><!-- End .review -->
+                                                        <div class="review-action">
+                                                            <a href="#"><i class="icon-thumbs-up"></i>Helpful (2)</a>
+                                                            <a href="#"><i class="icon-thumbs-down"></i>Unhelpful
+                                                                (0)</a>
+                                                        </div><!-- End .review-action -->
+                                                    </div><!-- End .col-auto -->
+                                                </div><!-- End .row -->
+                                            </div><!-- End .review -->
                                         </th:block>
                                     </div><!-- End .reviews -->
                                 </div><!-- .End .tab-pane -->

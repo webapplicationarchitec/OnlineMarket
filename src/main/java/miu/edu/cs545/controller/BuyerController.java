@@ -5,6 +5,7 @@ import miu.edu.cs545.domain.OnlineOrder;
 import miu.edu.cs545.domain.OrderDetail;
 import miu.edu.cs545.domain.Product;
 import miu.edu.cs545.dto.Cart;
+import miu.edu.cs545.dto.CheckOutModel;
 import miu.edu.cs545.service.AccountService;
 import miu.edu.cs545.service.BuyerService;
 import miu.edu.cs545.service.ProductService;
@@ -52,19 +53,9 @@ public class BuyerController {
         return new Cart();
     }
 
-    @GetMapping("/product-test")
+    @GetMapping("/404")
     public String pTest() {
-        return "buyer/products-test";
-    }
-
-    @GetMapping(value = {"/_default"})
-    public String redirectAfterLogin(HttpServletRequest request) {
-        if (request.isUserInRole("ROLE_ADMIN")) {
-            return "redirect:/admin";
-        } else if (request.isUserInRole("ROLE_SELLER")) {
-            return "redirect:/seller/orders";
-        }
-        return "redirect:/";
+        return "buyer/404";
     }
 
     @GetMapping("/check-out/{seller}")
@@ -74,7 +65,21 @@ public class BuyerController {
         String username = principal.getName();
 
         Buyer buyer = buyerService.getByUsername(username);
-        model.addAttribute("buyer", buyer);
+
+        if (buyer == null) {
+            return "redirect:/404";
+        }
+        Cart cart = (Cart) model.asMap().get("myCart");
+        OnlineOrder order = cart.getOrderList().get(seller);
+        if (order == null) {
+            return "redirect:/404";
+        }
+
+        CheckOutModel checkOutModel = new CheckOutModel();
+        checkOutModel.setBuyer(buyer);
+        checkOutModel.setOrder(order);
+        model.addAttribute("model", checkOutModel);
+
         return "buyer/checkout";
     }
 
@@ -144,7 +149,7 @@ public class BuyerController {
 
                 detailList.add(orderDetail);
             } else {
-                return 0;
+                return -1;
             }
         }
 
@@ -160,6 +165,13 @@ public class BuyerController {
             cart.getOrderList().put(product.getSeller().getUsername(), order);
         }
 
-        return 1;
+        cart.setTotal(cart.getTotal() + 1);
+        return cart.getTotal();
+    }
+
+    @PostMapping("/checkout")
+    public String proceedCheckout(Model model) {
+
+        return "redirect:/";
     }
 }
