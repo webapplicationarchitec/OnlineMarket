@@ -4,6 +4,7 @@ import miu.edu.cs545.domain.*;
 import miu.edu.cs545.dto.Cart;
 import miu.edu.cs545.service.*;
 
+import org.omg.CORBA.Request;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.env.Environment;
@@ -13,6 +14,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.ServletContext;
+import java.io.IOException;
 import java.util.*;
 
 import miu.edu.cs545.service.ProductService;
@@ -27,6 +29,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.xml.ws.Response;
 import java.security.Principal;
 import java.util.ArrayList;
 import java.util.Date;
@@ -116,19 +120,21 @@ public class IndexController {
     @GetMapping("/product")
     public String product(Model model, HttpServletRequest request) {
         String proid = request.getParameter("pid");
-        if (proid == null)
-            return "/";
+        if (proid==null) {
+            proid="100";
+//            return "redirect:/buyer/product";
+        }
         Product pro = productService.getById(Integer.parseInt(proid)).get();
         model.addAttribute("pro", pro);
         return "buyer/product";
     }
 
     @GetMapping("/follows")
-    public String follow(Model model, HttpServletRequest request) {
+    public String follow(Model model, HttpServletRequest request, HttpServletResponse response) {
         Principal user = request.getUserPrincipal();
         if (user == null) {
             model.addAttribute("message", "Please log in to use this function");
-            return "redirect:/";
+            return "redirect:/buyer/product";
         }
         String username = user.getName();
         Buyer buyer = buyerService.getByUsername(user.getName());
@@ -136,16 +142,22 @@ public class IndexController {
         String type = request.getParameter("type");
         String susername = request.getParameter("user");
         Seller seller = sellerService.getByUsername(susername);
-        if (type == "yes") {
+        if (type.equals("yes") ) {
             buyer.getFollowerList().add(seller);
-
             model.addAttribute("message", "Shop " + seller.getFirstName() + " was inserted to your follower");
         } else {
             buyer.getFollowerList().remove(seller);
+
             model.addAttribute("message", "Shop " + seller.getFirstName() + " was removed from your follower");
         }
-
-        return "buyer/home";
+        buyerService.save(buyer);
+//        Response.Redirect(Request.RawUrl);
+//        try {
+//            return response.sendRedirect("/");
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+        return "redirect:/buyer/product";
     }
 
     @GetMapping("/admin")
