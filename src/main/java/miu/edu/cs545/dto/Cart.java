@@ -13,5 +13,5 @@ import java.util.List;
 @Setter
 @NoArgsConstructor
 public class Cart {
-    private HashMap<String, OnlineOrder> orderList;
+    private HashMap<String, OnlineOrder> orderList = new HashMap<>();
 }

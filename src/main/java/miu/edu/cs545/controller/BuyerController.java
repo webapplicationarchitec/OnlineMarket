@@ -3,7 +3,6 @@ package miu.edu.cs545.controller;
 import miu.edu.cs545.domain.OnlineOrder;
 import miu.edu.cs545.domain.OrderDetail;
 import miu.edu.cs545.domain.Product;
-import miu.edu.cs545.domain.Seller;
 import miu.edu.cs545.dto.Cart;
 import miu.edu.cs545.service.AccountService;
 import miu.edu.cs545.service.ProductService;
@@ -16,6 +15,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.ServletContext;
+import javax.servlet.http.HttpServletRequest;
 import java.util.*;
 
 @Controller
@@ -44,63 +44,22 @@ public class BuyerController {
 
     @ModelAttribute("myCart")
     public Cart getMyCart() {
-        Cart myCart = new Cart();
-        HashMap<String, OnlineOrder> orders = new HashMap<>();
-
-        OnlineOrder order1 = new OnlineOrder();
-        order1.setOrderno("ORD_1#0001");
-        order1.setDateCreate(new Date());
-        order1.setDateShipping(new Date());
-        order1.setShippingFee(16.00);
-        order1.setTax((84 + 150) * 0.08);
-        order1.setTotal(84 + 150 + ((84 + 150) * 0.08) + 16.00);
-
-        Product product = new Product();
-        product.setName("Beige knitted elastic runner shoes");
-        product.setPrice(84.00);
-        product.setPhoto("assets/images/products/table/product-1.jpg");
-        product.setPoint(10);
-
-        Product product2 = new Product();
-        product2.setName("Beige knitted elastic runner shoes");
-        product2.setPrice(75.00);
-        product2.setPhoto("assets/images/products/table/product-2.jpg");
-        product2.setPoint(5);
-
-        List<OrderDetail> detailList = new ArrayList<>();
-        OrderDetail detail1 = new OrderDetail();
-        detail1.setProduct(product);
-        detail1.setSellPrice(product.getPrice());
-        detail1.setQty(2);
-
-        OrderDetail detail2 = new OrderDetail();
-        detail2.setProduct(product2);
-        detail2.setSellPrice(product2.getPrice());
-        detail2.setQty(1);
-
-        detailList.add(detail1);
-        detailList.add(detail2);
-
-        order1.setOrderDetailList(detailList);
-
-        myCart.setOrderList(orders);
-
-        Seller seller = new Seller();
-        seller.setUsername("microsoft");
-        seller.setFirstName("Microsoft");
-        seller.setLastName("Inc");
-        product.setSeller(seller);
-        product2.setSeller(seller);
-
-        orders.put(seller.getUsername(), order1);
-        myCart.setOrderList(orders);
-
-        return myCart;
+        return new Cart();
     }
 
-    @GetMapping("/checkout")
+    @GetMapping(value = {"/_default"})
+    public String redirectAfterLogin(HttpServletRequest request) {
+        if (request.isUserInRole("ROLE_ADMIN")) {
+            return "redirect:/admin";
+        } else if (request.isUserInRole("ROLE_SELLER")) {
+            return "redirect:/seller/orders";
+        }
+        return "redirect:/";
+    }
+
+    @GetMapping("/check-out/{seller}")
     @PreAuthorize("hasRole('ROLE_BUYER')")
-    public String showCheckout() {
+    public String showCheckout(@PathVariable(name = "seller") String seller) {
         return "buyer/checkout";
     }
 
@@ -111,8 +70,6 @@ public class BuyerController {
 
     @GetMapping("/shopping-cart")
     public String showCart(Model model) {
-        Cart myCart = getMyCart();
-        model.addAttribute("myCart", myCart);
         return "/buyer/shopping-cart";
     }
 
@@ -125,6 +82,7 @@ public class BuyerController {
         OnlineOrder order = null;
         Product product = null;
         OrderDetail orderDetail = null;
+        List<OrderDetail> detailList = null;
 
         Boolean alreadyInCart = false;
 
@@ -153,21 +111,22 @@ public class BuyerController {
 
                 if (cart.getOrderList().containsKey(sellerId)) {
                     order = cart.getOrderList().get(sellerId);
+                    detailList = order.getOrderDetailList();
                 } else {
                     order = new OnlineOrder();
-                    orderDetail = new OrderDetail();
                     order.setTax(0.00);
                     order.setShippingFee(shippingFee);
                     order.setTotal(shippingFee);
-
-                    orderDetail.setProduct(product);
-                    orderDetail.setQty(0);
-                    orderDetail.setSellPrice(product.getPrice());
-
-                    List<OrderDetail> detailList = new ArrayList<>();
-                    detailList.add(orderDetail);
+                    detailList = new ArrayList<>();
                     order.setOrderDetailList(detailList);
                 }
+
+                orderDetail = new OrderDetail();
+                orderDetail.setProduct(product);
+                orderDetail.setQty(0);
+                orderDetail.setSellPrice(product.getPrice());
+
+                detailList.add(orderDetail);
             } else {
                 return 0;
             }
