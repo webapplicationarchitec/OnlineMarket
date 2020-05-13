@@ -10,6 +10,7 @@ import miu.edu.cs545.repository.ProductRepositoryJ;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -66,7 +67,8 @@ public class ProductServiceImp implements ProductService {
 
     @Override
     public List<Product> getTopProducts() {
-        return toList(productRepositoryJ.getTopProducts());
+
+        return toList(productRepositoryJ.findAll(Sort.by(Sort.Direction.DESC, "id")));//getTopProducts());
     }
 
     @Override
