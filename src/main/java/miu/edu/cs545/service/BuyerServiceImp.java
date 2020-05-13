@@ -4,6 +4,7 @@ import miu.edu.cs545.domain.Account;
 import miu.edu.cs545.domain.Buyer;
 import miu.edu.cs545.repository.BuyerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -23,4 +24,9 @@ public class BuyerServiceImp implements BuyerService {
         }
         return null;
     }
+
+//    @Override
+//    public Buyer updateFollower(String username) {
+//        return buyerRepository.saveAll(getByUsername());
+//    }
 }

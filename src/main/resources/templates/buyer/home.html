@@ -42,7 +42,8 @@
             <div class="container for-you">
                 <div class="heading heading-flex mb-3">
                     <div class="heading-left">
-                        <h2 class="title">Products of favorite sellers</h2><!-- End .title -->
+                        <h2 class="title">Products of favorite sellers</h2>
+                        <span class="product-label label-sale" th:text="${message}"></span><!-- End .title -->
                     </div><!-- End .heading-left -->
                     <div class="heading-right">
                         <a href="/products?type=following" class="title-link">View All <i
@@ -59,6 +60,7 @@
                         <div class="col-6 col-md-4 col-lg-3">
                             <div class="product product-2">
                                 <figure class="product-media">
+                                    <span class="product-label label-sale"><span th:text="${prot.point}"></span>points</span>
                                     <a th:href="@{'/product?pid='+${prot.id}}">
                                         <img th:src="${prot.photo}" th:alt="${prot.name}"
                                               class="product-image">
@@ -68,8 +70,8 @@
                                         <a href="#" th:attr="data-product-id=${prot.id},data-seller=${prot.seller.username},id='add-cart-link-'+${prot.id}"
                                            class = "btn-product btn-cart" title="Add to cart"><span>add to
                                                 cart</span></a>
-                                        <a href="#" class="btn-product btn-wishlist"
-                                           title="follow "><span>unfollow </span> <span th:text="${' '+prot.seller.getFirstName()+' '+ prot.seller.getLastName()}"></span></a>
+                                        <a th:href="@{'/follows?type=no&user='+${prot.seller.username}}" class="btn-product btn-wishlist"
+                                           title="follow "><span >unfollow </span> </a>
                                     </div><!-- End .product-action -->
                                 </figure><!-- End .product-media -->
 
@@ -117,6 +119,7 @@
                     <div class="col-6 col-md-4 col-lg-3">
                         <div class="product product-2">
                             <figure class="product-media">
+                                <span class="product-label label-sale"><span th:text="${prot.point}"></span>points</span>
                                 <a th:href="@{'/product?pid='+${prot.id}}">
                                     <img th:src="${prot.photo}"
                                          th:alt="${prot.name}" class="product-image">
@@ -126,8 +129,8 @@
                                     <a href="#" th:attr="data-product-id=${prot.id},data-seller=${prot.seller.username},id='add-cart-link-'+${prot.id}"
                                        class = "btn-product btn-cart" title="Add to cart"><span>add to
                                                 cart</span></a>
-                                    <a href="#" class="btn-product btn-wishlist"
-                                       title="follow ">follows <span th:text="${' '+prot.seller.getFirstName()+' '+ prot.seller.getLastName()}"></span></a>
+                                    <a th:href="@{'/follows?type=yes&user='+${prot.seller.username}}" class="btn-product btn-wishlist"
+                                       title="follow ">follows </a>
                                 </div><!-- End .product-action -->
                             </figure><!-- End .product-media -->
 
