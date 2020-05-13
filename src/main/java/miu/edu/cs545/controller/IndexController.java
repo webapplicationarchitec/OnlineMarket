@@ -49,6 +49,7 @@ public class IndexController {
     private final ProductService productService;
     private final SellerService sellerService;
     private final CategoryService categoryService;
+    private final ReviewService reviewService;
 
     @Autowired
     private HomeService homeService;
@@ -57,12 +58,13 @@ public class IndexController {
 
 
     @Autowired
-    public IndexController(ServletContext context, AccountService accountService, ProductService productService, SellerService sellerService, CategoryService categoryService) {
+    public IndexController(ServletContext context, AccountService accountService, ProductService productService, SellerService sellerService, CategoryService categoryService,ReviewService reviewService) {
         this.context = context;
         this.accountService = accountService;
         this.productService = productService;
         this.sellerService = sellerService;
         this.categoryService = categoryService;
+        this.reviewService=reviewService;
     }
 
     @ModelAttribute("myCart")
@@ -85,14 +87,13 @@ public class IndexController {
                 productListFollow.addAll(sel.getListProduct());
 
             }
-            if (productListFollow==null)
-                productListFollow = listtop.subList(1,1);
-            else
-            if (productListFollow.size() > 8)
+            if (productListFollow == null)
+                productListFollow = listtop.subList(1, 1);
+            else if (productListFollow.size() > 8)
                 productListFollow = productListFollow.subList(0, 8);
 
         } else {
-            productListFollow = listtop.subList(1, 5);
+            productListFollow = listtop.subList(1, 1);
         }
         if (listtop.size() > 7)
             listtop = listtop.subList(0, 8);
@@ -120,19 +121,50 @@ public class IndexController {
     @GetMapping("/product")
     public String product(Model model, HttpServletRequest request) {
         String proid = request.getParameter("pid");
-        if (proid==null) {
-            proid="106";
+        if (proid == null) {
+            proid = "106";
 //            return "redirect:/buyer/product";
         }
         Product pro = productService.getById(Integer.parseInt(proid)).get();
         model.addAttribute("pro", pro);
         return "buyer/product";
     }
+
     @GetMapping("/productReview")
     public String productReview(Model model, HttpServletRequest request) {
         String proid = request.getParameter("pid");
-        if (proid==null) {
-            proid="106";
+        if (proid == null) {
+            proid = "106";
+//            return "redirect:/buyer/product";
+        }
+        Product pro = productService.getById(Integer.parseInt(proid)).get();
+        model.addAttribute("pro", pro);
+        return "buyer/product-review";
+    }
+    @PostMapping("/productReview")
+    public String SaveReview(Model model, HttpServletRequest request) {
+        Principal user = request.getUserPrincipal();
+        String username = "";
+        String proid = request.getParameter("pid");
+        String message = request.getParameter("pmessage");
+        if (user != null) {
+            username = user.getName();
+            Buyer buyer = buyerService.getByUsername(username);
+            if (buyer!=null) {
+                if (proid != null&&message!=null) {
+                    Product pro= productService.getById(Integer.parseInt(proid)).get();
+//                    if (pro!=null)
+//
+//                        Review rev =reviewService.;
+////                        rev.
+//
+////                        pro.getListReview().add(new Review(i))
+                }
+
+            }
+        }
+        if (proid != null&&message!=null) {
+            proid = "106";
 //            return "redirect:/buyer/product";
         }
         Product pro = productService.getById(Integer.parseInt(proid)).get();
@@ -147,21 +179,24 @@ public class IndexController {
         List<Seller> sellerList = null;
         List<Product> listtop = productService.getTopProducts();
         List<Product> productListFollow = null;
+        String type = request.getParameter("type");
+        String susername = request.getParameter("user");
         if (user != null) {
             username = user.getName();
             Buyer buyer = buyerService.getByUsername(username);
 
             for (Seller sel : buyer.getFollowerList()) {
-                productListFollow.addAll(sel.getListProduct());
+                if (sel.getListProduct() != null)
+                    productListFollow.addAll(sel.getListProduct());
 
             }
-            if (productListFollow==null)
+            if (productListFollow == null)
                 productListFollow = listtop.subList(1, 1);
             else if (productListFollow.size() > 8)
                 productListFollow = productListFollow.subList(0, 8);
 
         } else {
-            productListFollow = listtop.subList(1,1);
+            productListFollow = listtop.subList(1, 1);
         }
         if (listtop.size() > 7)
             listtop = listtop.subList(0, 8);
@@ -169,32 +204,46 @@ public class IndexController {
         model.addAttribute("productlistFlow", productListFollow);
         model.addAttribute("productlistTop", listtop);
         model.addAttribute("cats", categoryService.getAll());
+
         if (user == null) {
             model.addAttribute("message", "Please log in to use this function");
-            return "redirect:/buyer/product";
+            return "buyer/home";
         }
 //        String username1 = user.getName();
         Buyer buyer = buyerService.getByUsername(user.getName());
-
-        String type = request.getParameter("type");
-        String susername = request.getParameter("user");
         Seller seller = sellerService.getByUsername(susername);
-        if (type.equals("yes") ) {
-            buyer.getFollowerList().add(seller);
-            model.addAttribute("message", "Shop " + seller.getFirstName() + " was inserted to your follower");
+        if (type.equals("yes")) {
+            boolean result = buyer.getFollowerList().contains(seller);
+            if (buyer.getFollowerList().contains(seller) == true) {
+                model.addAttribute("message", "Shop " + seller.getFirstName() + " has already followed in your follower");
+
+            } else {
+                buyer.getFollowerList().add(seller);
+                model.addAttribute("message", "Shop " + seller.getFirstName() + " was inserted to your follower");
+            }
         } else {
             buyer.getFollowerList().remove(seller);
 
             model.addAttribute("message", "Shop " + seller.getFirstName() + " was removed from your follower");
         }
         buyerService.save(buyer);
+        for (Seller sel : buyer.getFollowerList()) {
+            if (sel.getListProduct() != null)
+                productListFollow.addAll(sel.getListProduct());
+
+        }
+        if (productListFollow == null)
+            productListFollow = listtop.subList(1, 1);
+        else if (productListFollow.size() > 8)
+            productListFollow = productListFollow.subList(0, 8);
+        model.addAttribute("productlistFlow", productListFollow);
 //        Response.Redirect(Request.RawUrl);
 //        try {
 //            return response.sendRedirect("/");
 //        } catch (IOException e) {
 //            e.printStackTrace();
 //        }
-        return "redirect:/buyer/product";
+        return "buyer/home";
     }
 
     @GetMapping("/admin")
