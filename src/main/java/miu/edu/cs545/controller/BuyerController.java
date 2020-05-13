@@ -1,10 +1,12 @@
 package miu.edu.cs545.controller;
 
+import miu.edu.cs545.domain.Buyer;
 import miu.edu.cs545.domain.OnlineOrder;
 import miu.edu.cs545.domain.OrderDetail;
 import miu.edu.cs545.domain.Product;
 import miu.edu.cs545.dto.Cart;
 import miu.edu.cs545.service.AccountService;
+import miu.edu.cs545.service.BuyerService;
 import miu.edu.cs545.service.ProductService;
 import miu.edu.cs545.service.SellerService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +18,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
+import java.security.Principal;
 import java.util.*;
 
 @Controller
@@ -27,6 +30,7 @@ public class BuyerController {
     private final AccountService accountService;
     private final ProductService productService;
     private final SellerService sellerService;
+    private final BuyerService buyerService;
 
     @Value("${app.default.tax}")
     private Double taxRate;
@@ -35,11 +39,12 @@ public class BuyerController {
     private Double shippingFee;
 
     @Autowired
-    public BuyerController(ServletContext context, AccountService accountService, ProductService productService, SellerService sellerService) {
+    public BuyerController(ServletContext context, AccountService accountService, ProductService productService, SellerService sellerService, BuyerService buyerService) {
         this.context = context;
         this.accountService = accountService;
         this.productService = productService;
         this.sellerService = sellerService;
+        this.buyerService = buyerService;
     }
 
     @ModelAttribute("myCart")
@@ -48,7 +53,7 @@ public class BuyerController {
     }
 
     @GetMapping("/product-test")
-    public String pTest(){
+    public String pTest() {
         return "buyer/products-test";
     }
 
@@ -64,7 +69,12 @@ public class BuyerController {
 
     @GetMapping("/check-out/{seller}")
     @PreAuthorize("hasRole('ROLE_BUYER')")
-    public String showCheckout(@PathVariable(name = "seller") String seller) {
+    public String showCheckout(@PathVariable(name = "seller") String seller, HttpServletRequest request, Model model) {
+        Principal principal = request.getUserPrincipal();
+        String username = principal.getName();
+
+        Buyer buyer = buyerService.getByUsername(username);
+        model.addAttribute("buyer", buyer);
         return "buyer/checkout";
     }
 
@@ -80,8 +90,8 @@ public class BuyerController {
 
     @PostMapping("/add-to-cart/{productId}")
     public @ResponseBody
-    Integer addToCart(@PathVariable(name = "productId") Integer productId, Model model) {
-        Cart cart = (Cart) model.asMap().get("myCart");
+    Integer addToCart(@PathVariable(name = "productId") Integer productId, Model model, @ModelAttribute(name = "myCart") Cart cart) {
+        //Cart cart = (Cart) model.asMap().get("myCart");
         HashMap<String, OnlineOrder> orders = cart.getOrderList();
 
         OnlineOrder order = null;
@@ -124,6 +134,7 @@ public class BuyerController {
                     order.setTotal(shippingFee);
                     detailList = new ArrayList<>();
                     order.setOrderDetailList(detailList);
+                    order.setSeller(product.getSeller());
                 }
 
                 orderDetail = new OrderDetail();

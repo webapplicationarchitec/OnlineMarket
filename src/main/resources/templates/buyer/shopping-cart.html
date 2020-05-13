@@ -11,6 +11,9 @@
         <div class="page-content">
             <div class="cart">
                 <div class="container">
+                    <p th:if="${myCart.orderList.size() == 0}">
+                        There are nothing in your cart.
+                    </p>
                     <div class="row cart-section" th:each="order: ${myCart.orderList}">
                         <div class="col-lg-9">
                             <table class="table table-cart table-mobile">
@@ -65,7 +68,7 @@
                         </div>
                         <aside class="col-lg-3">
                             <div class="summary summary-cart">
-                                <h3 class="summary-title"> Seller name</h3>
+                                <h3 class="summary-title" th:text="${order.getValue().seller.firstName + ' ' + order.getValue().seller.lastName}"> Seller name</h3>
 
                                 <table class="table table-summary">
                                     <tbody>
