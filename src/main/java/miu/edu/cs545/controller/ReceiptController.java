@@ -22,9 +22,9 @@ public class ReceiptController {
 
     @GetMapping("print/{format}/{orderid}")
     public String orders(@PathVariable(name = "format") String format,@PathVariable(name = "orderid") Integer orderid, Model model) throws FileNotFoundException, JRException {
-        orderDetailService.printReceipt(format,orderid);
+       String path = orderDetailService.printReceipt(format,orderid);
 
-        return "Printed";
+        return path;
 
     }
 
