@@ -47,6 +47,11 @@ public class BuyerController {
         return new Cart();
     }
 
+    @GetMapping("/product-test")
+    public String pTest(){
+        return "buyer/products-test";
+    }
+
     @GetMapping(value = {"/_default"})
     public String redirectAfterLogin(HttpServletRequest request) {
         if (request.isUserInRole("ROLE_ADMIN")) {
