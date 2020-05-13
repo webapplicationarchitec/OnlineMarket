@@ -36,7 +36,7 @@
                                      class="btn-product btn-cart"><span>add to cart</span></a>
                                 </div><!-- End .product-action -->
                                 <div class="product-cat">
-                                    <a href="#">Women</a>
+                                    <a th:href="@{'/products?cat='+${prot.category.id}}"><span th:text="${prot.category.name}"></span></a>
                                 </div><!-- End .product-cat -->
                                 <h3 class="product-title"><a th:href="@{'/product?pid='+${prot.id}}"><span th:text="${prot.name} "></span></a></h3>
                                 <!-- End .product-title -->
