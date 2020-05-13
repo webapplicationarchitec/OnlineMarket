@@ -2,7 +2,9 @@ jQuery(document).ready(function ($) {
     'use strict';
     $('.btn-cart').on('click', function (evt) {
         evt.preventDefault()
-        addToCart(100)
+        let jLink = $(evt.currentTarget);
+        let productId = parseInt(jLink.attr('data-product-id'));
+        addToCart(productId)
     })
 })
 

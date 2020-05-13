@@ -1,5 +1,6 @@
 package miu.edu.cs545.config;
 
+import miu.edu.cs545.securiry.MyAuthenticationSuccessHandler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
@@ -47,7 +48,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/**").permitAll()
                 //.antMatchers("/resources/**", "/static/**", "/css/**", "/js/**", "/images/**").permitAll()
                 //.anyRequest().authenticated()//all other urls can be access by any authenticated role
-                .and().formLogin().loginPage("/login")
+                .and().formLogin().loginPage("/login").successHandler(new MyAuthenticationSuccessHandler())
                 .and().logout().logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
                 .logoutSuccessUrl("/login").invalidateHttpSession(true).deleteCookies("JSESSIONID")
                 .and().csrf().ignoringAntMatchers("/h2-console/**")
