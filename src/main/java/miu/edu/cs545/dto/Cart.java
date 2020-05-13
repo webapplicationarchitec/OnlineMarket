@@ -13,5 +13,6 @@ import java.util.List;
 @Setter
 @NoArgsConstructor
 public class Cart {
+    private int total;
     private HashMap<String, OnlineOrder> orderList = new HashMap<>();
 }

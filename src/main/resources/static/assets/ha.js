@@ -14,7 +14,9 @@ addToCart = function (productId) {
         type: 'POST',
         contentType: 'application/json'
     }).done(function (result) {
-        console.log(result)
+        if(result !== -1){
+            $('#cart-count').html(result)
+        }
     })
         .fail(function (error) {
             console.log(error)
