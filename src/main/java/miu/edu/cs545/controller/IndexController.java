@@ -86,7 +86,7 @@ public class IndexController {
 
             }
             if (productListFollow==null)
-                productListFollow = listtop.subList(1, 5);
+                productListFollow = listtop.subList(1,1);
             else
             if (productListFollow.size() > 8)
                 productListFollow = productListFollow.subList(0, 8);
@@ -121,22 +121,59 @@ public class IndexController {
     public String product(Model model, HttpServletRequest request) {
         String proid = request.getParameter("pid");
         if (proid==null) {
-            proid="100";
+            proid="106";
 //            return "redirect:/buyer/product";
         }
         Product pro = productService.getById(Integer.parseInt(proid)).get();
         model.addAttribute("pro", pro);
         return "buyer/product";
     }
+    @GetMapping("/productReview")
+    public String productReview(Model model, HttpServletRequest request) {
+        String proid = request.getParameter("pid");
+        if (proid==null) {
+            proid="106";
+//            return "redirect:/buyer/product";
+        }
+        Product pro = productService.getById(Integer.parseInt(proid)).get();
+        model.addAttribute("pro", pro);
+        return "buyer/product-review";
+    }
 
     @GetMapping("/follows")
     public String follow(Model model, HttpServletRequest request, HttpServletResponse response) {
         Principal user = request.getUserPrincipal();
+        String username = "";
+        List<Seller> sellerList = null;
+        List<Product> listtop = productService.getTopProducts();
+        List<Product> productListFollow = null;
+        if (user != null) {
+            username = user.getName();
+            Buyer buyer = buyerService.getByUsername(username);
+
+            for (Seller sel : buyer.getFollowerList()) {
+                productListFollow.addAll(sel.getListProduct());
+
+            }
+            if (productListFollow==null)
+                productListFollow = listtop.subList(1, 1);
+            else if (productListFollow.size() > 8)
+                productListFollow = productListFollow.subList(0, 8);
+
+        } else {
+            productListFollow = listtop.subList(1,1);
+        }
+        if (listtop.size() > 7)
+            listtop = listtop.subList(0, 8);
+
+        model.addAttribute("productlistFlow", productListFollow);
+        model.addAttribute("productlistTop", listtop);
+        model.addAttribute("cats", categoryService.getAll());
         if (user == null) {
             model.addAttribute("message", "Please log in to use this function");
             return "redirect:/buyer/product";
         }
-        String username = user.getName();
+//        String username1 = user.getName();
         Buyer buyer = buyerService.getByUsername(user.getName());
 
         String type = request.getParameter("type");
