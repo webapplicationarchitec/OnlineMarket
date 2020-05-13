@@ -72,4 +72,9 @@ public class OrderServiceImp implements OrderService {
         orderRepository.updateStatus(status, id);
 
     }
+
+    @Override
+    public List<OnlineOrder> getByBuyer(String userName) {
+        return orderRepository.getByBuyer(userName);
+    }
 }

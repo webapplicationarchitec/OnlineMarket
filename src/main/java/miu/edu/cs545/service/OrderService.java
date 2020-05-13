@@ -27,4 +27,7 @@ public interface OrderService {
     public Page<OnlineOrder> paging(Pageable pageable);
 
     public  void updateStatus(OrderStatus status, Integer id);
+
+    public List<OnlineOrder> getByBuyer(String userName);
+
 }
