@@ -1,10 +1,119 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout/user/ulayout}">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Check Out</title>
+    <style>
+        .error {
+            color: red;
+        }
+    </style>
 </head>
 <body>
+<div layout:fragment="user-main-content">
+    <main class="main">
+        <div class="page-content">
+            <div class="checkout">
+                <div class="container">
+                    <form action="#">
+                        <div class="row">
+                            <div class="col-lg-9">
+                                <h2 class="checkout-title">Billing Details</h2><!-- End .checkout-title -->
+                                <div class="row">
+                                    <div class="col-sm-6">
+                                        <label>First Name *</label>
+                                        <input type="text" class="form-control" th:value="${buyer.firstName}" readonly>
+                                    </div><!-- End .col-sm-6 -->
 
+                                    <div class="col-sm-6">
+                                        <label>Last Name *</label>
+                                        <input type="text" class="form-control" th:value="${buyer.lastName}" readonly>
+                                    </div><!-- End .col-sm-6 -->
+                                </div>
+                                <div class="row">
+                                    <div class="col-sm-6">
+                                        <label>Email *</label>
+                                        <input type="text" class="form-control" th:value="${buyer.email}" readonly>
+                                    </div><!-- End .col-sm-6 -->
+
+                                    <div class="col-sm-6">
+                                        <label>City *</label>
+                                        <input type="text" class="form-control" th:value="${buyer.billingAddress.city}"
+                                               readonly>
+                                    </div><!-- End .col-sm-6 -->
+                                </div>
+                                <div class="row">
+                                    <div class="col-sm-6">
+                                        <label>State *</label>
+                                        <input type="text" class="form-control" th:value="${buyer.billingAddress.state}"
+                                               readonly>
+                                    </div><!-- End .col-sm-6 -->
+
+                                    <div class="col-sm-6">
+                                        <label>City *</label>
+                                        <input type="text" class="form-control"
+                                               th:value="${buyer.billingAddress.zipcode}" readonly>
+                                    </div><!-- End .col-sm-6 -->
+                                </div>
+                                <label>Address *</label>
+                                <textarea type="text" class="form-control" th:value="${buyer.billingAddress.street}"
+                                          placeholder="House number and Street name" readonly>
+                                    </textarea>
+
+                                <div class="custom-control custom-checkbox">
+                                    <input type="checkbox" class="custom-control-input" id="checkout-diff-address">
+                                    <label class="custom-control-label" for="checkout-diff-address">Ship to a
+                                        different address?</label>
+                                </div><!-- End .custom-checkbox -->
+
+                                <div class="shipping-address" style="display: none;">
+                                    <h2 class="checkout-title">Shipping Details</h2><!-- End .checkout-title -->
+                                    <label>Address *</label>
+                                    <textarea name="shippingAddress" type="text" class="form-control"
+                                              placeholder="House number and Street name">
+                                        </textarea>
+                                </div>
+
+
+                            </div><!-- End .col-lg-9 -->
+                            <aside class="col-lg-3">
+                                <div class="summary">
+                                    <h3 class="summary-title">Your Order</h3><!-- End .summary-title -->
+
+                                    <table class="table table-summary">
+                                        <tbody>
+                                        <tr class="summary-subtotal">
+                                            <td>Subtotal:</td>
+                                            <td>$160.00</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Shipping:</td>
+                                            <td>Free shipping</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Tax:</td>
+                                            <td>$16.00</td>
+                                        </tr>
+                                        <tr class="summary-total">
+                                            <td>Total:</td>
+                                            <td>$160.00</td>
+                                        </tr><!-- End .summary-total -->
+                                        </tbody>
+                                    </table><!-- End .table table-summary -->
+
+                                    <button type="submit" class="btn btn-outline-primary-2 btn-order btn-block">
+                                        <span class="btn-text">Place Order</span>
+                                        <span class="btn-hover-text">Place Order</span>
+                                    </button>
+                                </div><!-- End .summary -->
+                            </aside><!-- End .col-lg-3 -->
+                        </div><!-- End .row -->
+                    </form>
+                </div><!-- End .container -->
+            </div><!-- End .checkout -->
+        </div><!-- End .page-content -->
+    </main><!-- End .main -->
+</div>
 </body>
 </html>
