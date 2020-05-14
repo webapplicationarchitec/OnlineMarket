@@ -14,6 +14,7 @@
                     <form th:action="@{/check-out}" th:object="${model}" method="post">
                         <div class="row">
                             <input type="hidden" th:field="*{order.seller.username}">
+                            <input type="hidden" id="hidden-points" th:field="*{usedPoints}"/>
                             <div class="col-lg-9">
                                 <h2 class="checkout-title">Billing Details</h2><!-- End .checkout-title -->
                                 <div class="row">
@@ -103,9 +104,21 @@
                                                 $160.00
                                             </td>
                                         </tr><!-- End .summary-total -->
+                                        <tr th:if="${model.points > 0}" class="summary-total">
+                                            <td>Points used:</td>
+                                            <td id="cell-points">
+                                                0
+                                            </td>
+                                        </tr><!-- End .summary-total -->
                                         </tbody>
                                     </table><!-- End .table table-summary -->
 
+                                    <a th:if="${model.points > 0}" href="javascript: void(0);"
+                                       class="btn btn-outline-primary-2 btn-order btn-block btn-point-modal"
+                                       data-toggle="modal" data-target="#point-modal">
+                                        <span class="btn-text">Use points</span>
+                                        <span class="btn-hover-text">Use points</span>
+                                    </a>
                                     <button type="submit" class="btn btn-outline-primary-2 btn-order btn-block">
                                         <span class="btn-text">Place Order</span>
                                         <span class="btn-hover-text">Place Order</span>
@@ -118,6 +131,33 @@
             </div><!-- End .checkout -->
         </div><!-- End .page-content -->
     </main><!-- End .main -->
+
+    <div class="modal fade" id="point-modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog modal-sm" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel"
+                        th:text="${'You have ' + model.points.toString() + ' point(s)'}">Point</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body" style="padding: 16px;">
+                    <form action="#">
+                        <div class="form-group">
+                            <label class="col-form-label">Points:</label>
+                            <input type="number" min="0" th:max="${model.points}" class="form-control" id="input-points"
+                                   name="points">
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" id="btn-use-points" class="btn btn-primary">OK</button>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 </body>
 </html>

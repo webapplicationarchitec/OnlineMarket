@@ -33,6 +33,13 @@ jQuery(document).ready(function ($) {
 
     })
 
+    $('#btn-use-points').on('click', function (evt) {
+        let points = parseInt($('#input-points').val())
+        $('#cell-points').html(points)
+        $('#hidden-points').val(points)
+        $('#point-modal').modal('hide')
+    })
+
 })
 
 adjustQty = function (productId, qty) {

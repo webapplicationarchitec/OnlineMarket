@@ -29,6 +29,7 @@ public class BuyerController {
     private final SellerService sellerService;
     private final BuyerService buyerService;
     private final OrderService orderService;
+    private final BonusPointService bonusPointService;
 
     @Value("${app.default.tax}")
     private Double taxRate;
@@ -37,13 +38,15 @@ public class BuyerController {
     private Double shippingFee;
 
     @Autowired
-    public BuyerController(ServletContext context, AccountService accountService, ProductService productService, SellerService sellerService, BuyerService buyerService, OrderService orderService) {
+    public BuyerController(ServletContext context, AccountService accountService, ProductService productService
+            , SellerService sellerService, BuyerService buyerService, OrderService orderService, BonusPointService bonusPointService) {
         this.context = context;
         this.accountService = accountService;
         this.productService = productService;
         this.sellerService = sellerService;
         this.buyerService = buyerService;
         this.orderService = orderService;
+        this.bonusPointService = bonusPointService;
     }
 
     @ModelAttribute("myCart")
@@ -76,8 +79,18 @@ public class BuyerController {
         CheckOutModel checkOutModel = new CheckOutModel();
         checkOutModel.setBuyer(buyer);
         checkOutModel.setOrder(order);
-        model.addAttribute("model", checkOutModel);
 
+        BonusPoint bonusPoint = bonusPointService.getPoint(new Seller() {{
+            setUsername(seller);
+        }}, buyer);
+
+        if (bonusPoint != null && bonusPoint.getPoints() > 0) {
+            checkOutModel.setPoints(bonusPoint.getPoints());
+        } else {
+            checkOutModel.setPoints(0);
+        }
+
+        model.addAttribute("model", checkOutModel);
         return "buyer/checkout";
     }
 
@@ -273,7 +286,7 @@ public class BuyerController {
         Principal principal = request.getUserPrincipal();
         String seller = checkOutModel.getOrder().getSeller().getUsername();
         OnlineOrder order = cart.getOrderList().get(seller);
-        orderService.placeOrder(order, principal.getName());
+        orderService.placeOrder(order, principal.getName(), checkOutModel.getUsedPoints());
 
         cart.getOrderList().remove(seller);
         Integer orderItemTotal = 0;
