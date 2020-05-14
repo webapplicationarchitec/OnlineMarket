@@ -272,12 +272,6 @@ public class IndexController {
         else if (productListFollow.size() > 8)
             productListFollow = productListFollow.subList(0, 8);
         model.addAttribute("productlistFlow", productListFollow);
-//        Response.Redirect(Request.RawUrl);
-//        try {
-//            return response.sendRedirect("/");
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
         return "buyer/home";
     }
 
