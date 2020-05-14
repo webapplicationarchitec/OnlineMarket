@@ -51,33 +51,21 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.authorizeRequests().antMatchers("/h2-console/**").permitAll();
-
         http.authorizeRequests()
                 .antMatchers("/**").permitAll()
-                .anyRequest().authenticated() //all other urls can be access by any authenticated role
-                .and()
-                .formLogin() //enable form login instead of basic login
-                .loginPage("/login").successHandler(new MyAuthenticationSuccessHandler())
-                .failureUrl("/login")
-                .usernameParameter("username")
-                .passwordParameter("password")
+                .and().formLogin().loginPage("/login").successHandler(new MyAuthenticationSuccessHandler())
                 .and().logout().logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
-                .logoutSuccessUrl("/login").invalidateHttpSession(true)//.deleteCookies("JSESSIONID")
-                .and().csrf()
-                .ignoringAntMatchers("/h2-console/**") //don't apply CSRF protection to /h2-console
-                .and()
-                .exceptionHandling().accessDeniedPage("/error/access-denied")
+                .logoutSuccessUrl("/login").invalidateHttpSession(true)
+                .and().csrf().ignoringAntMatchers("/h2-console/**")
+                .and().headers().frameOptions().sameOrigin()
+                .and().exceptionHandling().accessDeniedPage("/access-denied")
                 .and().rememberMe().key("uniqueAndSecret")
-                .userDetailsService(userDetailsService).rememberMeParameter("remember-me").tokenRepository(tokenRepository()) //remmber me by token base
-        ;
-        // http.rememberMe().rememberMeParameter("remember-me").key("uniqueAndSecret"); //remmber me by cookie base
-        http.headers().frameOptions().disable();
+                .userDetailsService(userDetailsService).rememberMeParameter("remember-me").tokenRepository(tokenRepository()); //remmber me by token base;
     }
 
     @Bean
     public PersistentTokenRepository tokenRepository() {
-        JdbcTokenRepositoryImpl jdbcTokenRepositoryImpl=new JdbcTokenRepositoryImpl();
+        JdbcTokenRepositoryImpl jdbcTokenRepositoryImpl = new JdbcTokenRepositoryImpl();
         jdbcTokenRepositoryImpl.setDataSource(dataSource);
         return jdbcTokenRepositoryImpl;
     }

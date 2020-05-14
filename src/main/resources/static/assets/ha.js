@@ -82,7 +82,7 @@ addToCart = function (productId, qty) {
     let url = '/add-to-cart/' + productId.toString() + "/" + qty.toString()
     $.ajax({
         url: url,
-        type: 'POST',
+        type: 'GET',
         contentType: 'application/json'
     }).done(function (result) {
         if (result !== -1) {
