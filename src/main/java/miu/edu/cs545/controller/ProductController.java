@@ -33,7 +33,7 @@ import java.util.Date;
 
 @Controller
 @RequestMapping("/admin/")
-@SessionAttributes({ "product" })
+@SessionAttributes({ "product", "categories" })
 @Secured({"ROLE_SELLER"})
 public class ProductController {
 
