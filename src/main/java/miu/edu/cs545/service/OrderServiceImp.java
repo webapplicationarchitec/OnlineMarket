@@ -11,10 +11,7 @@ import org.springframework.transaction.annotation.Propagation;
 
 import javax.transaction.Transactional;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
@@ -28,15 +25,17 @@ public class OrderServiceImp implements OrderService {
     private final ProductRepository productRepository;
     private final BuyerRepository buyerRepository;
     private final SellerRepository sellerRepository;
+    private final BonusPointRepository bonusPointRepository;
 
     @Autowired
     public OrderServiceImp(OrderRepository orderRepository, OrderPagingRepository orderPagingRepository,
-                           ProductRepository productRepository, BuyerRepository buyerRepository, SellerRepository sellerRepository) {
+                           ProductRepository productRepository, BuyerRepository buyerRepository, SellerRepository sellerRepository, BonusPointRepository bonusPointRepository) {
         this.orderRepository = orderRepository;
         this.orderPagingRepository = orderPagingRepository;
         this.productRepository = productRepository;
         this.buyerRepository = buyerRepository;
         this.sellerRepository = sellerRepository;
+        this.bonusPointRepository = bonusPointRepository;
     }
 
     public void placeOrder(OnlineOrder order, String buyerId) throws OrderCreateException {
@@ -56,6 +55,8 @@ public class OrderServiceImp implements OrderService {
             realOrder.setDateCreate(currentDate);
             realOrder.setDateShipping(getShippingDate(currentDate));
             realOrder.setOrderno("ORD_#" + "123");
+
+            Integer point = 0;
 
             List<Integer> idList = new ArrayList<>();
             for (OrderDetail detail : order.getOrderDetailList()) {
@@ -84,9 +85,26 @@ public class OrderServiceImp implements OrderService {
                 Product product = productList.stream().filter(p -> p.getId() == detail.getProduct().getId()).findFirst().get();
                 realDetail.setProduct(product);
                 detailList.add(realDetail);
+
+                point += product.getPoint() * detail.getQty();
             }
 
+            realOrder.setPoint(point);
             realOrder.setOrderDetailList(detailList);
+
+            Optional<BonusPoint> optPoint = bonusPointRepository.findBySellerAndBuyer(seller, buyer);
+            BonusPoint bonusPoint = null;
+            if (optPoint.isPresent()) {
+                bonusPoint = optPoint.get();
+                bonusPoint.setPoints(bonusPoint.getPoints() + point);
+            } else {
+                bonusPoint = new BonusPoint();
+                bonusPoint.setPoints(point);
+                bonusPoint.setBuyer(buyer);
+                bonusPoint.setSeller(seller);
+            }
+
+            bonusPointRepository.save(bonusPoint);
             orderRepository.save(realOrder);
         } catch (Exception e) {
             throw new OrderCreateException("Could not create exception");
