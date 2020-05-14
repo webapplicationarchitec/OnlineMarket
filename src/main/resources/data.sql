@@ -23,31 +23,14 @@ values ('SELLER', 'khaian', 'khaian@miu.edu', 'Khai', 'An', '$2b$10$QwKk5pHK1RhF
 
 
 -- Start 100 because when we insert data it start 1.
-insert into product(`Id`,`description`,`name`,`photo`,`point`,`price`,`status`,`category_id`,`seller_id`,`created_date`)
-values (100,'Beats by Dr. Dre Wireless Headphones','Headphones','http://localhost:8080/assets/images/demos/demo-4/products/product-10.jpg','30',279.99,1,3,'luannguyen','2020-02-20');
-
-insert into product(`Id`,`description`,`name`,`photo`,`point`,`price`,`status`,`category_id`,`seller_id`,`created_date`)
-values (102,'GoPro - HERO7 Black HD Waterproof Action','Cameras & Camcorders','http://localhost:8080/assets/images/demos/demo-4/products/product-11.jpg','10',349.99,1,2,'luannguyen','2020-02-19');
-
-insert into product(`Id`,`description`,`name`,`photo`,`point`,`price`,`status`,`category_id`,`seller_id`,`created_date`)
-values (103,'Apple - Apple Watch Series 3 with White Sport Band','Smartwatches','http://localhost:8080/assets/images/demos/demo-4/products/product-12.jpg','11',214.49,1,6,'luannguyen','2020-02-18');
-
-insert into product(`Id`,`description`,`name`,`photo`,`point`,`price`,`status`,`category_id`,`seller_id`,`created_date`)
-values (104,'Lenovo - 330-15IKBR 15.6"','Smartwatches','http://localhost:8080/assets/images/demos/demo-4/products/product-13.jpg',12,339.99,1,1,'luannguyen','2020-02-17');
-
-insert into product(`Id`,`description`,`name`,`photo`,`point`,`price`,`status`,`category_id`,`seller_id`,`created_date`)
-values (105,'Sony - Alpha a5100 Mirrorless Camera','Digital Cameras','http://localhost:8080/assets/images/demos/demo-4/products/product-14.jpg','15',499.99,1,2,'hainguyen','2020-02-16');
-
-insert into product(`Id`,`description`,`name`,`photo`,`point`,`price`,`status`,`category_id`,`seller_id`,`created_date`)
-values (106,'Home Mini - Smart Speaker with Google Assistant','Audio','http://localhost:8080/assets/images/demos/demo-4/products/product-15.jpg','10',49.00,1,5,'hainguyen','2020-02-15');
-
-insert into product(`Id`,`description`,`name`,`photo`,`point`,`price`,`status`,`category_id`,`seller_id`,`created_date`)
-values (107,'WONDERBOOM Portable Bluetooth Speaker','Audio','http://localhost:8080/assets/images/demos/demo-4/products/product-16.jpg','9',99.99,1,5,'hainguyen','2020-02-14');
-
-
-insert into product(`Id`,`description`,`name`,`photo`,`point`,`price`,`status`,`category_id`,`seller_id`,`created_date`)
-values (108,'Google - Home Hub with Google Assistant','Smart Home','http://localhost:8080/assets/images/demos/demo-4/products/product-17.jpg','2',149.00,1,4,'hainguyen','2020-02-13');
-
+INSERT INTO `product` VALUES ('100', '2020-05-14 12:54:40', 'Enjoy immersive visuals with this Samsung 8K smart TV. Quantum HDR technology delivers deep blacks and bright colors, while the Real Game Enhancer helps eliminate stuttering and tearing for a smooth picture. This Samsung 8K smart TV', 'QuietComfort 35', 'http://localhost:8080/assets/images/demos/demo-4/products/product-10.jpg', '30', '279.99', '0', '3', 'luannguyen');
+INSERT INTO `product` VALUES ('102', '2020-05-14 12:52:37', 'Enjoy immersive visuals with this Samsung 8K smart TV. Quantum HDR technology delivers deep blacks and bright colors, while the Real Game Enhancer helps eliminate stuttering and tearing for a smooth picture. This Samsung 8K smart TV', 'Canon · EOS · EOS 80D · DSLR', 'http://localhost:8080/assets/images/demos/demo-4/products/product-11.jpg', '10', '349.99', '0', '2', 'luannguyen');
+INSERT INTO `product` VALUES ('103', '2020-05-14 12:55:55', 'Enjoy immersive visuals with this Samsung 8K smart TV. Quantum HDR technology delivers deep blacks and bright colors, while the Real Game Enhancer helps eliminate stuttering and tearing for a smooth picture. This Samsung 8K smart TV', 'Apple Watch Series 5', 'http://localhost:8080/assets/images/demos/demo-4/products/product-12.jpg', '11', '214.49', '0', '6', 'luannguyen');
+INSERT INTO `product` VALUES ('104', '2020-05-14 12:56:35', 'Enjoy immersive visuals with this Samsung 8K smart TV. Quantum HDR technology delivers deep blacks and bright colors, while the Real Game Enhancer helps eliminate stuttering and tearing for a smooth picture. This Samsung 8K smart TV', 'Dell - XPS 2-in-1 13.4\" Touch-Screen', 'http://localhost:8080/assets/images/demos/demo-4/products/product-13.jpg', '12', '339.99', '0', '1', 'luannguyen');
+INSERT INTO `product` VALUES ('105', '2020-05-14 13:02:49', 'Enjoy immersive visuals with this Samsung 8K smart TV. Quantum HDR technology delivers deep blacks and bright colors, while the Real Game Enhancer helps eliminate stuttering and tearing for a smooth picture. This Samsung 8K smart TV', 'Sony Alpha 5100', 'http://localhost:8080/assets/images/demos/demo-4/products/product-14.jpg', '15', '499.99', '0', '2', 'hainguyen');
+INSERT INTO `product` VALUES ('106', '2020-05-14 12:59:29', 'Enjoy immersive visuals with this Samsung 8K smart TV. Quantum HDR technology delivers deep blacks and bright colors, while the Real Game Enhancer helps eliminate stuttering and tearing for a smooth picture. This Samsung 8K smart TV', 'Beats Pill+', 'http://localhost:8080/assets/images/demos/demo-4/products/product-15.jpg', '10', '49', '0', '5', 'hainguyen');
+INSERT INTO `product` VALUES ('107', '2020-05-14 13:00:20', 'Enjoy immersive visuals with this Samsung 8K smart TV. Quantum HDR technology delivers deep blacks and bright colors, while the Real Game Enhancer helps eliminate stuttering and tearing for a smooth picture. This Samsung 8K smart TV', 'WONDERBOOM Portable Bluetooth Speaker', 'http://localhost:8080/assets/images/demos/demo-4/products/product-16.jpg', '9', '99.99', '0', '5', 'hainguyen');
+INSERT INTO `product` VALUES ('108', '2020-05-14 13:00:54', 'Enjoy immersive visuals with this Samsung 8K smart TV. Quantum HDR technology delivers deep blacks and bright colors, while the Real Game Enhancer helps eliminate stuttering and tearing for a smooth picture. This Samsung 8K smart TV', 'Samsung - 55\" 8K UHD TV with HDR', 'http://localhost:8080/assets/images/demos/demo-4/products/product-17.jpg', '2', '149', '0', '4', 'hainguyen');
 
 
 insert into review(`Id`,`Comment`,`Date_Create`,`Status`,`Buyer_Id`,`product_Id`,`Seller_Id`)
