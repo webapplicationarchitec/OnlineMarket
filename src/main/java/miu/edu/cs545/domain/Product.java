@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.commons.CommonsMultipartFile;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -12,7 +13,6 @@ import java.util.List;
 
 @Getter
 @Setter
-@NoArgsConstructor
 @AllArgsConstructor
 @Entity
 public class Product {
@@ -39,7 +39,11 @@ public class Product {
     @OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
     private List<Review> listReview;
 
-    @ManyToOne (cascade = CascadeType.MERGE)
+    @ManyToOne (cascade = CascadeType.ALL)
     @JoinColumn(name = "seller_id")
     private Seller seller;
+
+    public Product() {
+        this.photo = "https://oojavascript.blob.core.windows.net/waaimage/noimage.jpg";
+    }
 }

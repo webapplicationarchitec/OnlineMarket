@@ -4,6 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Online Market</title>
+    <script src="/assets/js/product.js"></script>
 </head>
 <body>
 <div layout:fragment="admin-main-content">
@@ -18,6 +19,7 @@
                                 <div class="card-body">
                                     <form th:action="@{/admin/product}" th:object="${product}" enctype="multipart/form-data" method="POST">
                                         <div class="form-row">
+
                                             <div class="col-md-6">
                                                 <div class="form-group"><label class="small mb-1" for="inputName">Name</label><input class="form-control py-4" id="inputname" th:field="*{name}"  type="text" placeholder="Enter name" /></div>
                                             </div>
@@ -30,8 +32,19 @@
                                             <div class="col-md-6">
                                                 <div class="form-group"><label class="small mb-1" for="inputPoint">Point</label><input class="form-control py-4" id="inputPoint" th:field="*{point}" type="text" placeholder="Enter point" /></div>
                                             </div>
+                                            <div class="col-md-6">
+                                                <select id="roles" th:field="*{category}">
+                                                    <option th:each="role: ${categories}" th:value="${role.id}" th:text="${role.name}">
+                                                    </option>
+                                                </select>
+                                            </div>
 
-                                            <input type="file" name="file" th:field="*{image}" />
+                                            <div class="col-md-6">
+                                                <img id="img" height="150"  th:src="*{photo}"/>
+
+                                                 <input type="file" id="inp" name="file" th:field="*{image}" />
+                                                 <p>upload image < 1MB</p>
+                                                </div>
                                         </div>
 <!--                                        <div class="form-group"><label class="small mb-1" for="inputEmailAddress">Email</label><input class="form-control py-4" id="inputEmailAddress" type="email" aria-describedby="emailHelp" placeholder="Enter email address" /></div>-->
 <!--                                        <div class="form-row">-->
@@ -58,5 +71,6 @@
     
     </div>
 </div>
+
 </body>
 </html>

@@ -13,7 +13,7 @@ public interface ProductService {
    public Optional<Product> getById(Integer id);
    public Page<Product> paging(Pageable pageable);
    public Product save(Product product);
-   public void  delete(Product product);
+   public void  delete(Integer id);
    List<Product> getTopProducts();
    List<Product> getFollowerProducts(String username);
    List<Product> getByCategory(Integer categoryid);

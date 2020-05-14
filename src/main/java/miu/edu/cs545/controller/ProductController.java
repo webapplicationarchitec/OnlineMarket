@@ -26,6 +26,7 @@ import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.io.*;
+import java.security.Principal;
 import java.util.Date;
 
 @Controller
@@ -49,8 +50,10 @@ public class ProductController {
     @GetMapping("product")
     public String init(@RequestParam(name = "id", required = false) Integer id, Model model){
 
-        if(id==null) model.addAttribute("product", new Product());
-        else  model.addAttribute("product", productService.getById(id));
+        if(id==null) { model.addAttribute("product", new Product());}
+        else  model.addAttribute("product", productService.getById(id).get());
+
+        model.addAttribute("categories", categoryService.getAll());
 
         return "admin/product";
     }
@@ -74,30 +77,14 @@ public class ProductController {
     @PostMapping("product")
     public String save(@ModelAttribute("product") Product product, SessionStatus status, HttpServletRequest request){
 
-        //Upload File to azure blobAzure
-        BlobAzure blobAzure=new BlobAzure();
-        String path = blobAzure.Upload(product);
-        product.setPhoto(path);
+        Principal principal = request.getUserPrincipal();
+        String username = principal.getName();
+        Seller seller = (Seller)accountService.getByUsername(username);
+        product.setSeller(seller);
 
-        // Can't do like this
-//        Seller seller =new Seller();
-//        seller.setUsername("luannguyen"); //request.getUserPrincipal().getName()
-//        product.setSeller(seller);
-
-        Seller seller = (Seller)accountService.getByUsername("luannguyen");
-
-        Category category = categoryService.getById(1).get();
-        //category.setId(1);
-        product.setCategory(category);
-
-        product.setStatus(ProductStatus.New);
-
-        product.setCreatedDate(new Date());
 
         productService.save(product);
-
         status.setComplete();
-
         return "redirect:/admin/products";
     }
 
@@ -106,19 +93,17 @@ public class ProductController {
     public String delete(@RequestParam(name = "id") Integer id){
 
         //Product product=new Product();
-        // product.setId(id);
+        //product.setId(id);
         //productService.getById(id);
-        Product product = productService.getById(id).get();
+        // Product product = productService.getById(id).get();
         try {
 
-            productService.delete(productService.getById(id).get());
+            productService.delete(id);
             return "redirect:/admin/products";
         }
         catch(Exception ex){
-            throw  new ProductException("Error: "+product.getName()+" has order, We can not delete");
+            throw  new ProductException("Error: product has order, We can not delete");
         }
-
-
 
     }
 
