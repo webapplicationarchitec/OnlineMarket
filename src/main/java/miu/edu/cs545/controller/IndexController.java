@@ -125,7 +125,7 @@ public class IndexController {
         if (cat != null)
             list = productService.getByCategory(Integer.parseInt(cat));
         else {
-            if(type1.equals("following")&&user!=null){
+            if(type1.equals("following")&&user!=null&& request.isUserInRole("ROLE_BUYER")){
                 follow="unfollow";
                 type="no";
                 title="Product List By Sellers You Following";
@@ -171,8 +171,8 @@ public class IndexController {
         model.addAttribute("reviewList", reviewList);
         return "buyer/product";
     }
-
     @GetMapping("/productReview")
+    @PreAuthorize("hasRole('ROLE_BUYER')")
     public String productReview(Model model, HttpServletRequest request) {
         String proid = request.getParameter("pid");
         if (proid == null) {
@@ -194,6 +194,7 @@ public class IndexController {
         return "buyer/product-review";
     }
     @PostMapping("/productReview")
+    @PreAuthorize("hasRole('ROLE_BUYER')")
     public String SaveReview(@RequestParam(name = "pid")Integer pid, @RequestParam(name = "pmessage") String pmessage,Model model, HttpServletRequest request) {
         Principal user = request.getUserPrincipal();
         String username = "";
@@ -236,6 +237,7 @@ public class IndexController {
     }
 
     @GetMapping("/follows")
+    @PreAuthorize("hasRole('ROLE_BUYER')")
     public String follow(Model model, HttpServletRequest request, HttpServletResponse response) {
         Principal user = request.getUserPrincipal();
         String username = "";
