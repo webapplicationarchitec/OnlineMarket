@@ -148,6 +148,7 @@ public class BuyerController {
                     order.setStatus(OrderStatus.New);
                     order.setTax(0.00);
                     order.setShippingFee(shippingFee);
+                    order.setShippingAddress("");
                     order.setTotal(shippingFee);
                     detailList = new ArrayList<>();
                     order.setOrderDetailList(detailList);
@@ -286,6 +287,9 @@ public class BuyerController {
         Principal principal = request.getUserPrincipal();
         String seller = checkOutModel.getOrder().getSeller().getUsername();
         OnlineOrder order = cart.getOrderList().get(seller);
+        if (checkOutModel.getOrder().getShippingAddress() != null && !checkOutModel.getOrder().getShippingAddress().trim().equals("")) {
+            order.setShippingAddress(checkOutModel.getOrder().getShippingAddress());
+        }
         orderService.placeOrder(order, principal.getName(), checkOutModel.getUsedPoints());
 
         cart.getOrderList().remove(seller);
