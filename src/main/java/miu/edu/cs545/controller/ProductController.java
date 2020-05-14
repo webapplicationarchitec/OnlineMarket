@@ -79,7 +79,13 @@ public class ProductController {
     //private String path;
 
     @PostMapping("product")
-    public String save(@ModelAttribute("product") Product product, SessionStatus status, HttpServletRequest request){
+    public String save(@Valid @ModelAttribute("product") Product product, BindingResult bindingResult,
+                       SessionStatus status, HttpServletRequest request){
+
+        if(bindingResult.hasErrors()){
+//            return "redirect:/admin/product";
+            return "admin/product";
+        }
 
         Principal principal = request.getUserPrincipal();
         String username = principal.getName();

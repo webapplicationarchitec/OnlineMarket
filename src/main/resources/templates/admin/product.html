@@ -5,6 +5,11 @@
     <meta charset="UTF-8">
     <title>Online Market</title>
     <script src="/assets/js/product.js"></script>
+    <style>
+        .error{
+            color: red;
+        }
+    </style>
 </head>
 <body>
 <div layout:fragment="admin-main-content">
@@ -21,16 +26,29 @@
                                         <div class="form-row">
 
                                             <div class="col-md-6">
-                                                <div class="form-group"><label class="small mb-1" for="inputName">Name</label><input class="form-control py-4" id="inputname" th:field="*{name}"  type="text" placeholder="Enter name" /></div>
+                                                <div class="form-group"><label class="small mb-1" for="inputName" th:text="#{pro.name}">Name</label>
+                                                    <input class="form-control py-4" id="inputname" th:field="*{name}"  type="text" placeholder="Enter name" />
+                                                    <span th:if="${#fields.hasErrors('name')}" th:errors="*{name}" th:errorclass="error"></span>
+                                                    <!--span th:if="${#fields.hasErrors('username')}" th:errors="*{username}" th:errorclass="error"></span-->
+                                                </div>
                                             </div>
                                             <div class="col-md-6">
-                                                <div class="form-group"><label class="small mb-1" for="inputDescription">Description</label><input class="form-control py-4" id="inputDescription" th:field="*{description}" type="text" placeholder="Enter description" /></div>
+                                                <div class="form-group"><label class="small mb-1" for="inputDescription" th:text="#{pro.description}">Description</label>
+                                                    <input class="form-control py-4" id="inputDescription" th:field="*{description}" type="text" placeholder="Enter description" />
+                                                    <span th:if="${#fields.hasErrors('description')}" th:errors="*{description}" th:errorclass="error"></span>
+                                                </div>
                                             </div>
                                             <div class="col-md-6">
-                                                <div class="form-group"><label class="small mb-1" for="inputPrice">Price</label><input class="form-control py-4" id="inputPrice" th:field="*{price}"  type="text" placeholder="Enter price" /></div>
+                                                <div class="form-group"><label class="small mb-1" for="inputPrice" th:text="#{pro.price}">Price</label>
+                                                    <input class="form-control py-4" id="inputPrice" th:field="*{price}"  type="text" placeholder="Enter price" />
+                                                    <span th:if="${#fields.hasErrors('price')}" th:errors="*{price}" th:errorclass="error"></span>
+                                                </div>
                                             </div>
                                             <div class="col-md-6">
-                                                <div class="form-group"><label class="small mb-1" for="inputPoint">Point</label><input class="form-control py-4" id="inputPoint" th:field="*{point}" type="text" placeholder="Enter point" /></div>
+                                                <div class="form-group"><label class="small mb-1" for="inputPoint" th:text="#{pro.point}">Point</label>
+                                                    <input class="form-control py-4" id="inputPoint" th:field="*{point}" type="text" placeholder="Enter point" />
+                                                    <span th:if="${#fields.hasErrors('point')}" th:errors="*{point}" th:errorclass="error"></span>
+                                                </div>
                                             </div>
                                             <div class="col-md-6">
                                                 <select id="roles" th:field="*{category}">
@@ -41,10 +59,10 @@
 
                                             <div class="col-md-6">
                                                 <img id="img" height="150"  th:src="*{photo}"/>
-
-                                                 <input type="file" id="inp" name="file" th:field="*{image}" />
-                                                 <p>upload image < 1MB</p>
-                                                </div>
+                                                <input type="file" id="inp" name="file" th:field="*{image}" />
+                                                <span th:if="${#fields.hasErrors('photo')}" th:errors="*{photo}" th:errorclass="error"></span>
+                                                <p>upload image < 1MB</p>
+                                            </div>
                                         </div>
 <!--                                        <div class="form-group"><label class="small mb-1" for="inputEmailAddress">Email</label><input class="form-control py-4" id="inputEmailAddress" type="email" aria-describedby="emailHelp" placeholder="Enter email address" /></div>-->
 <!--                                        <div class="form-row">-->
