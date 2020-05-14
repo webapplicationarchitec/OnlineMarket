@@ -80,7 +80,7 @@ public class IndexController {
         List<Seller> sellerList = new ArrayList<>();
         List<Product> listtop = productService.getTopProducts();
         List<Product> productListFollow = new ArrayList<>();
-        if (user != null) {
+        if (user != null && request.isUserInRole("ROLE_BUYER")) {
             username = user.getName();
             Buyer buyer = buyerService.getByUsername(username);
 
