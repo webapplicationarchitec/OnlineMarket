@@ -110,13 +110,42 @@ public class IndexController {
     }
 
     @GetMapping("/products")
-    public String products(Model model, HttpServletRequest request) {
+    public String products(Model model,@RequestParam(name = "type",required = false) String type, HttpServletRequest request) {
+//        System.out.println(type);
+        Principal user = request.getUserPrincipal();
+        String type1 =type;
+        if(type1==null)
+            type1=" ";
         String cat = request.getParameter("cat");
-        List<Product> list;
+        List<Product> list= new ArrayList<>();
+        String typep ="yes";
+        String follow="follow";
+        String title = "Product List";
+
         if (cat != null)
             list = productService.getByCategory(Integer.parseInt(cat));
-        else
-            list = productService.all();
+        else {
+            if(type1.equals("following")&&user!=null){
+                follow="unfollow";
+                type="no";
+                title="Product List By Sellers You Following";
+                Buyer buyer = buyerService.getByUsername(user.getName());
+
+                for (Seller sel : buyer.getFollowerList()) {
+                    if (productService.findProductBySeller(sel)!=null) {
+                        list.addAll(productService.findProductBySeller(sel));
+                    }
+
+                }
+
+            }else {
+                list = productService.all();
+            }
+
+        }
+        model.addAttribute("typep", typep);
+        model.addAttribute("follow", follow);
+        model.addAttribute("title", title);
         model.addAttribute("productlist", list);
         return "buyer/products-test";
     }
@@ -166,7 +195,6 @@ public class IndexController {
     }
     @PostMapping("/productReview")
     public String SaveReview(@RequestParam(name = "pid")Integer pid, @RequestParam(name = "pmessage") String pmessage,Model model, HttpServletRequest request) {
-        System.out.println(pid);
         Principal user = request.getUserPrincipal();
         String username = "";
         String proid = request.getParameter("pid");
