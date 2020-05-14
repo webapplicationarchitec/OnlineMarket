@@ -118,6 +118,11 @@ public class ProductServiceImp implements ProductService {
         return toList(productRepositoryJ.findAllBySeller(seller));
     }
 
+    @Override
+    public Product update(Product product) {
+        return productRepositoryJ.save(product);
+    }
+
     public static <T> List<T> toList(final Iterable<T> iterable) {
         return StreamSupport.stream(iterable.spliterator(), false)
                 .collect(Collectors.toList());
