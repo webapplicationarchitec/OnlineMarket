@@ -77,15 +77,17 @@ public class IndexController {
     public String index(Model model, HttpServletRequest request) {
         Principal user = request.getUserPrincipal();
         String username = "";
-        List<Seller> sellerList = null;
+        List<Seller> sellerList = new ArrayList<>();
         List<Product> listtop = productService.getTopProducts();
-        List<Product> productListFollow = null;
+        List<Product> productListFollow = new ArrayList<>();
         if (user != null) {
             username = user.getName();
             Buyer buyer = buyerService.getByUsername(username);
 
             for (Seller sel : buyer.getFollowerList()) {
-                productListFollow.addAll(sel.getListProduct());
+                if (productService.findProductBySeller(sel)!=null) {
+                    productListFollow.addAll(productService.findProductBySeller(sel));
+                }
 
             }
             if (productListFollow == null)
@@ -209,9 +211,9 @@ public class IndexController {
     public String follow(Model model, HttpServletRequest request, HttpServletResponse response) {
         Principal user = request.getUserPrincipal();
         String username = "";
-        List<Seller> sellerList = null;
+        List<Seller> sellerList = new ArrayList<>();
         List<Product> listtop = productService.getTopProducts();
-        List<Product> productListFollow = null;
+        List<Product> productListFollow = new ArrayList<>();
         String type = request.getParameter("type");
         String susername = request.getParameter("user");
         if (user != null) {

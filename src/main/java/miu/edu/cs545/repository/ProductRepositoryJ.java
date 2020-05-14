@@ -25,4 +25,6 @@ public interface ProductRepositoryJ extends JpaRepository<Product, Integer> {
     //not space between two object
     @Query("SELECT p FROM Product p where p.category.id= :id")
     List<Product> getByCategory(@Param("id") Integer id);
+
+    public List<Product> findAllBySeller(Seller seller);
 }
