@@ -40,6 +40,13 @@ public class AccountServiceImp implements AccountService {
         return (createdAcc != null);
     }
 
+    @Override
+    public <T extends Account> T saveProfile(T account) {
+
+        T created = (T)accountRepository.save(account);
+        return created;
+    }
+
     public <T extends Account> T getByUsername(String username) {
         Optional<T> opt = accountRepository.findById(username);
         if (opt.isPresent()) {
