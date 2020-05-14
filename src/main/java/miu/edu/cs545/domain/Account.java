@@ -34,7 +34,7 @@ public class Account {
     @NotEmpty(message = "{error.string.empty}")
 //    @NotNull
 //    @Column(nullable = false)
-    @Size(min = 3, max = 10, message = "{error.size}")
+    @Size(min = 2, max = 10, message = "{error.size}")
     private String firstName;
 
     @NotEmpty(message = "{error.string.empty}")

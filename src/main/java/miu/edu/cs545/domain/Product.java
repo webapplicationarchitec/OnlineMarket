@@ -28,10 +28,10 @@ public class Product {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
     @NotEmpty(message = "{error.string.empty}")
-    @Size(min=3, max=20, message = "{error.size}")
+    @Size(min=3, max=255, message = "{error.size}")
     private String name;
     @NotEmpty(message = "{error.string.empty}")
-    @Size(min=10, max=100, message = "{error.size}")
+    @Size(min=10, message = "{error.size.min}")
     private String description;
     @NotNull(message = "{error.any.null}")
     @Range(min=0, message="{error.number.range}")
