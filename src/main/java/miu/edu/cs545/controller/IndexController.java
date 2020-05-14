@@ -36,6 +36,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.stream.Collectors;
 
 
 @Controller
@@ -126,7 +127,17 @@ public class IndexController {
 //            return "redirect:/buyer/product";
         }
         Product pro = productService.getById(Integer.parseInt(proid)).get();
+        List<Review> reviewList=reviewService.getListReviewsByStatusAndProduct(ReviewStatus.Approved,pro);
+        if (reviewList==null){
+            Review review= new Review();
+            review.setId(1);
+            review.setComment(" please make a review. ");
+            review.setStatus(ReviewStatus.Approved);
+            reviewList.add(review);
+        }
+        System.out.println(reviewList);
         model.addAttribute("pro", pro);
+        model.addAttribute("reviewList", reviewList);
         return "buyer/product";
     }
 
@@ -138,11 +149,22 @@ public class IndexController {
 //            return "redirect:/buyer/product";
         }
         Product pro = productService.getById(Integer.parseInt(proid)).get();
+        List<Review> reviewList=reviewService.getListReviewsByStatusAndProduct(ReviewStatus.Approved,pro);
+        if (reviewList==null){
+            Review review= new Review();
+            review.setId(1);
+            review.setComment(" please make a review. ");
+            review.setStatus(ReviewStatus.Approved);
+            reviewList.add(review);
+        }
+        System.out.println(reviewList);
         model.addAttribute("pro", pro);
+        model.addAttribute("reviewList", reviewList);
         return "buyer/product-review";
     }
     @PostMapping("/productReview")
-    public String SaveReview(Model model, HttpServletRequest request) {
+    public String SaveReview(@RequestParam(name = "pid")Integer pid, @RequestParam(name = "pmessage") String pmessage,Model model, HttpServletRequest request) {
+        System.out.println(pid);
         Principal user = request.getUserPrincipal();
         String username = "";
         String proid = request.getParameter("pid");
@@ -153,23 +175,34 @@ public class IndexController {
             if (buyer!=null) {
                 if (proid != null&&message!=null) {
                     Product pro= productService.getById(Integer.parseInt(proid)).get();
-//                    if (pro!=null)
-//
-//                        Review rev =reviewService.;
-////                        rev.
-//
-////                        pro.getListReview().add(new Review(i))
+                    if (pro!=null) {
+                        Review rev = new Review();
+                        rev.setComment(message);
+                        rev.setBuyer(buyer);
+                        rev.setDateCreate(new Date());
+                        pro.getListReview().add(rev);
+                        rev.setProduct(pro);
+                        rev.setSeller(pro.getSeller());
+                        rev.setStatus(ReviewStatus.New);
+                        reviewService.addnew(rev);
+                        productService.save(pro);
+
+                    }
+
+
                 }
 
             }
         }
-        if (proid != null&&message!=null) {
-            proid = "106";
+            if (proid == null) {
+                proid = "106";
 //            return "redirect:/buyer/product";
-        }
+            }
+
+
         Product pro = productService.getById(Integer.parseInt(proid)).get();
         model.addAttribute("pro", pro);
-        return "buyer/product-review";
+        return "redirect:/product?pid="+proid;
     }
 
     @GetMapping("/follows")
