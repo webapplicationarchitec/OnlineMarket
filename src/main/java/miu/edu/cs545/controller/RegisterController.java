@@ -68,6 +68,7 @@ public class RegisterController {
         String accountType = request.getParameter("user-type");
         AccountType accType = AccountType.valueOf(accountType);
         boolean res;
+
         if(accType == AccountType.Seller){
             Seller accSeller = new Seller(account.getUsername(), account.getPassword(),
                     account.getFirstName(), account.getLastName(), AccountStatus.New,
@@ -79,6 +80,14 @@ public class RegisterController {
                 Buyer accBuyer = new Buyer(account.getUsername(), account.getPassword(),
                         account.getFirstName(), account.getLastName(), AccountStatus.Approved,
                         account.getEmail());
+
+                Address address = new Address();
+                address.setCity("Temp city");
+                address.setState("Temp state");
+                address.setStreet("Temp street");
+                address.setZipcode("00000");
+
+                accBuyer.setBillingAddress(address);
                 res = accountService.createAccount(accBuyer);
             }
             else{

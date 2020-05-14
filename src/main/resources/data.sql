@@ -4,14 +4,14 @@ INSERT INTO `category`  VALUES (3,'assets/images/demos/demo-4/cats/3.png', 'Smar
 INSERT INTO `category`  VALUES (4,'assets/images/demos/demo-4/cats/4.png', 'Televisions');
 INSERT INTO `category`  VALUES (5,'assets/images/demos/demo-4/cats/5.png', 'Audio');
 INSERT INTO `category`  VALUES (6,'assets/images/demos/demo-4/cats/6.png', 'Smart Watches');
-INSERT INTO `address` (`id`, `city`, `state`, `street`, `zipcode`) VALUES (1, 'Fairfield', 'IA', '1000 N 4th', '52557');
-INSERT INTO `address` (`id`, `city`, `state`, `street`, `zipcode`) VALUES (2, 'Orange', 'CA', '96S 2th', '82552');
+INSERT INTO `address` (`id`, `city`, `state`, `street`, `zipcode`) VALUES (100, 'Fairfield', 'IA', '1000 N 4th', '52557');
+INSERT INTO `address` (`id`, `city`, `state`, `street`, `zipcode`) VALUES (200, 'Orange', 'CA', '96S 2th', '82552');
 insert into account (`account_type`, `username`, `email`, `first_name`, `last_name`, `password`, `account_status`)
 values ('ADMIN', 'admin', 'admin@miu.edu', 'Mrs', 'Aministrator', '$2b$10$QwKk5pHK1RhFfeFqPiaGx.7XHD/B5Y2LbxtkRJVKVOTZhezdRacwa', 1);
 insert into account (`account_type`, `username`, `email`, `first_name`, `last_name`, `password`, `account_status`, `address_id`)
-values ('BUYER', 'hanguyen', 'hanguyen@miu.edu', 'Ha', 'Nguyen', '$2b$10$QwKk5pHK1RhFfeFqPiaGx.7XHD/B5Y2LbxtkRJVKVOTZhezdRacwa', 1, 1);
+values ('BUYER', 'hanguyen', 'hanguyen@miu.edu', 'Ha', 'Nguyen', '$2b$10$QwKk5pHK1RhFfeFqPiaGx.7XHD/B5Y2LbxtkRJVKVOTZhezdRacwa', 1, 100);
 insert into account (`account_type`, `username`, `email`, `first_name`, `last_name`, `password`, `account_status`, `address_id`)
-values ('BUYER', 'yenpham', 'yenpham@miu.edu', 'Yen', 'Pham', '$2b$10$QwKk5pHK1RhFfeFqPiaGx.7XHD/B5Y2LbxtkRJVKVOTZhezdRacwa', 1, 2);
+values ('BUYER', 'yenpham', 'yenpham@miu.edu', 'Yen', 'Pham', '$2b$10$QwKk5pHK1RhFfeFqPiaGx.7XHD/B5Y2LbxtkRJVKVOTZhezdRacwa', 1, 200);
 insert into account (`account_type`, `username`, `email`, `first_name`, `last_name`, `password`, `account_status`)
 values ('SELLER', 'hainguyen', 'hainguyen@miu.edu', 'Hai', 'Nguyen', '$2b$10$QwKk5pHK1RhFfeFqPiaGx.7XHD/B5Y2LbxtkRJVKVOTZhezdRacwa', 1);
 insert into account (`account_type`, `username`, `email`, `first_name`, `last_name`, `password`, `account_status`)
