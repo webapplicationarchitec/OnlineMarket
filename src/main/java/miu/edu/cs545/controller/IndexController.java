@@ -216,7 +216,7 @@ public class IndexController {
                         rev.setSeller(pro.getSeller());
                         rev.setStatus(ReviewStatus.New);
                         reviewService.addnew(rev);
-                        productService.save(pro);
+                        productService.update(pro);
 
                     }
 

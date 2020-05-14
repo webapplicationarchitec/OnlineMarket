@@ -18,5 +18,6 @@ public interface ProductService {
    List<Product> getFollowerProducts(String username);
    List<Product> getByCategory(Integer categoryid);
    public List<Product> findProductBySeller(Seller seller);
+   public Product update(Product product);
 
 }
