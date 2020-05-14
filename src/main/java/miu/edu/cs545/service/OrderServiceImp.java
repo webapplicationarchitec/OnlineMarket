@@ -1,11 +1,8 @@
 package miu.edu.cs545.service;
 
-import miu.edu.cs545.domain.OnlineOrder;
-import miu.edu.cs545.domain.OrderDetail;
-import miu.edu.cs545.domain.OrderStatus;
+import miu.edu.cs545.domain.*;
 import miu.edu.cs545.exception.OrderCreateException;
-import miu.edu.cs545.repository.OrderPagingRepository;
-import miu.edu.cs545.repository.OrderRepository;
+import miu.edu.cs545.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -13,8 +10,14 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 
 import javax.transaction.Transactional;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
+import java.util.stream.StreamSupport;
 
 @Service
 @Transactional
@@ -22,16 +25,69 @@ public class OrderServiceImp implements OrderService {
 
     private final OrderRepository orderRepository;
     private final OrderPagingRepository orderPagingRepository;
+    private final ProductRepository productRepository;
+    private final BuyerRepository buyerRepository;
+    private final SellerRepository sellerRepository;
 
     @Autowired
-    public OrderServiceImp(OrderRepository orderRepository, OrderPagingRepository orderPagingRepository) {
+    public OrderServiceImp(OrderRepository orderRepository, OrderPagingRepository orderPagingRepository,
+                           ProductRepository productRepository, BuyerRepository buyerRepository, SellerRepository sellerRepository) {
         this.orderRepository = orderRepository;
-        this.orderPagingRepository=orderPagingRepository;
+        this.orderPagingRepository = orderPagingRepository;
+        this.productRepository = productRepository;
+        this.buyerRepository = buyerRepository;
+        this.sellerRepository = sellerRepository;
     }
 
-    public void placeOrder(OnlineOrder order) throws OrderCreateException {
+    public void placeOrder(OnlineOrder order, String buyerId) throws OrderCreateException {
         try {
-            orderRepository.save(order);
+            Buyer buyer = buyerRepository.findBuyerByUsername(buyerId);
+            Seller seller = sellerRepository.findById(order.getSeller().getUsername()).get();
+
+            OnlineOrder realOrder = new OnlineOrder();
+            realOrder.setSeller(seller);
+            realOrder.setBuyer(buyer);
+            realOrder.setTax(order.getTax());
+            realOrder.setTotal(order.getTotal());
+            realOrder.setShippingFee(order.getShippingFee());
+            realOrder.setShippingAddress(order.getShippingAddress());
+            realOrder.setStatus(OrderStatus.New);
+            Date currentDate = new Date();
+            realOrder.setDateCreate(currentDate);
+            realOrder.setDateShipping(getShippingDate(currentDate));
+            realOrder.setOrderno("ORD_#" + "123");
+
+            List<Integer> idList = new ArrayList<>();
+            for (OrderDetail detail : order.getOrderDetailList()) {
+                idList.add(detail.getProduct().getId());
+            }
+
+            Iterable<Product> products = productRepository.findAllById(idList);
+            List<Product> productList = StreamSupport.stream(products.spliterator(), false)
+                    .collect(Collectors.toList());
+
+            String shippingAddress = order.getShippingAddress();
+            if (shippingAddress == null || shippingAddress.equals("")) {
+                shippingAddress = buyer.getBillingAddress().getStreet() + " "
+                        + buyer.getBillingAddress().getCity() + " "
+                        + buyer.getBillingAddress().getState() + ", "
+                        + buyer.getBillingAddress().getZipcode();
+            }
+            realOrder.setShippingAddress(shippingAddress);
+
+            List<OrderDetail> detailList = new ArrayList<>();
+            for (OrderDetail detail : order.getOrderDetailList()) {
+                OrderDetail realDetail = new OrderDetail();
+                realDetail.setQty(detail.getQty());
+                realDetail.setSellPrice(detail.getSellPrice());
+                realDetail.setTotal(detail.getSellPrice() * detail.getQty());
+                Product product = productList.stream().filter(p -> p.getId() == detail.getProduct().getId()).findFirst().get();
+                realDetail.setProduct(product);
+                detailList.add(realDetail);
+            }
+
+            realOrder.setOrderDetailList(detailList);
+            orderRepository.save(realOrder);
         } catch (Exception e) {
             throw new OrderCreateException("Could not create exception");
         }
@@ -66,8 +122,8 @@ public class OrderServiceImp implements OrderService {
 
     public void updateStatus(OrderStatus status, Integer id) {
 
-        if(status==OrderStatus.Delivered) orderRepository.updateDateDelivered(new Date(),id);
-        else  orderRepository.updateDateDelivered(null,id);
+        if (status == OrderStatus.Delivered) orderRepository.updateDateDelivered(new Date(), id);
+        else orderRepository.updateDateDelivered(null, id);
 
         orderRepository.updateStatus(status, id);
 
@@ -76,5 +132,13 @@ public class OrderServiceImp implements OrderService {
     @Override
     public List<OnlineOrder> getByBuyer(String userName) {
         return orderRepository.getByBuyer(userName);
+    }
+
+    private Date getShippingDate(Date dateCreate) {
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+        Calendar c = Calendar.getInstance();
+        c.setTime(dateCreate); // Now use today date.
+        c.add(Calendar.DATE, 14); // Adding 5 days
+        return c.getTime();
     }
 }
