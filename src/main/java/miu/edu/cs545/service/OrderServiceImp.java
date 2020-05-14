@@ -89,7 +89,7 @@ public class OrderServiceImp implements OrderService {
                 point += product.getPoint() * detail.getQty();
             }
 
-            if (usedPoints > 0) {
+            if (usedPoints != null && usedPoints > 0) {
                 Optional<BonusPoint> optPoint = bonusPointRepository.findBySellerAndBuyer(seller, buyer);
                 if (optPoint.isPresent()) {
                     BonusPoint bonusPoint = optPoint.get();

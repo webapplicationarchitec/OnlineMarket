@@ -52,7 +52,7 @@
                                                    step="1" data-decimals="0" required>
                                         </div><!-- End .cart-product-quantity -->
                                     </td>
-                                    <td class="total-col" th:text="${'$' + orderDetail.qty*orderDetail.sellPrice}">
+                                    <td class="total-col" th:text="${'$' + #numbers.formatDecimal(orderDetail.qty*orderDetail.sellPrice, 0, 'COMMA', 2, 'POINT')}">
                                         $total
                                     </td>
                                     <td class="remove-col">
