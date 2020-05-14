@@ -61,12 +61,13 @@ public class ProductController {
     }
 
     @GetMapping("products")
-    public String products(Model model){
+    public String products(Model model,HttpServletRequest request){
 
         Pageable sortedByName =
                 PageRequest.of(0, 100, Sort.by("createdDate").descending());
-
-        Page<Product> productOptional =  productService.paging(sortedByName);
+        Principal principal = request.getUserPrincipal();
+        String username = principal.getName();
+        Page<Product> productOptional =  productService.paging(username ,sortedByName);
 
         model.addAttribute("product", productOptional);
 

@@ -134,8 +134,10 @@ public class OrderServiceImp implements OrderService {
     }
 
     @Override
-    public Page<OnlineOrder> paging(Pageable pageable) {
-        return orderPagingRepository.findAll(pageable);
+    public Page<OnlineOrder> paging(String username,Pageable pageable) {
+        Seller seller =new Seller();
+        seller.setUsername(username);
+        return orderPagingRepository.findOnlineOrdersBySeller(seller,pageable);
     }
 
     @Override

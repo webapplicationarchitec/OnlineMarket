@@ -24,7 +24,7 @@ public interface OrderService {
 
     public OnlineOrder getOrderWithDetails(Integer id);
 
-    public Page<OnlineOrder> paging(Pageable pageable);
+    public Page<OnlineOrder> paging(String username,Pageable pageable);
 
     public void updateStatus(OrderStatus status, Integer id);
 

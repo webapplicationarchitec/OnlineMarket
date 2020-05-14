@@ -18,4 +18,6 @@ public interface ProductRepository extends CrudRepository<Product, Integer> {
     @Modifying
     @Query(value="DELETE FROM PRODUCT  Where ID= ?1",  nativeQuery = true )
     public void deleteProductAndDeleteOrderDetailWihoutCastcase(Integer id);
+
+
 }
