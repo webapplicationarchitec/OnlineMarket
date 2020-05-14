@@ -7,7 +7,7 @@ import java.util.List;
 
 public interface AccountService {
 
-    public <T extends Account> T createAccount(T account);
+    public <T extends Account> boolean createAccount(T account);
 
 
     public List<Account> getNewSellerAccount();
@@ -15,5 +15,5 @@ public interface AccountService {
     public void approveNewAcount(AccountStatus status, String username);
 
     public <T extends Account> T getByUsername(String username);
-    public Account getByUsername1(String username);
+//    public Account getByUsername1(String username);
 }

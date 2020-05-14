@@ -23,16 +23,21 @@ public class AccountServiceImp implements AccountService {
     }
 
     @Override
-    public <T extends Account> T createAccount(T account) {
-        //AccountRepository<T extends Account>
+    public <T extends Account> boolean createAccount(T account) {
+
+        Optional<T> existAcc = accountRepository.findById(account.getUsername());
+        if(existAcc.isPresent()){
+            return false;
+        }
 
         BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
         String password = account.getPassword();
         String encryptedPassword = encoder.encode(password);
         account.setPassword(encryptedPassword);
 
-        T created = (T)accountRepository.save(account);
-        return created;
+        T createdAcc = (T)accountRepository.save(account);
+
+        return (createdAcc != null);
     }
 
     public <T extends Account> T getByUsername(String username) {
@@ -51,13 +56,13 @@ public class AccountServiceImp implements AccountService {
 //        return null;
 //    }
 
-    public Account getByUsername1(String username) {
-        Optional<Account> opt = accountRepository.findById(username);
-        if (opt.isPresent()) {
-            return opt.get();
-        }
-        return null;
-    }
+//    public Account getByUsername1(String username) {
+//        Optional<Account> opt = accountRepository.findById(username);
+//        if (opt.isPresent()) {
+//            return opt.get();
+//        }
+//        return null;
+//    }
 
     @Override
     public List<Account> getNewSellerAccount() {

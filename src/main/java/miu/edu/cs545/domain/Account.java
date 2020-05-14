@@ -45,7 +45,9 @@ public class Account {
 //    @Column(nullable = false)
     private AccountStatus accountStatus;
 
-//    @Transient
+////    @Transient
+//    @NotNull
+//    @Column(nullable = false)
 //    private AccountType accountType;
 
     @NotEmpty(message = "{error.string.empty}")

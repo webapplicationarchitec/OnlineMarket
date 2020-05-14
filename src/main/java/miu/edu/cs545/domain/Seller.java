@@ -29,4 +29,7 @@ public class Seller extends Account{
     public Seller(String username, @NotEmpty @NotNull String password, @NotEmpty String firstName, @NotEmpty String lastName, AccountStatus accountStatus, @NotEmpty @Email String email) {
         super(username, password, firstName, lastName, accountStatus, email);
     }
+//    public Seller(String username, @NotEmpty @NotNull String password, @NotEmpty String firstName, @NotEmpty String lastName, AccountStatus accountStatus, AccountType accountType, @NotEmpty @Email String email) {
+//        super(username, password, firstName, lastName, accountStatus, accountType, email);
+//    }
 }

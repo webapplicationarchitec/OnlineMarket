@@ -8,6 +8,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.bind.support.SessionStatus;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
@@ -15,58 +16,132 @@ import java.security.Principal;
 import java.util.ArrayList;
 
 @Controller
-@SessionAttributes({"accBuyer"})
+@SessionAttributes({"accBuyer", "accSeller"})
 public class RegisterController {
 
     @Autowired
     AccountService accountService;
 
+//    @GetMapping("/reg1")
+//    public String doRegistration1(@ModelAttribute(value="account") Account account){
+//        return "buyer/registration";
+//    }
+
     @GetMapping("/reg")
-    public String doRegistration(@ModelAttribute(value="account") Account account){
+    public <T extends Account> String doRegistration(@ModelAttribute(value="account") T account){
         return "buyer/registration";
     }
 
     @PostMapping("/saveAccount")
-    public String saveAccount(@Valid @ModelAttribute(value="account") Account account, BindingResult result, HttpServletRequest request){
-//        System.out.println("Account info: " + account);
+    public <T extends Account> String saveAccount(@Valid @ModelAttribute(value="account") T account,
+                                                  BindingResult result, HttpServletRequest request) {
         if(result.hasErrors()){
+            return "redirect:/reg";//"buyer/registration";
+        }
+
+//        if (request.isUserInRole("ROLE_BUYER")){
+//            account.setAccountStatus(AccountStatus.Approved);
+//        }
+//        else if (request.isUserInRole("ROLE_SELLER")) {
+//
+//        }
+
+//        if(account instanceof Buyer){
+//            System.out.println("instanceof Buyer");
+//            account.setAccountStatus(AccountStatus.Approved);
+//        }
+
+        String accountType = request.getParameter("user-type");
+        AccountType accType = AccountType.valueOf(accountType);
+        if(accType == AccountType.Buyer){
+            account.setAccountStatus(AccountStatus.Approved);
+        }
+
+        boolean res = accountService.createAccount(account);
+        if (!res) {
+            result.rejectValue("username", "error.username.dup", "The account was existed");
             return "buyer/registration";
         }
-        //classify account types
-        String accountType = request.getParameter("user-type");
-//        System.out.println("Account Type: " + accountType);
-        AccountType accType = AccountType.valueOf(accountType);
 
-        if(accType == AccountType.Seller){
-            Seller accSeller = new Seller(account.getUsername(), account.getPassword(),
-                    account.getFirstName(), account.getLastName(), AccountStatus.New,
-                    account.getEmail());
-            accountService.createAccount(accSeller);
-        }
-        else{
-            if(accType == AccountType.Buyer){
-                Buyer accBuyer = new Buyer(account.getUsername(), account.getPassword(),
-                        account.getFirstName(), account.getLastName(), AccountStatus.Approved,
-                        account.getEmail());
-                accountService.createAccount(accBuyer);
-            }
-            else{
-                //admin type, do nothing
-                Admin accAdmin = new Admin(account.getUsername(), account.getPassword(),
-                        account.getFirstName(), account.getLastName(), AccountStatus.New,
-                        account.getEmail());
-                accountService.createAccount(accAdmin);
-            }
-        }
-
-        return "/buyer/user";
+        return "redirect:/buyer/home";
     }
 
+    @GetMapping("buyer/home")
+    public <T extends Account> String goToHome(@ModelAttribute(value="account") T account){
+        return "buyer/home";
+    }
+
+//    @PostMapping("/saveAccount1")
+//    public String saveAccount1(@Valid @ModelAttribute(value="account") Account account, BindingResult result, HttpServletRequest request){
+////        System.out.println("Account info: " + account);
+//        if(result.hasErrors()){
+//            return "buyer/registration";
+//        }
+////        System.out.println("Account Type: " + account.getAccountType());
+////        accountService.createAccount(account);
+////        return "/buyer/user";
+//        //classify account types
+//        String accountType = request.getParameter("user-type");
+//        AccountType accType = AccountType.valueOf(accountType);
+//
+//        if(accType == AccountType.Seller){
+//            Seller accSeller = new Seller(account.getUsername(), account.getPassword(),
+//                    account.getFirstName(), account.getLastName(), AccountStatus.New,
+//                    account.getEmail());
+//            accountService.createAccount(accSeller);
+//        }
+//        else{
+//            if(accType == AccountType.Buyer){
+//                Buyer accBuyer = new Buyer(account.getUsername(), account.getPassword(),
+//                        account.getFirstName(), account.getLastName(), AccountStatus.Approved,
+//                        account.getEmail());
+//                accountService.createAccount(accBuyer);
+//            }
+//            else{
+//                //admin type, do nothing
+//                Admin accAdmin = new Admin(account.getUsername(), account.getPassword(),
+//                        account.getFirstName(), account.getLastName(), AccountStatus.New,
+//                        account.getEmail());
+//                accountService.createAccount(accAdmin);
+//            }
+//        }
+//
+//        return "/buyer/user";
+//    }
+
     @GetMapping("/profile")
-    public String showProfile(/*@Valid*/ /*@ModelAttribute(value="account") Buyer account, */HttpServletRequest request, Model model){
+    public String showProfile(/*@Valid*/ /*@ModelAttribute(value="account") Buyer account, */HttpServletRequest request, Model model) {
+        Principal loggedUser = request.getUserPrincipal();
+        if (loggedUser != null) {
+            // Identify Seller role or Buyer role
+            if (request.isUserInRole("ROLE_BUYER")) {
+                Buyer account = accountService.getByUsername(loggedUser.getName());//get the current login user
+                model.addAttribute("accBuyer", account);
+                return "buyer/profile";
+            }
+            else {
+                if (request.isUserInRole("ROLE_SELLER")) {
+                    Seller account = accountService.getByUsername(loggedUser.getName());//get the current login user
+                    model.addAttribute("accSeller", account);
+                    return "admin/profile";
+                } else {
+                    return "buyer/home";
+                }
+            }
+        }
+        else{
+            return "buyer/home";
+        }
+    }
+
+    @GetMapping("/profile1")
+    public String showProfile1(/*@Valid*/ /*@ModelAttribute(value="account") Buyer account, */HttpServletRequest request, Model model){
+
         Principal loggedUser = request.getUserPrincipal();
         if(loggedUser != null){
             Buyer account = accountService.getByUsername(loggedUser.getName());//get the current login user
+//            Account account1 = accountService.getByUsername1(loggedUser.getName());
+
 //            System.out.println("Before show form, Logged user's address id: " + account.getBillingAddress().getId());
 //            request.getSession().setAttribute("account", account);
             model.addAttribute("accBuyer", account);
@@ -80,14 +155,31 @@ public class RegisterController {
     @PostMapping("/saveProfile")
     public String updateProfile(@Valid @ModelAttribute(value="accBuyer") Buyer account, BindingResult bindingResult, SessionStatus status){
         if(bindingResult.hasErrors()){
-            return "buyer/profile";
+            return "buyer/profile";//"redirect:/profile";//
         }
         //save the buyer profile to DB
 //        System.out.println("After show form, Logged user's address id: " + account.getBillingAddress().getId());
         accountService.createAccount(account);
         status.setComplete();
-        return "buyer/home";
+        return "redirect:/buyer/home";//"buyer/home";
     }
+
+    @PostMapping("/saveSellerProfile")
+    public String updateSellerProfile(@Valid @ModelAttribute(value="accSeller") Seller account, BindingResult bindingResult, SessionStatus status){
+        if(bindingResult.hasErrors()){
+            return "admin/profile";//"redirect:/profile";//
+        }
+        //save the buyer profile to DB
+//        System.out.println("After show form, Logged user's address id: " + account.getBillingAddress().getId());
+        accountService.createAccount(account);
+        status.setComplete();
+        return "redirect:/admin/products";
+    }
+
+//    @GetMapping("seller/listProduct")
+//    public <T extends Account> String goToProductList(@ModelAttribute(value="account") T account){
+//        return "admin/products";
+//    }
 
     @GetMapping("/listReg")
     public String getListRegistration(Model model){

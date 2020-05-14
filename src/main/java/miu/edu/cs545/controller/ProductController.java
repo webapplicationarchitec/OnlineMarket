@@ -16,6 +16,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -67,7 +68,11 @@ public class ProductController {
     //private String path;
 
     @PostMapping("product")
-    public String save(@ModelAttribute("product") Product product, HttpServletRequest request){
+    public String save(@Valid @ModelAttribute("product") Product product, BindingResult bindingResult, HttpServletRequest request){
+
+        if(bindingResult.hasErrors()){
+            return "admin/products";
+        }
 
         //Upload File to azure blobAzure
         BlobAzure blobAzure=new BlobAzure();

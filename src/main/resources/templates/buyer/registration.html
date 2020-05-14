@@ -37,6 +37,8 @@
             <input type="text" class="form-control" id="username" th:field="*{username}"
                    name="register-uname" required>
             <span th:if="${#fields.hasErrors('username')}" th:errors="*{username}" th:errorclass="error"></span>
+<!--            <span th:if="${existAccount == 1}" th:text="#{error.username.dup}" th:errorclass="error"></span>-->
+
         </div><!-- End .form-group -->
         <div class="form-group">
             <label for="register-password-2" th:text="#{reg.password}">Password *</label>
@@ -63,9 +65,9 @@
             <span th:if="${#fields.hasErrors('email')}" th:errors="*{email}" th:errorclass="error"></span>
         </div><!-- End .form-group -->
         <div class="form-group">
-            <!--input type="radio" name="user-type" value="Buyer" th:value="*{accountType.Buyer}" required> <label
+            <!--input type="radio" name="user-type" value="Buyer" th:field="*{ACCOUNT_TYPE}" th:value="*{accountType.Buyer}" required><label
                 for="user-type" th:text="#{reg.buyer}">Buyer</label>
-            <input type="radio" name="user-type" value="Seller" th:value="*{accountType.Seller}"><label
+            <input type="radio" name="user-type" value="Seller" th:field="*{accountType}" th:value="*{accountType.Seller}"><label
                 for="user-type" th:text="#{reg.seller}">Seller</label-->
             <input type="radio" name="user-type" value="Buyer" required> <label
                 for="user-type" th:text="#{reg.buyer}">Buyer</label>
