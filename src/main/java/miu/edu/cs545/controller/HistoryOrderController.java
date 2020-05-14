@@ -9,6 +9,9 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
+import javax.servlet.http.HttpServletRequest;
+import java.security.Principal;
+
 @Controller
 @RequestMapping("/buyer/")
 @SessionAttributes("myCart")
@@ -18,9 +21,10 @@ public class HistoryOrderController {
     OrderService orderService;
 
     @RequestMapping("historyorders")
-    public  String  getHistoryBuyer(Model model){
-
-         model.addAttribute("histories", orderService.getByBuyer("hanguyen"));
+    public  String  getHistoryBuyer(Model model, HttpServletRequest request){
+        Principal principal = request.getUserPrincipal();
+        String username = principal.getName();
+         model.addAttribute("histories", orderService.getByBuyer(username));
          return "/buyer/historyorder";
 
     }
