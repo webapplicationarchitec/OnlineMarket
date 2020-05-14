@@ -1,15 +1,11 @@
 package miu.edu.cs545.controller;
 
-import miu.edu.cs545.domain.Buyer;
-import miu.edu.cs545.domain.OnlineOrder;
-import miu.edu.cs545.domain.OrderDetail;
-import miu.edu.cs545.domain.Product;
+import miu.edu.cs545.domain.*;
 import miu.edu.cs545.dto.Cart;
 import miu.edu.cs545.dto.CheckOutModel;
-import miu.edu.cs545.service.AccountService;
-import miu.edu.cs545.service.BuyerService;
-import miu.edu.cs545.service.ProductService;
-import miu.edu.cs545.service.SellerService;
+import miu.edu.cs545.dto.RemoveCartModel;
+import miu.edu.cs545.exception.OrderCreateException;
+import miu.edu.cs545.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -32,6 +28,7 @@ public class BuyerController {
     private final ProductService productService;
     private final SellerService sellerService;
     private final BuyerService buyerService;
+    private final OrderService orderService;
 
     @Value("${app.default.tax}")
     private Double taxRate;
@@ -40,12 +37,13 @@ public class BuyerController {
     private Double shippingFee;
 
     @Autowired
-    public BuyerController(ServletContext context, AccountService accountService, ProductService productService, SellerService sellerService, BuyerService buyerService) {
+    public BuyerController(ServletContext context, AccountService accountService, ProductService productService, SellerService sellerService, BuyerService buyerService, OrderService orderService) {
         this.context = context;
         this.accountService = accountService;
         this.productService = productService;
         this.sellerService = sellerService;
         this.buyerService = buyerService;
+        this.orderService = orderService;
     }
 
     @ModelAttribute("myCart")
@@ -93,9 +91,9 @@ public class BuyerController {
         return "/buyer/shopping-cart";
     }
 
-    @PostMapping("/add-to-cart/{productId}")
+    @PostMapping("/add-to-cart/{productId}/{qty}")
     public @ResponseBody
-    Integer addToCart(@PathVariable(name = "productId") Integer productId, Model model, @ModelAttribute(name = "myCart") Cart cart) {
+    Integer addToCart(@PathVariable(name = "productId") Integer productId, @PathVariable(name = "qty") Integer quantity, Model model, @ModelAttribute(name = "myCart") Cart cart) {
         //Cart cart = (Cart) model.asMap().get("myCart");
         HashMap<String, OnlineOrder> orders = cart.getOrderList();
 
@@ -134,6 +132,7 @@ public class BuyerController {
                     detailList = order.getOrderDetailList();
                 } else {
                     order = new OnlineOrder();
+                    order.setStatus(OrderStatus.New);
                     order.setTax(0.00);
                     order.setShippingFee(shippingFee);
                     order.setTotal(shippingFee);
@@ -153,24 +152,135 @@ public class BuyerController {
             }
         }
 
-        Double newTax = order.getTax() + product.getPrice() * taxRate;
-        Double newTotal = order.getTotal() + product.getPrice() + product.getPrice() * taxRate;
+        Double newTax = order.getTax() + quantity * product.getPrice() * taxRate;
+        Double newTotal = order.getTotal() + (quantity * product.getPrice()) + (quantity * product.getPrice() * taxRate);
         order.setTax(newTax);
         order.setTotal(newTotal);
 
-        Integer newQty = orderDetail.getQty() + 1;
+        Integer newQty = orderDetail.getQty() + quantity;
         orderDetail.setQty(newQty);
 
         if (!alreadyInCart) {
             cart.getOrderList().put(product.getSeller().getUsername(), order);
         }
 
-        cart.setTotal(cart.getTotal() + 1);
+        cart.setTotal(cart.getTotal() + quantity);
         return cart.getTotal();
     }
 
-    @PostMapping("/checkout")
-    public String proceedCheckout(Model model) {
+    @GetMapping("/remove-from-cart/{productId}")
+    public @ResponseBody
+    RemoveCartModel removeFromCart(@PathVariable(name = "productId") Integer productId, Model model) {
+        Cart cart = (Cart) model.asMap().get("myCart");
+
+        HashMap<String, OnlineOrder> orders = cart.getOrderList();
+        OnlineOrder order = null;
+        OrderDetail orderDetail = null;
+        List<OrderDetail> detailList = null;
+        Product product = null;
+
+        Boolean found = false;
+        for (Map.Entry item : orders.entrySet()) {
+            if (found) {
+                break;
+            }
+
+            order = (OnlineOrder) item.getValue();
+            for (OrderDetail detail : order.getOrderDetailList()) {
+                Product temp = detail.getProduct();
+                if (temp.getId() == productId) {
+                    product = temp;
+                    orderDetail = detail;
+                    detailList = order.getOrderDetailList();
+                    detailList.remove(detail);
+                    Double newTotal = order.getTotal() - ((detail.getQty() * detail.getSellPrice()) + (detail.getQty() * detail.getSellPrice() * taxRate));
+                    Double newTax = order.getTax() - (detail.getQty() * detail.getSellPrice() * taxRate);
+                    order.setTotal(newTotal);
+                    order.setTax(newTax);
+
+                    found = true;
+                    break;
+                }
+            }
+        }
+
+        Integer cartItemTotal = cart.getTotal() - orderDetail.getQty();
+        Integer orderItemTotal = 0;
+
+        for (OrderDetail detail : order.getOrderDetailList()) {
+            orderItemTotal += detail.getQty();
+        }
+
+        if (orderItemTotal == 0) {
+            orders.remove(product.getSeller().getUsername());
+        }
+
+        cart.setTotal(cartItemTotal);
+        RemoveCartModel removeCartModel = new RemoveCartModel(cartItemTotal, orderItemTotal, product.getId(), order);
+        return removeCartModel;
+    }
+
+    @GetMapping("/cart-adjust-qty/{productId}/{qty}")
+    public @ResponseBody
+    RemoveCartModel adjustQuantity(@PathVariable("productId") Integer productId, @PathVariable("qty") Integer qty, Model model) {
+        Cart cart = (Cart) model.asMap().get("myCart");
+
+        HashMap<String, OnlineOrder> orders = cart.getOrderList();
+        OnlineOrder order = null;
+        OrderDetail orderDetail = null;
+        List<OrderDetail> detailList = null;
+        Product product = null;
+
+        Integer oldQty = 0;
+
+        Boolean found = false;
+        for (Map.Entry item : orders.entrySet()) {
+            if (found) {
+                break;
+            }
+
+            order = (OnlineOrder) item.getValue();
+            for (OrderDetail detail : order.getOrderDetailList()) {
+                Product temp = detail.getProduct();
+                if (temp.getId() == productId) {
+                    product = temp;
+                    orderDetail = detail;
+                    oldQty = orderDetail.getQty();
+                    Double newTax = order.getTax() + (qty * product.getPrice() * taxRate) - (oldQty * product.getPrice() * taxRate);
+                    Double newTotal = order.getTotal() + (qty * product.getPrice() + (qty * product.getPrice() * taxRate))
+                            - (oldQty * product.getPrice() + (oldQty * product.getPrice() * taxRate));
+                    order.setTotal(newTotal);
+                    order.setTax(newTax);
+                    orderDetail.setQty(qty);
+
+                    found = true;
+                    break;
+                }
+            }
+        }
+
+        Integer cartItemTotal = cart.getTotal() - oldQty + qty;
+        cart.setTotal(cartItemTotal);
+
+        RemoveCartModel removeCartModel = new RemoveCartModel(cartItemTotal, 0, product.getId(), order);
+        return removeCartModel;
+    }
+
+    @PostMapping("/check-out")
+    @PreAuthorize("hasRole('ROLE_BUYER')")
+    public String proceedCheckout(@ModelAttribute("checkOutModel") CheckOutModel checkOutModel, Model model, HttpServletRequest request) throws OrderCreateException {
+        Cart cart = (Cart) model.asMap().get("myCart");
+        Principal principal = request.getUserPrincipal();
+        String seller = checkOutModel.getOrder().getSeller().getUsername();
+        OnlineOrder order = cart.getOrderList().get(seller);
+        orderService.placeOrder(order, principal.getName());
+
+        cart.getOrderList().remove(seller);
+        Integer orderItemTotal = 0;
+        for (OrderDetail detail : order.getOrderDetailList()) {
+            orderItemTotal += detail.getQty();
+        }
+        cart.setTotal(cart.getTotal() - orderItemTotal);
 
         return "redirect:/";
     }

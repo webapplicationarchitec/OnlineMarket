@@ -1,9 +1,6 @@
 package miu.edu.cs545.service;
 
-import miu.edu.cs545.domain.Account;
-import miu.edu.cs545.domain.AccountStatus;
-import miu.edu.cs545.domain.Review;
-import miu.edu.cs545.domain.ReviewStatus;
+import miu.edu.cs545.domain.*;
 import miu.edu.cs545.repository.AccountRepository;
 import miu.edu.cs545.repository.ReviewRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,5 +31,15 @@ public class ReviewServiceImp implements ReviewService {
     @Override
     public void approveNewReview(ReviewStatus status, Integer id) {
         reviewRepository.approveNewReview(status,id);
+    }
+
+    @Override
+    public Review addnew(Review rev) {
+        return reviewRepository.save(rev);
+    }
+
+    @Override
+    public List<Review> getListReviewsByStatusAndProduct(ReviewStatus reviewStatus, Product pro) {
+        return reviewRepository.findAllByStatusAndAndProduct(reviewStatus,pro);
     }
 }
