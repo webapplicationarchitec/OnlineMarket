@@ -104,7 +104,7 @@ public class BuyerController {
         return "/buyer/shopping-cart";
     }
 
-    @PostMapping("/add-to-cart/{productId}/{qty}")
+    @GetMapping("/add-to-cart/{productId}/{qty}")
     public @ResponseBody
     Integer addToCart(@PathVariable(name = "productId") Integer productId, @PathVariable(name = "qty") Integer quantity, Model model, @ModelAttribute(name = "myCart") Cart cart) {
         //Cart cart = (Cart) model.asMap().get("myCart");
