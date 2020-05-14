@@ -102,7 +102,7 @@ public class ProductServiceImp implements ProductService {
     @Override
     public List<Product> getTopProducts() {
 
-        return toList(productRepositoryJ.findAll(Sort.by(Sort.Direction.DESC, "id")));//getTopProducts());
+        return toList(productRepositoryJ.findAll(Sort.by(Sort.Direction.DESC, "createdDate")));//getTopProducts());
     }
 
     @Override
