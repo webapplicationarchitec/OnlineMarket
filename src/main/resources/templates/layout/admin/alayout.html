@@ -56,8 +56,9 @@
 
             </div>
             <div class="sb-sidenav-footer">
-                <div class="small">Logged in as:</div>
-                ROLE_ADMIN
+                <div>Logged in user: <span sec:authentication="name"></span></div>
+                <div class="small">Logged in as: <span sec:authentication="principal.authorities"></span></div>
+
             </div>
         </nav>
     </div>
