@@ -4,7 +4,6 @@ import miu.edu.cs545.domain.*;
 import miu.edu.cs545.dto.Cart;
 import miu.edu.cs545.service.*;
 
-import org.omg.CORBA.Request;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.env.Environment;
@@ -30,7 +29,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.xml.ws.Response;
 import java.security.Principal;
 import java.util.ArrayList;
 import java.util.Date;
