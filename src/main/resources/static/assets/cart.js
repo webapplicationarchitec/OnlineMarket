@@ -40,6 +40,15 @@ jQuery(document).ready(function ($) {
         $('#point-modal').modal('hide')
     })
 
+    $('#checkout-diff-address').on('change', function () {
+        let theChk = $('#checkout-diff-address')[0];
+        let display = theChk.checked ? 'block' : 'none';
+        if (!theChk.checked) {
+            $('#order-shippingAddress').val('')
+        }
+        $('.shipping-address').css('display', display);
+    });
+
 })
 
 adjustQty = function (productId, qty) {

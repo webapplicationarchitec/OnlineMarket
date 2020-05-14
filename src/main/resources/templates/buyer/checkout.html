@@ -58,8 +58,8 @@
                                           placeholder="House number and Street name" readonly>
                                     </textarea>
 
-                                <div class="custom-control custom-checkbox">
-                                    <input type="checkbox" class="custom-control-input" id="checkout-diff-address">
+                                <div class="text-left">
+                                    <input type="checkbox" id="checkout-diff-address">
                                     <label class="custom-control-label" for="checkout-diff-address">Ship to a
                                         different address?</label>
                                 </div><!-- End .custom-checkbox -->
@@ -67,7 +67,8 @@
                                 <div class="shipping-address" style="display: none;">
                                     <h2 class="checkout-title">Shipping Details</h2><!-- End .checkout-title -->
                                     <label>Address *</label>
-                                    <textarea name="shippingAddress" type="text" class="form-control"
+                                    <textarea th:field="*{order.shippingAddress}" id="order-shippingAddress" value="" type="text"
+                                              class="form-control"
                                               placeholder="House number and Street name">
                                         </textarea>
                                 </div>
