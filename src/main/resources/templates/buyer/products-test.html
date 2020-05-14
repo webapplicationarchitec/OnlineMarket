@@ -3,7 +3,7 @@
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout/user/ulayout}">
 <head>
     <meta charset="UTF-8">
-    <title>Products</title>
+    <title th:text="${title}">Products</title>
 </head>
 <body>
 <div layout:fragment="user-main-content">
@@ -12,7 +12,7 @@
         <div class="container for-you">
             <div class="heading heading-flex mb-3">
                 <div class="heading-left">
-                    <h2 class="title">Product List</h2><!-- End .title -->
+                    <h2 class="title"><span th:text="${title}">Product List</span></h2><!-- End .title -->
                 </div><!-- End .heading-left -->
 
             </div><!-- End .heading -->
@@ -31,7 +31,7 @@
                                 <div class="product-action">
                                     <a href="#" th:attr="data-product-id=${prot.id},data-seller=${prot.seller.username},id='add-cart-link-'+${prot.id}"
                                        class="btn-product btn-cart"><span>add to cart</span></a>
-                                    <a th:href="@{'/products?cat='+${prot.category.id}}"><span th:text="${prot.category.name}"></span></a>
+                                    <a th:href="@{'/follows?type='+${typep}+'&user='+${prot.seller.username}}" class="btn-product btn-wishlist"><span th:text="${follow}" >follow </span></a>
                                 </div><!-- End .product-action -->
                                 </figure><!-- End .product-media -->
 

@@ -15,7 +15,7 @@
     <main class="main">
         <div class="page-content">
             <div class="container">
-                <h2 class="title mb-3">Product List</h2><!-- End .title -->
+                <h2 class="title mb-3"><span th:text="${title}">Product List</span></h2><!-- End .title -->
                 <div class="row">
                     <th:block th:each="prot : ${productlist}">
                     <div class="col-6 col-md-4 col-lg-3">
@@ -27,7 +27,8 @@
                                 </a>
 
                                 <div class="product-action-vertical">
-                                    <a href="#" class="btn-product-icon btn-wishlist btn-expandable">follow  <span th:text="${' '+prot.seller.getFirstName()+' '+ prot.seller.getLastName()}"></span></a>
+                                    <a th:href="@{'/follows?type='+${tyep}+'&user='+${prot.seller.username}}" class="btn-product-icon btn-wishlist btn-expandable">
+                                        <span th:text="${follow}" >follow </span> <span th:text="${' '+prot.seller.getFirstName()+' '+ prot.seller.getLastName()}"></span></a>
                                 </div><!-- End .product-action-vertical -->
                             </figure><!-- End .product-media -->
 
