@@ -32,6 +32,7 @@ public class Product {
     private String name;
     @NotEmpty(message = "{error.string.empty}")
     @Size(min=10, message = "{error.size.min}")
+    @Column(columnDefinition = "TEXT")
     private String description;
     @NotNull(message = "{error.any.null}")
     @Range(min=0, message="{error.number.range}")
