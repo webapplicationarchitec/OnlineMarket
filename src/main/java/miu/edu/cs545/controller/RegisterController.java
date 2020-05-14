@@ -150,7 +150,7 @@ public class RegisterController {
         }
         //save the buyer profile to DB
 //        System.out.println("After show form, Logged user's address id: " + account.getBillingAddress().getId());
-        accountService.createAccount(account);
+        accountService.saveProfile(account);
         status.setComplete();
         return "redirect:/";//"buyer/home";
     }

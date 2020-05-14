@@ -8,7 +8,7 @@ import java.util.List;
 public interface AccountService {
 
     public <T extends Account> boolean createAccount(T account);
-
+    public <T extends Account> T saveProfile(T account);
 
     public List<Account> getNewSellerAccount();
 

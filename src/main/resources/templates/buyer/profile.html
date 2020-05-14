@@ -38,12 +38,12 @@
                    name="register-uname" disabled>
             <!--span th:if="${#fields.hasErrors('username')}" th:errors="*{username}" th:errorclass="error"></span-->
         </div><!-- End .form-group -->
-        <div class="form-group">
+        <!--div class="form-group">
             <label for="register-password-2" th:text="#{reg.password}">Password *</label>
             <input type="text" class="form-control" id="register-password-2" th:field="*{password}" th:value="*{password}"
                    name="register-password" required>
             <span th:if="${#fields.hasErrors('password')}" th:errors="*{password}" th:errorclass="error"></span>
-        </div><!-- End .form-group -->
+        </div--><!-- End .form-group -->
         <div class="form-group">
             <label for="first-name" th:text="#{reg.firstName}">First name *</label>
             <input type="text" class="form-control" id="first-name" th:field="*{firstName}" th:value="*{firstName}"
