@@ -95,7 +95,7 @@ public class BuyerController {
     }
 
     @GetMapping("/login")
-    public String showLoginForm() {
+    public String showLoginForm(HttpServletRequest httpServletRequest) {
         return "/buyer/login";
     }
 
@@ -299,6 +299,6 @@ public class BuyerController {
         }
         cart.setTotal(cart.getTotal() - orderItemTotal);
 
-        return "redirect:/";
+        return "redirect:/buyer/historyorders";
     }
 }
