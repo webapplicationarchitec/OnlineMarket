@@ -21,7 +21,51 @@ jQuery(document).ready(function ($) {
         removeFromCart(productId)
     })
 
+    $('.cart-item-spinner-qty').on('change', function (evt) {
+        evt.preventDefault()
+        evt.stopPropagation()
+
+        let jInput = $(evt.currentTarget)
+        let productId = parseInt(jInput.attr('data-product-id'))
+        let qty = jInput.val()
+        console.log(qty)
+        adjustQty(productId, qty)
+
+    })
+
 })
+
+adjustQty = function (productId, qty) {
+    let url = '/cart-adjust-qty/' + productId.toString() + '/' + qty.toString()
+    $.ajax({
+        url: url,
+        type: 'GET',
+        contentType: 'application/json'
+    }).done(function (result) {
+        if (result) {
+            let order = result.order
+            let productId = parseInt(result.productId);
+            let sellerSection = $('#seller-section-' + order.seller.username);
+            sellerSection.find('.tax').html(order.tax.toFixed(2))
+            sellerSection.find('.total').html(order.total.toFixed(2))
+            sellerSection.find('.sub-total').html((order.total - order.tax - order.shippingFee).toFixed(2))
+
+            let newItemTotal = 0;
+            $.each(result.order.orderDetailList, function (index, item) {
+                if (productId === item.product.id) {
+                    newItemTotal = item.qty * item.sellPrice;
+                }
+            })
+
+            $('#cart-item-' + productId.toString()).find('.total-col').html('$' + (newItemTotal.toFixed(2)).toString())
+
+            $('#cart-count').html(result.cartItemTotal)
+        }
+    })
+        .fail(function (error) {
+            console.log(error)
+        })
+}
 
 addToCart = function (productId, qty) {
     if (!qty) {
