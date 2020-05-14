@@ -7,6 +7,7 @@ import miu.edu.cs545.domain.ReviewStatus;
 import miu.edu.cs545.service.AccountService;
 import miu.edu.cs545.service.ReviewService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -17,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import java.util.ArrayList;
 @Controller
 @RequestMapping("/admin/")
+@PreAuthorize("hasRole('ROLE_ADMIN')")
 public class AdminControlller {
 
     @Autowired
