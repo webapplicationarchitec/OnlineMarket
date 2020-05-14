@@ -14,7 +14,8 @@
                     <p th:if="${myCart.orderList.size() == 0}">
                         There are nothing in your cart.
                     </p>
-                    <div class="row cart-section" th:each="order: ${myCart.orderList}">
+                    <div class="row cart-section" th:each="order: ${myCart.orderList}"
+                         th:id="${'seller-section-' + order.getKey().toString()}">
                         <div class="col-lg-9">
                             <table class="table table-cart table-mobile">
                                 <thead>
@@ -28,7 +29,8 @@
                                 </thead>
 
                                 <tbody>
-                                <tr th:each="orderDetail: ${order.getValue().orderDetailList}">
+                                <tr th:each="orderDetail: ${order.getValue().orderDetailList}"
+                                    th:id="${'cart-item-' + orderDetail.product.id.toString()}">
                                     <td class="product-col">
                                         <div class="product">
                                             <figure class="product-media">
@@ -54,7 +56,8 @@
                                         $total
                                     </td>
                                     <td class="remove-col">
-                                        <button class="btn-remove"><i
+                                        <button th:data-product-id="${orderDetail.product.id}"
+                                                class="btn-remove btn-remove-from-cart"><i
                                                 class="icon-close"></i></button>
                                     </td>
                                 </tr>
@@ -68,34 +71,36 @@
                         </div>
                         <aside class="col-lg-3">
                             <div class="summary summary-cart">
-                                <h3 class="summary-title" th:text="${order.getValue().seller.firstName + ' ' + order.getValue().seller.lastName}"> Seller name</h3>
+                                <h3 class="summary-title"
+                                    th:text="${order.getValue().seller.firstName + ' ' + order.getValue().seller.lastName}">
+                                    Seller name</h3>
 
                                 <table class="table table-summary">
                                     <tbody>
                                     <tr class="summary-subtotal">
                                         <td>Subtotal:</td>
-                                        <td th:text="${#numbers.formatDecimal(order.getValue().total - order.getValue().tax - order.getValue().shippingFee, 0, 'COMMA', 2, 'POINT')}">
+                                        <td class="sub-total" th:text="${#numbers.formatDecimal(order.getValue().total - order.getValue().tax - order.getValue().shippingFee, 0, 'COMMA', 2, 'POINT')}">
                                             $subtotal
                                         </td>
                                     </tr><!-- End .summary-subtotal -->
 
                                     <tr class="summary-subtotal">
                                         <td>Tax:</td>
-                                        <td th:text="${#numbers.formatDecimal(order.getValue().tax, 0, 'COMMA', 2, 'POINT')}">
+                                        <td class="tax" th:text="${#numbers.formatDecimal(order.getValue().tax, 0, 'COMMA', 2, 'POINT')}">
                                             $tax
                                         </td>
                                     </tr><!-- End .summary-subtotal -->
 
                                     <tr class="summary-subtotal">
                                         <td>Shipping Fee:</td>
-                                        <td th:text="${#numbers.formatDecimal(order.getValue().shippingFee, 0, 'COMMA', 2, 'POINT')}">
+                                        <td class="shipping-fee" th:text="${#numbers.formatDecimal(order.getValue().shippingFee, 0, 'COMMA', 2, 'POINT')}">
                                             $shippingFee
                                         </td>
                                     </tr><!-- End .summary-subtotal -->
 
                                     <tr class="summary-total">
                                         <td>Total:</td>
-                                        <td th:text="${#numbers.formatDecimal(order.getValue().total, 0, 'COMMA', 2, 'POINT')}">
+                                        <td class="total" th:text="${#numbers.formatDecimal(order.getValue().total, 0, 'COMMA', 2, 'POINT')}">
                                             $total
                                         </td>
                                     </tr>

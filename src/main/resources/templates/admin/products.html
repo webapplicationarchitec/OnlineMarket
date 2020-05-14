@@ -37,7 +37,12 @@
                         <td th:text="${product.category.name}">System Architect</td>
                         <td th:text="${'$'+ product.price}">Edinburgh</td>
                         <td th:text="${'$'+ product.point}">61</td>
-                        <td><a th:href="${'/admin/product?id='+product.id}">Edit</a> | <a href="#">Delete</a></td>
+                        <td><a th:href="${'/admin/product?id='+product.id}">Edit</a> |
+                            <form th:id="${product.id}" th:action="@{'/admin/product/delete'}" method="post">
+                                <input th:id="${product.id + '_id'}" type="hidden" th:value="${product.id}" name="id">
+                              <input th:id="${product.id + '_bt'}" type="submit" value="Delete">
+                            </form>
+                        </td>
                     </tr>
 
                     </tbody>

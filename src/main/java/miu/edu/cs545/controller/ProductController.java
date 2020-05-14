@@ -4,6 +4,7 @@ import miu.edu.cs545.domain.Category;
 import miu.edu.cs545.domain.Product;
 import miu.edu.cs545.domain.ProductStatus;
 import miu.edu.cs545.domain.Seller;
+import miu.edu.cs545.exception.ProductException;
 import miu.edu.cs545.service.AccountService;
 import miu.edu.cs545.service.CategoryService;
 import miu.edu.cs545.service.ProductService;
@@ -17,15 +18,19 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.support.SessionStatus;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.persistence.Id;
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.io.*;
+import java.util.Date;
 
 @Controller
 @RequestMapping("/admin/")
+@SessionAttributes({ "product" })
 public class ProductController {
 
     @Autowired
@@ -54,7 +59,7 @@ public class ProductController {
     public String products(Model model){
 
         Pageable sortedByName =
-                PageRequest.of(0, 100, Sort.by("name"));
+                PageRequest.of(0, 100, Sort.by("createdDate").descending());
 
         Page<Product> productOptional =  productService.paging(sortedByName);
 
@@ -67,7 +72,7 @@ public class ProductController {
     //private String path;
 
     @PostMapping("product")
-    public String save(@ModelAttribute("product") Product product, HttpServletRequest request){
+    public String save(@ModelAttribute("product") Product product, SessionStatus status, HttpServletRequest request){
 
         //Upload File to azure blobAzure
         BlobAzure blobAzure=new BlobAzure();
@@ -87,16 +92,34 @@ public class ProductController {
 
         product.setStatus(ProductStatus.New);
 
+        product.setCreatedDate(new Date());
 
         productService.save(product);
 
-       return "redirect:/admin/products";
+        status.setComplete();
+
+        return "redirect:/admin/products";
     }
 
 
-    @GetMapping("delete")
-    public String delete(){
-        return "admin/products";
+    @PostMapping("product/delete")
+    public String delete(@RequestParam(name = "id") Integer id){
+
+        //Product product=new Product();
+        // product.setId(id);
+        //productService.getById(id);
+        Product product = productService.getById(id).get();
+        try {
+
+            productService.delete(productService.getById(id).get());
+            return "redirect:/admin/products";
+        }
+        catch(Exception ex){
+            throw  new ProductException("Error: "+product.getName()+" has order, We can not delete");
+        }
+
+
+
     }
 
 

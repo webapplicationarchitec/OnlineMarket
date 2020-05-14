@@ -3,6 +3,7 @@ package miu.edu.cs545.service;
 import miu.edu.cs545.domain.Product;
 
 import miu.edu.cs545.domain.Seller;
+import miu.edu.cs545.repository.OrderDetailRepository;
 import miu.edu.cs545.repository.ProductPagingRepository;
 import miu.edu.cs545.repository.ProductRepository;
 
@@ -30,12 +31,15 @@ public class ProductServiceImp implements ProductService {
     private ProductPagingRepository productPagingRepository;
 
     private ProductRepositoryJ productRepositoryJ;
+
+    private OrderDetailRepository orderDetailRepository;
     @Autowired
     public ProductServiceImp( ProductPagingRepository productPagingRepository,
-     ProductRepository productRepository,ProductRepositoryJ productRepositoryJ) {
+     ProductRepository productRepository,ProductRepositoryJ productRepositoryJ ,OrderDetailRepository orderDetailRepository) {
       this.productRepository=productRepository;
       this.productPagingRepository=productPagingRepository;
       this.productRepositoryJ=productRepositoryJ;
+      this.orderDetailRepository=orderDetailRepository;
     }
 
 
@@ -62,7 +66,13 @@ public class ProductServiceImp implements ProductService {
 
     @Override
     public void delete(Product product) {
-        productRepository.delete(product);
+        //Because there is not casecase orderdetail in product side, if we want to delete product and
+        //also delete ordertail. We need to delete orderdetail firstly. If this case cenarious, the quirerement is that
+        //we don't allow delete product if product has orderdetail, so we commant the code line below.
+        //orderDetailRepository.deleteByProductId(product.getId());
+
+         productRepository.delete(product);
+
     }
 
     @Override
