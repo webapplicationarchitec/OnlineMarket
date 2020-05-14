@@ -91,6 +91,11 @@ public class ProductServiceImp implements ProductService {
         return toList(productRepositoryJ.getByCategory( categoryid));
     }
 
+    @Override
+    public List<Product> findProductBySeller(Seller seller) {
+        return toList(productRepositoryJ.findAllBySeller(seller));
+    }
+
     public static <T> List<T> toList(final Iterable<T> iterable) {
         return StreamSupport.stream(iterable.spliterator(), false)
                 .collect(Collectors.toList());
