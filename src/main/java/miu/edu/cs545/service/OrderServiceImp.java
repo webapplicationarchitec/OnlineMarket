@@ -91,20 +91,6 @@ public class OrderServiceImp implements OrderService {
 
             realOrder.setPoint(point);
             realOrder.setOrderDetailList(detailList);
-
-            Optional<BonusPoint> optPoint = bonusPointRepository.findBySellerAndBuyer(seller, buyer);
-            BonusPoint bonusPoint = null;
-            if (optPoint.isPresent()) {
-                bonusPoint = optPoint.get();
-                bonusPoint.setPoints(bonusPoint.getPoints() + point);
-            } else {
-                bonusPoint = new BonusPoint();
-                bonusPoint.setPoints(point);
-                bonusPoint.setBuyer(buyer);
-                bonusPoint.setSeller(seller);
-            }
-
-            bonusPointRepository.save(bonusPoint);
             orderRepository.save(realOrder);
         } catch (Exception e) {
             throw new OrderCreateException("Could not create exception");

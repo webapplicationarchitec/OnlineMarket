@@ -34,6 +34,7 @@ public class OnlineOrder {
     private Double shippingFee;
     private Double total;
     private Integer point;
+    private Integer usedPoint;
     private String orderno;
     private String shippingAddress;
     private OrderStatus status;
@@ -41,6 +42,7 @@ public class OnlineOrder {
     public String getsStatus() {
         return status.name();
     }
+
     @Transient
     private String sStatus;
 
