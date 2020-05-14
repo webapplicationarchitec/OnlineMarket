@@ -1,5 +1,6 @@
 package miu.edu.cs545.domain;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -12,6 +13,7 @@ import javax.persistence.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class OrderDetail {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -23,4 +25,11 @@ public class OrderDetail {
 
     private Double sellPrice;
     private Integer qty;
+
+    public Double getTotal() {
+        return qty * sellPrice;
+    }
+
+    @Transient
+    private  Double total;
 }

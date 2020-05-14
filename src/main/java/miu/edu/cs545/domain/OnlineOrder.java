@@ -1,5 +1,6 @@
 package miu.edu.cs545.domain;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -16,6 +17,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class OnlineOrder {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -32,6 +34,7 @@ public class OnlineOrder {
     private Double shippingFee;
     private Double total;
     private Integer point;
+    private Integer usedPoint;
     private String orderno;
     private String shippingAddress;
     private OrderStatus status;
@@ -39,6 +42,7 @@ public class OnlineOrder {
     public String getsStatus() {
         return status.name();
     }
+
     @Transient
     private String sStatus;
 

@@ -1,5 +1,6 @@
 package miu.edu.cs545.config;
 
+import miu.edu.cs545.securiry.MyAuthenticationSuccessHandler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
@@ -14,13 +15,20 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.access.AccessDeniedHandler;
+import org.springframework.security.web.authentication.rememberme.JdbcTokenRepositoryImpl;
+import org.springframework.security.web.authentication.rememberme.PersistentTokenRepository;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
+
+import javax.sql.DataSource;
 
 @Configuration
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(securedEnabled = true, prePostEnabled = true)
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
     private UserDetailsService userDetailsService;
+
+    @Autowired
+    private DataSource dataSource;
 
     @Autowired
     public SecurityConfig(@Qualifier("userDetailsServiceImp") UserDetailsService userDetailsService) {
@@ -45,15 +53,21 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
                 .antMatchers("/**").permitAll()
-                //.antMatchers("/resources/**", "/static/**", "/css/**", "/js/**", "/images/**").permitAll()
-                //.anyRequest().authenticated()//all other urls can be access by any authenticated role
-                .and().formLogin().loginPage("/login")
+                .and().formLogin().loginPage("/login").successHandler(new MyAuthenticationSuccessHandler())
                 .and().logout().logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
-                .logoutSuccessUrl("/login").invalidateHttpSession(true).deleteCookies("JSESSIONID")
+                .logoutSuccessUrl("/login").invalidateHttpSession(true)
                 .and().csrf().ignoringAntMatchers("/h2-console/**")
-                .and().csrf().ignoringAntMatchers("/add-to-cart/**")
                 .and().headers().frameOptions().sameOrigin()
-                .and().exceptionHandling().accessDeniedPage("/access-denied");
+                .and().exceptionHandling().accessDeniedPage("/access-denied")
+                .and().rememberMe().key("uniqueAndSecret")
+                .userDetailsService(userDetailsService).rememberMeParameter("remember-me").tokenRepository(tokenRepository()); //remmber me by token base;
+    }
+
+    @Bean
+    public PersistentTokenRepository tokenRepository() {
+        JdbcTokenRepositoryImpl jdbcTokenRepositoryImpl = new JdbcTokenRepositoryImpl();
+        jdbcTokenRepositoryImpl.setDataSource(dataSource);
+        return jdbcTokenRepositoryImpl;
     }
 
 

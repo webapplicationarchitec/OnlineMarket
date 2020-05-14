@@ -12,7 +12,7 @@ import java.util.List;
 
 public interface OrderService {
 
-    public void placeOrder(OnlineOrder order) throws OrderCreateException;
+    public void placeOrder(OnlineOrder order, String buyerId, Integer usedPoints) throws OrderCreateException;
 
     public List<OnlineOrder> getAll();
 
@@ -24,7 +24,10 @@ public interface OrderService {
 
     public OnlineOrder getOrderWithDetails(Integer id);
 
-    public Page<OnlineOrder> paging(Pageable pageable);
+    public Page<OnlineOrder> paging(String username,Pageable pageable);
 
-    public  void updateStatus(OrderStatus status, Integer id);
+    public void updateStatus(OrderStatus status, Integer id);
+
+    public List<OnlineOrder> getByBuyer(String userName);
+
 }

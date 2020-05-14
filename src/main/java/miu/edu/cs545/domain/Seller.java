@@ -1,5 +1,7 @@
 package miu.edu.cs545.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -17,13 +19,15 @@ import java.util.List;
 @NoArgsConstructor
 @Entity
 @DiscriminatorValue("SELLER")
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class Seller extends Account{
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "seller")
+    @JsonIgnore
     private List<Product> listProduct;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "seller")
-    // @JoinColumn(name="buyerId")
+    @JsonIgnore
     private List<OnlineOrder> onlineOrderList;
 
     public Seller(String username, @NotEmpty @NotNull String password, @NotEmpty String firstName, @NotEmpty String lastName, AccountStatus accountStatus, @NotEmpty @Email String email) {

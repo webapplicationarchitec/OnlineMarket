@@ -52,7 +52,7 @@
                         <td th:text="${order.dateDelivered}">Edinburgh</td>
 
                         <td>
-                            <a th:href="@{'/admin/orderdetail?id='+order.id}">View</a>
+                            <a th:href="${'/seller/orderdetail?id='+ order.id}">View</a>
                         </td>
                     </tr>
 
