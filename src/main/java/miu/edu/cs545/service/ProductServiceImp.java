@@ -64,8 +64,10 @@ public class ProductServiceImp implements ProductService {
     }
 
     @Override
-    public Page<Product> paging(Pageable pageable) {
-        return productPagingRepository.findAll(pageable);
+    public Page<Product> paging(String username ,Pageable pageable) {
+        Seller seller=new Seller();
+        seller.setUsername(username);
+        return productPagingRepository.findProductsBySeller(seller,pageable);
     }
 
     @Override

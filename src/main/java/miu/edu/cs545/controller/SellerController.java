@@ -15,6 +15,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import javax.servlet.http.HttpServletRequest;
+import java.security.Principal;
+
 @Controller
 @RequestMapping("/seller/")
 @Secured({"ROLE_SELLER"})
@@ -27,11 +30,14 @@ public class SellerController {
     OrderDetailService orderDetailService;
 
     @GetMapping("orders")
-    public String orders(Model model){
+    public String orders(Model model,  HttpServletRequest request){
         Pageable sortedByDateCreate =
                 PageRequest.of(0, 100, Sort.by("dateCreate").descending());
 
-        model.addAttribute("orders", orderService.paging(sortedByDateCreate));
+        Principal principal = request.getUserPrincipal();
+        String username = principal.getName();
+
+        model.addAttribute("orders", orderService.paging(username,sortedByDateCreate));
         return "/admin/orders";
 
     }
