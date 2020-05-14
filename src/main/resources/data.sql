@@ -77,7 +77,16 @@ insert into ORDER_DETAIL (`Id`,`QTY`,`SELL_PRICE`,`PRODUCT_ID`,`ORDER_ID`)
 values  (205,1,10,104,201);
 
 insert into bonus_point(`ID`,`POINTS`,`BUYER_ID`,`SELLER_ID`)
-values ( 200, 750, 'hanguyen', 'luannguyen' )
+
+values ( 200, 750, 'hanguyen', 'luannguyen' );
 
 
+
+
+create table if not exists persistent_logins (
+  username varchar_ignorecase(100) not null,
+  series varchar(64) primary key,
+  token varchar(64) not null,
+  last_used timestamp not null
+  );
 
