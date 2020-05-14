@@ -12,4 +12,6 @@ import miu.edu.cs545.domain.OnlineOrder;
 public class CheckOutModel {
     private Buyer buyer;
     private OnlineOrder order;
+    private Integer usedPoints;
+    private Integer points;
 }

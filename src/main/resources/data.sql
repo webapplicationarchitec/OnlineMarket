@@ -76,6 +76,8 @@ values  (204,2,10,103,201);
 insert into ORDER_DETAIL (`Id`,`QTY`,`SELL_PRICE`,`PRODUCT_ID`,`ORDER_ID`)
 values  (205,1,10,104,201);
 
+insert into bonus_point(`ID`,`POINTS`,`BUYER_ID`,`SELLER_ID`)
+values ( 200, 750, 'hanguyen', 'luannguyen' )
 
 
 

@@ -38,7 +38,7 @@ public class OrderServiceImp implements OrderService {
         this.bonusPointRepository = bonusPointRepository;
     }
 
-    public void placeOrder(OnlineOrder order, String buyerId) throws OrderCreateException {
+    public void placeOrder(OnlineOrder order, String buyerId, Integer usedPoints) throws OrderCreateException {
         try {
             Buyer buyer = buyerRepository.findBuyerByUsername(buyerId);
             Seller seller = sellerRepository.findById(order.getSeller().getUsername()).get();
@@ -89,8 +89,24 @@ public class OrderServiceImp implements OrderService {
                 point += product.getPoint() * detail.getQty();
             }
 
+            if (usedPoints > 0) {
+                Optional<BonusPoint> optPoint = bonusPointRepository.findBySellerAndBuyer(seller, buyer);
+                if (optPoint.isPresent()) {
+                    BonusPoint bonusPoint = optPoint.get();
+                    usedPoints = bonusPoint.getPoints() < usedPoints ? bonusPoint.getPoints() : usedPoints;
+                    usedPoints = usedPoints > order.getTotal() ? (int) Math.ceil(order.getTotal()) : usedPoints;
+
+                    bonusPoint.setPoints(bonusPoint.getPoints() - usedPoints);
+                    bonusPointRepository.save(bonusPoint);
+                    Double newTotal = realOrder.getTotal() - usedPoints;
+                    newTotal = newTotal < 0 ? 0 : newTotal;
+                    realOrder.setTotal(newTotal);
+                }
+            }
+
             realOrder.setPoint(point);
             realOrder.setOrderDetailList(detailList);
+            realOrder.setUsedPoint(usedPoints);
             orderRepository.save(realOrder);
         } catch (Exception e) {
             throw new OrderCreateException("Could not create exception");
