@@ -12,8 +12,32 @@
             <div class="cart">
                 <div class="container">
                     <div th:each="order: ${histories}" >
-                        <div> <h6 th:text="${'OrderNumber: '+ order.orderno}"></h6> <b>orderDate:</b><span th:text="${ order.dateCreate}"></span> <b>deliveryDate:</b><span th:text="${ order.dateDelivered == null?' N/A': order.dateDelivered}"></span> </div>
-                    <div class="row cart-section" >
+                        <div>
+                            <div>
+                                <h6 th:text="${'OrderNumber: '+ order.orderno}"></h6>
+                            </div>
+                            <div style="float: left; margin-right: 10px">
+                                <form th:action="@{'/buyer/order/cancel'}" method="post">
+                                    <input type="hidden" th:value="${order.id}" name="id" />
+                                    <input type="submit" value="Cancel" th:disabled="${order.sStatus!='New'}" />
+
+                                </form>
+
+
+                            </div>
+                            <div style="float: left;">
+                                <form th:action="@{'/buyer/order/printreceipt'}" method="post">
+                                    <input type="hidden" th:value="${order.id}" name="id" />
+                                    <input type="submit" value="Print Receipt" />
+
+                                </form>
+                            </div>
+
+
+
+                            <b>Status:</b><i th:text="${ order.status}"></i> <b>orderDate:</b><i th:text="${ order.dateCreate}"></i> <b>deliveryDate:</b><i th:text="${ order.dateDelivered == null?' N/A': order.dateDelivered}"></i> </div>
+
+                        <div class="row cart-section" >
                         <div class="col-lg-9">
                             <table class="table table-cart table-mobile">
                                 <thead>
