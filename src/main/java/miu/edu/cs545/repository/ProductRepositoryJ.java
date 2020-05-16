@@ -2,6 +2,7 @@ package miu.edu.cs545.repository;
 
 import miu.edu.cs545.domain.Product;
 import miu.edu.cs545.domain.Seller;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -27,4 +28,5 @@ public interface ProductRepositoryJ extends JpaRepository<Product, Integer> {
     List<Product> getByCategory(@Param("id") Integer id);
 
     public List<Product> findAllBySeller(Seller seller);
+
 }
