@@ -13,6 +13,7 @@ import miu.edu.cs545.repository.ProductRepositoryJ;
 import miu.edu.cs545.utility.BlobAzure;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
@@ -123,6 +124,11 @@ public class ProductServiceImp implements ProductService {
     @Override
     public Product update(Product product) {
         return productRepositoryJ.save(product);
+    }
+
+    @Override
+    public List<Product> allpage() {
+        return toList(productRepositoryJ.findAll());
     }
 
     public static <T> List<T> toList(final Iterable<T> iterable) {

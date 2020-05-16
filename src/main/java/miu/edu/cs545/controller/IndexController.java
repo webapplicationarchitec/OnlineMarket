@@ -2,11 +2,18 @@ package miu.edu.cs545.controller;
 
 import miu.edu.cs545.domain.*;
 import miu.edu.cs545.dto.Cart;
+import miu.edu.cs545.repository.ProductPagingRepository;
+import miu.edu.cs545.repository.ProductRepositoryJ;
 import miu.edu.cs545.service.*;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.env.Environment;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -54,6 +61,8 @@ public class IndexController {
     private HomeService homeService;
     @Autowired
     private BuyerService buyerService;
+    @Autowired
+    private ProductPagingRepository productRepositoryJ;
 
 
     @Autowired
@@ -108,7 +117,7 @@ public class IndexController {
     }
 
     @GetMapping("/products")
-    public String products(Model model,@RequestParam(name = "type",required = false) String type, HttpServletRequest request) {
+    public String products(Model model, @PageableDefault(size = 4) Pageable pageable, @RequestParam(name = "type",required = false) String type, HttpServletRequest request) {
 //        System.out.println(type);
         Principal user = request.getUserPrincipal();
         String type1 =type;
@@ -119,6 +128,7 @@ public class IndexController {
         String typep ="yes";
         String follow="follow";
         String title = "Product List";
+
 
         if (cat != null)
             list = productService.getByCategory(Integer.parseInt(cat));
@@ -138,6 +148,7 @@ public class IndexController {
 
             }else {
                 list = productService.all();
+//           Page<Product> productPage =productRepositoryJ.findAll(pageable);//findAll(pageable);
             }
 
         }
@@ -145,7 +156,16 @@ public class IndexController {
         model.addAttribute("follow", follow);
         model.addAttribute("title", title);
         model.addAttribute("productlist", list);
+//        model.addAttribute("pagep", productRepositoryJ.findAll(pageable));
         return "buyer/products-test";
+    }
+    @GetMapping("/productsp")
+    public String productp(Model model,@PageableDefault(size = 8) Pageable pageable){
+        model.addAttribute("pagep", productRepositoryJ.findAll(pageable));
+        model.addAttribute("typep", "yes");
+        model.addAttribute("follow", "follow");
+        model.addAttribute("title", "Product list");
+        return "buyer/productsp";
     }
 
     @GetMapping("/product")
